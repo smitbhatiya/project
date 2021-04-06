@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
+import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 
 import 'login_page.dart';
@@ -65,7 +67,7 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Search_Page())),
                     child: Container(
                       margin: EdgeInsets.only(top: 80, left: 30, right: 30),
                       height: 50,
@@ -228,7 +230,7 @@ class Home extends StatelessWidget {
                   Text("Post property")
                 ],
               ),
-              onTap: () {_fetch();},
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Post_Property())),
             ),
             ListTile(
                 title: Row(

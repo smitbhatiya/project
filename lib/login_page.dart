@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_with_firebase/Pages/brocker_page.dart';
-import 'package:flutter_app_with_firebase/Pages/builder_page.dart';
 import 'package:flutter_app_with_firebase/sign_up.dart';
 
 import 'home_page.dart';
@@ -151,28 +148,51 @@ class _LogIn_PageState extends State<LogIn_Page> {
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
       try{
-        UserCredential user =await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        print(user.additionalUserInfo);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+        UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        if(user!=null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+        }
       }catch(e){
         print(e.message);
       }
     }
   }
 
-  _fetch() async {
-    final firebaseUser = await FirebaseAuth.instance.currentUser;
-    if(firebaseUser != null) {
-      await FirebaseFirestore.instance
-          .collection('Users12')
-          .doc(firebaseUser.uid)
-          .get()
-          .then((ds) {
-        myRole = ds.data()['Role'];
-        print(myRole);
-      }).catchError((e) {
-        print(e);
-      });
-    }
-  }
+  // authorizedAccess(BuildContext context) {
+  //   final _auth = FirebaseAuth.instance.currentUser;
+  //   if(_auth!=null){
+  //     Firestore.instance.collection('Users12')
+  //         .where('User Id',isEqualTo: _auth.uid).get().then((value) {
+  //           if(value.docs[0].exists) {
+  //             if(value.docs[0].data()['Role'] == 'User'){
+  //               Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+  //             }
+  //             else if(value.docs[0].data()['Role'] == 'Builder'){
+  //               Navigator.push(context, MaterialPageRoute(builder: (context) => Builder_Page()));
+  //             }
+  //             else if(value.docs[0].data()['Role'] == 'Brocker'){
+  //               Navigator.push(context, MaterialPageRoute(builder: (context) => Brocker_Page()));
+  //             }
+  //             else {
+  //               Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+  //             }
+  //           }
+  //     });
+  //   }
+  // }
+
+  // _fetch() async {
+  //   final firebaseUser = await FirebaseAuth.instance.currentUser;
+  //   if(firebaseUser != null) {
+  //     await FirebaseFirestore.instance
+  //         .collection('Users12')
+  //         .doc(firebaseUser.uid)
+  //         .get()
+  //         .then((ds) {myRole = ds.data()['Role'];
+  //       print(myRole);
+  //     }).catchError((e) {
+  //       print(e);
+  //     });
+  //   }
+  // }
 }
