@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Pages/brocker_page.dart';
+import 'package:flutter_app_with_firebase/Pages/builder_page.dart';
 import 'package:flutter_app_with_firebase/sign_up.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -150,7 +153,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
       try{
         UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         if(user!=null) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+          _fetch();
         }
       }catch(e){
         print(e.message);
@@ -181,18 +184,29 @@ class _LogIn_PageState extends State<LogIn_Page> {
   //   }
   // }
 
-  // _fetch() async {
-  //   final firebaseUser = await FirebaseAuth.instance.currentUser;
-  //   if(firebaseUser != null) {
-  //     await FirebaseFirestore.instance
-  //         .collection('Users12')
-  //         .doc(firebaseUser.uid)
-  //         .get()
-  //         .then((ds) {myRole = ds.data()['Role'];
-  //       print(myRole);
-  //     }).catchError((e) {
-  //       print(e);
-  //     });
-  //   }
-  // }
+  _fetch() async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser;
+    if(firebaseUser != null) {
+      await FirebaseFirestore.instance
+          .collection('Users12')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((ds) {myRole = ds.data()['Role'];
+        if(myRole == 'User') {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+        }
+        else if(myRole == 'Builder') {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Builder_Page()));
+        }
+        else if(myRole == 'Broker') {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Brocker_Page()));
+        }
+        else {
+          print("Invalid User Credentials");
+        }
+      }).catchError((e) {
+        print(e);
+      });
+    }
+  }
 }

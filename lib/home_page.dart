@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
+import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 
@@ -88,45 +90,62 @@ class Home extends StatelessWidget {
               ),
               SizedBox(height: 30),
               GestureDetector(
-                onTap: () {},
-                child: Container(
-                  height: 280,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.indigo.shade300,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 140,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius
-                                .circular(20), topRight: Radius.circular(20)),
-                            color: Colors.white
-                        ),
-                        // child: Image(image: AssetImage(""), fit: BoxFit.cover),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Property_Detail())),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 280,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.9,
+                      decoration: BoxDecoration(
+                          color: Colors.indigo.shade300,
+                          borderRadius: BorderRadius.circular(20)
                       ),
-                      Row(
+                      child: Column(
                         children: [
-                          Container(color: Colors.yellow,
-                              height: 30,
-                              width: MediaQuery
+                          Stack(
+                            children: [
+                              Container(
+                                height: 140,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(topLeft: Radius
+                                        .circular(20), topRight: Radius.circular(20)),
+                                ),
+                                child: Image(image: AssetImage("images/property.jpg"), fit: BoxFit.cover),
+                              ),
+                              Container(
+                                alignment: Alignment.topRight,
+                                margin: EdgeInsets.only(right: 20, top: 20),
+                                child: FavoriteButton(
+                                  isFavorite: false,
+                                  valueChanged: (_isFavorite) {
+                                    print('Is Favorite : $_isFavorite');
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(color: Colors.yellow,
+                                  height: 30,
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.45),
+                              Container(
+                                  color: Colors.red, height: 30, width: MediaQuery
                                   .of(context)
                                   .size
-                                  .width * 0.45),
-                          Container(
-                              color: Colors.red, height: 30, width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.45)
+                                  .width * 0.45)
+                            ],
+                          )
                         ],
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 30),

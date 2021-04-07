@@ -8,8 +8,10 @@ class Search_Page extends StatefulWidget {
 
 class _Search_PageState extends State<Search_Page> {
   bool _isSelected=false;
-  int _value = 100000;
-  int _value1 = 100;
+  int _value1 = 100000;
+  int _value2 = 100;
+  int _value3 = 100000;
+  int _value4 = 100;
   List<String> sale_type_list = ['New', 'Resale'];
   List<String> select_checkbox = ['User', 'Builder', 'Brocker'];
   List<String> sell_and_rent = ['Sell', 'Rent'];
@@ -20,8 +22,6 @@ class _Search_PageState extends State<Search_Page> {
   int selectedIndex4 = 0;
 
   bool apartment = false;
-  int group=1;
-  int sellrentradio=1;
   bool villa=false;
   bool rowhouse=false;
   bool farmhouse=false;
@@ -34,6 +34,12 @@ class _Search_PageState extends State<Search_Page> {
   bool commercialland=false;
   bool hotel=false;
   bool showroom=false;
+  bool usr1=false;
+  bool usr2=false;
+  bool builder1=false;
+  bool builder2=false;
+  bool broker1=false;
+  bool broker2=false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +97,7 @@ class _Search_PageState extends State<Search_Page> {
                   ),
                   Padding(padding: EdgeInsets.only(top: 10.0),),
                   SizedBox(
-                    height: 80 ,
+                    height: 50 ,
                     child: AppBar(
                       backgroundColor: Colors.grey.shade50,
                       elevation: 0,
@@ -99,10 +105,10 @@ class _Search_PageState extends State<Search_Page> {
                       bottom: TabBar(
                         tabs: [
                           Tab(
-                            icon: Text("Residential", style: TextStyle(fontSize: 16, color: Colors.indigo, fontWeight: FontWeight.bold)),
+                            icon: Text("Residential", style: TextStyle(fontSize: 18, color: Colors.indigo, fontWeight: FontWeight.bold)),
                           ),
                           Tab(
-                            icon: Text("Commercial", style: TextStyle(fontSize: 16, color: Colors.indigo, fontWeight: FontWeight.bold)),
+                            icon: Text("Commercial", style: TextStyle(fontSize: 18, color: Colors.indigo, fontWeight: FontWeight.bold)),
                           )
                         ],
                       ),
@@ -148,7 +154,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Apartment"),
+                                      Text("Apartment", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: villa,
                                           onChanged:(bool value){
@@ -157,7 +163,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Villa/House"),
+                                      Text("Villa/House", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: rowhouse,
                                           onChanged:(bool value){
@@ -166,7 +172,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Row House"),
+                                      Text("Row House", style: TextStyle(fontSize: 16.0)),
                                     ],
                                   ),
                                   Row(
@@ -179,7 +185,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Farm House"),
+                                      Text("Farm House", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: plot,
                                           onChanged:(bool value){
@@ -188,7 +194,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Plot"),
+                                      Text("Plot", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: pentahouse,
                                           onChanged:(bool value){
@@ -197,7 +203,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Penta House"),
+                                      Text("Penta House", style: TextStyle(fontSize: 16.0)),
                                     ],
                                   ),
                                   Row(
@@ -210,7 +216,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Others"),
+                                      Text("Others", style: TextStyle(fontSize: 16.0)),
                                     ],
                                   ),
                                   SizedBox(height: 10),
@@ -223,20 +229,20 @@ class _Search_PageState extends State<Search_Page> {
                                   Container(
                                       alignment: Alignment.topRight,
                                       margin: EdgeInsets.only(right: 20),
-                                      child: Text(_value.toString())
+                                      child: Text(_value1.toString())
                                   ),
                                   Container(
                                     child: Slider(
-                                      value: _value.toDouble(),
+                                      value: _value1.toDouble(),
                                       min: 100000.0,
                                       max: 3000000.0,
                                       divisions: 100,
                                       activeColor: Colors.blue,
                                       inactiveColor: Colors.grey,
-                                      label: _value.toString(),
+                                      label: _value1.toString(),
                                       onChanged: (double newValue) {
                                         setState(() {
-                                          _value = newValue.round();
+                                          _value1 = newValue.round();
                                         });
                                       },
                                     ),
@@ -269,33 +275,80 @@ class _Search_PageState extends State<Search_Page> {
                                   Container(
                                       alignment: Alignment.topRight,
                                       margin: EdgeInsets.only(right: 20),
-                                      child: Text(_value1.toString())
+                                      child: Text(_value2.toString())
                                   ),
                                   Container(
                                     child: Slider(
-                                      value: _value1.toDouble(),
+                                      value: _value2.toDouble(),
                                       min: 100.0,
                                       max: 10000.0,
                                       divisions: 100,
                                       activeColor: Colors.blue,
                                       inactiveColor: Colors.grey,
-                                      label: _value1.toString(),
+                                      label: _value2.toString(),
                                       onChanged: (double newValue) {
                                         setState(() {
-                                          _value1 = newValue.round();
+                                          _value2 = newValue.round();
                                         });
                                       },
                                     ),
                                   ),
-                                  Checkbox(
-                                      value: apartment,
-                                      onChanged:(bool value){
-                                        setState(() {
-                                          apartment=value;
-                                          print(value);
-                                        });
-                                      }
+                                  Divider(),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(left: 20),
+                                      child: Text("Posted by", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
                                   ),
+                                  SizedBox(height: 8),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 8),
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                            value: usr1,
+                                            onChanged:(bool value){
+                                              setState(() {
+                                                usr1=value;
+                                              });
+                                            }
+                                        ),
+                                        Text("User", style: TextStyle(fontSize: 16.0)),
+                                        Checkbox(
+                                            value: builder1,
+                                            onChanged:(bool value){
+                                              setState(() {
+                                                builder1=value;
+                                              });
+                                            }
+                                        ),
+                                        Text("Builder", style: TextStyle(fontSize: 16.0)),
+                                        Checkbox(
+                                            value: broker1,
+                                            onChanged:(bool value){
+                                              setState(() {
+                                                broker1=value;
+                                              });
+                                            }
+                                        ),
+                                        Text("Broker", style: TextStyle(fontSize: 16.0)),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    height: 50,
+                                    child: RaisedButton(
+                                      onPressed: () {},
+                                      color: Colors.indigo,
+                                      child: Center(child: Text("Apply", style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold))),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10)
                                 ],
                               ),
                             ),
@@ -337,7 +390,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Office Space"),
+                                      Text("Office Space", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: shop,
                                           onChanged:(bool value){
@@ -346,7 +399,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Shop"),
+                                      Text("Shop", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: warehouse,
                                           onChanged:(bool value){
@@ -355,7 +408,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Ware House"),
+                                      Text("Ware House", style: TextStyle(fontSize: 16.0)),
                                     ],
                                   ),
                                   Row(
@@ -368,7 +421,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Commercial Land"),
+                                      Text("Commercial Land", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: hotel,
                                           onChanged:(bool value){
@@ -377,7 +430,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Hotel"),
+                                      Text("Hotel", style: TextStyle(fontSize: 16.0)),
                                       Checkbox(
                                           value: showroom,
                                           onChanged:(bool value){
@@ -386,7 +439,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Show Room"),
+                                      Text("Show Room", style: TextStyle(fontSize: 16.0)),
                                     ],
                                   ),
                                   Row(
@@ -399,7 +452,7 @@ class _Search_PageState extends State<Search_Page> {
                                             });
                                           }
                                       ),
-                                      Text("Others"),
+                                      Text("Others", style: TextStyle(fontSize: 16.0)),
                                     ],
                                   ),
                                   SizedBox(height: 10),
@@ -412,20 +465,20 @@ class _Search_PageState extends State<Search_Page> {
                                   Container(
                                       alignment: Alignment.topRight,
                                       margin: EdgeInsets.only(right: 20),
-                                      child: Text(_value.toString())
+                                      child: Text(_value3.toString())
                                   ),
                                   Container(
                                     child: Slider(
-                                      value: _value.toDouble(),
+                                      value: _value3.toDouble(),
                                       min: 100000.0,
                                       max: 3000000.0,
                                       divisions: 100,
                                       activeColor: Colors.blue,
                                       inactiveColor: Colors.grey,
-                                      label: _value.toString(),
+                                      label: _value3.toString(),
                                       onChanged: (double newValue) {
                                         setState(() {
-                                          _value = newValue.round();
+                                          _value3 = newValue.round();
                                         });
                                       },
                                     ),
@@ -458,27 +511,84 @@ class _Search_PageState extends State<Search_Page> {
                                   Container(
                                       alignment: Alignment.topRight,
                                       margin: EdgeInsets.only(right: 20),
-                                      child: Text(_value1.toString())
+                                      child: Text(_value4.toString())
                                   ),
                                   Container(
                                     child: Slider(
-                                      value: _value1.toDouble(),
+                                      value: _value4.toDouble(),
                                       min: 100.0,
                                       max: 10000.0,
                                       divisions: 100,
                                       activeColor: Colors.blue,
                                       inactiveColor: Colors.grey,
-                                      label: _value1.toString(),
+                                      label: _value4.toString(),
                                       onChanged: (double newValue) {
                                         setState(() {
-                                          _value1 = newValue.round();
+                                          _value4 = newValue.round();
                                         });
                                       },
                                     ),
                                   ),
+                                  Divider(),
+                                  Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(left: 20),
+                                      child: Text("Posted by", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                                  ),
+                                  SizedBox(height: 8),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 8),
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                            value: usr2,
+                                            onChanged:(bool value){
+                                              setState(() {
+                                                usr2=value;
+                                              });
+                                            }
+                                        ),
+                                        Text("User", style: TextStyle(fontSize: 16.0)),
+                                        Checkbox(
+                                            value: builder2,
+                                            onChanged:(bool value){
+                                              setState(() {
+                                                builder2=value;
+                                              });
+                                            }
+                                        ),
+                                        Text("Builder", style: TextStyle(fontSize: 16.0)),
+                                        Checkbox(
+                                            value: broker2,
+                                            onChanged:(bool value){
+                                              setState(() {
+                                                broker2=value;
+                                              });
+                                            }
+                                        ),
+                                        Text("Broker", style: TextStyle(fontSize: 16.0)),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
+                            SizedBox(height: 15),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: 50,
+                              margin: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.3, left: MediaQuery.of(context).size.width * 0.3),
+                              child: RaisedButton(
+                                onPressed: () {},
+                                color: Colors.indigo,
+                                child: Center(child: Text("Apply", style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold))),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10)
                           ],
                         ), //commercial
                       ],
@@ -522,7 +632,7 @@ class _Search_PageState extends State<Search_Page> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       borderSide: BorderSide(color: selectedIndex1 == index ? Colors.indigo : Colors.grey),
-      child: Text(txt, style: TextStyle(color: selectedIndex1 == index? Colors.indigo: Colors.grey),),
+      child: Text(txt, style: TextStyle(color: selectedIndex1 == index? Colors.indigo: Colors.grey, fontSize: 16.0),),
     );
   }
 
@@ -533,7 +643,7 @@ class _Search_PageState extends State<Search_Page> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       borderSide: BorderSide(color: selectedIndex2 == index ? Colors.indigo : Colors.grey),
-      child: Text(txt, style: TextStyle(color: selectedIndex2 == index? Colors.indigo: Colors.grey),),
+      child: Text(txt, style: TextStyle(color: selectedIndex2 == index? Colors.indigo: Colors.grey, fontSize: 16.0),),
     );
   }
 
@@ -544,7 +654,7 @@ class _Search_PageState extends State<Search_Page> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       borderSide: BorderSide(color: selectedIndex3 == index ? Colors.indigo : Colors.grey),
-      child: Text(txt, style: TextStyle(color: selectedIndex3 == index? Colors.indigo: Colors.grey),),
+      child: Text(txt, style: TextStyle(color: selectedIndex3 == index? Colors.indigo: Colors.grey, fontSize: 16.0),),
     );
   }
 
@@ -555,7 +665,7 @@ class _Search_PageState extends State<Search_Page> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       borderSide: BorderSide(color: selectedIndex4 == index ? Colors.indigo : Colors.grey),
-      child: Text(txt, style: TextStyle(color: selectedIndex4 == index? Colors.indigo: Colors.grey),),
+      child: Text(txt, style: TextStyle(color: selectedIndex4 == index? Colors.indigo: Colors.grey, fontSize: 16.0),),
     );
   }
 
