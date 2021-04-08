@@ -11,6 +11,7 @@ class _Post_PropertyState extends State<Post_Property> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade50,
       body: ListView(
         children: [
           Column(

@@ -18,6 +18,7 @@ class _Brocker_PageState extends State<Brocker_Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(),
       body: Container(
         child: Center(

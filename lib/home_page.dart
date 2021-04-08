@@ -3,6 +3,8 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Pages/favorite_page.dart';
+import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
 import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
@@ -22,7 +24,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         elevation: 0.0,
@@ -61,8 +63,6 @@ class Home extends StatelessWidget {
                         return Column(
                           children: [
                             Center(child: Text("Hello, ${myName}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))),
-                            SizedBox(height: 10),
-                            Center(child: Text("${myEmail}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))),
                           ],
                         );
                       }
@@ -91,16 +91,14 @@ class Home extends StatelessWidget {
               SizedBox(height: 30),
               GestureDetector(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Property_Detail())),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 280,
+                child: Container(
+                      height: 300,
                       width: MediaQuery
                           .of(context)
                           .size
                           .width * 0.9,
                       decoration: BoxDecoration(
-                          color: Colors.indigo.shade300,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(20)
                       ),
                       child: Column(
@@ -108,12 +106,22 @@ class Home extends StatelessWidget {
                           Stack(
                             children: [
                               Container(
-                                height: 140,
+                                height: 160,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(topLeft: Radius
                                         .circular(20), topRight: Radius.circular(20)),
                                 ),
-                                child: Image(image: AssetImage("images/property.jpg"), fit: BoxFit.cover),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.0),
+                                    topRight: Radius.circular(20.0),
+                                  ),
+                                  child: Image.asset(
+                                      'images/property.jpg',
+                                      width: MediaQuery.of(context).size.width,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
                               ),
                               Container(
                                 alignment: Alignment.topRight,
@@ -127,113 +135,108 @@ class Home extends StatelessWidget {
                               )
                             ],
                           ),
+                          SizedBox(height: 5),
                           Row(
                             children: [
-                              Container(color: Colors.yellow,
-                                  height: 30,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.45),
-                              Container(
-                                  color: Colors.red, height: 30, width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.45)
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 13),
+                                    height: 20,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width/2,
+                                  child: Text("Silver Villa", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                              Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 13),
+                                    alignment: Alignment.topRight,
+                                    height: 20,
+                                    width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width/2,
+                                      child: Text("2,00,000 per month", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigo)),
+                                  )
+                              )
                             ],
-                          )
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 13),
+                              child: RichText(
+                                  text: TextSpan(
+                                    text: "Posted by : ",
+                                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                    children: [
+                                      TextSpan(
+                                        // text: "Builder",
+                                        text: "Builder",
+                                        style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400)
+                                      )
+                                    ]
+                                  ),
+                              )
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 13),
+                              child: RichText(
+                                text: TextSpan(
+                                    text: "Location : ",
+                                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                    children: [
+                                      TextSpan(
+                                          text: "Surat",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                      )
+                                    ]
+                                ),
+                              )
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 13),
+                              child: RichText(
+                                text: TextSpan(
+                                    text: "Type : ",
+                                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                    children: [
+                                      TextSpan(
+                                          text: "Residential",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                      )
+                                    ]
+                                ),
+                              )
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.only(left: 13),
+                              child: RichText(
+                                text: TextSpan(
+                                    text: "Status : ",
+                                    style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                    children: [
+                                      TextSpan(
+                                          text: "Under Construction",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                      )
+                                    ]
+                                ),
+                              )
+                          ),
+
                         ],
                       ),
                     ),
-                  ],
-                ),
               ),
-              SizedBox(height: 30),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  height: 280,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.indigo.shade300,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 140,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius
-                                .circular(20), topRight: Radius.circular(20)),
-                            color: Colors.white
-                        ),
-                        // child: Image(image: AssetImage(""), fit: BoxFit.cover),
-                      ),
-                      Row(
-                        children: [
-                          Container(color: Colors.yellow,
-                              height: 30,
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.45),
-                          Container(
-                              color: Colors.red, height: 30, width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.45)
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  height: 280,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.indigo.shade300,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 140,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius
-                                .circular(20), topRight: Radius.circular(20)),
-                            color: Colors.white
-                        ),
-                        // child: Image(image: AssetImage(""), fit: BoxFit.cover),
-                      ),
-                      Row(
-                        children: [
-                          Container(color: Colors.yellow,
-                              height: 30,
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.45),
-                          Container(
-                              color: Colors.red, height: 30, width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.45)
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              )
             ],
           )
         ],
@@ -244,12 +247,32 @@ class Home extends StatelessWidget {
             ListTile(
               title: Row(
                 children: [
+                  Icon(Icons.account_circle),
+                  SizedBox(width: 25),
+                  Text("My Profile")
+                ],
+              ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => My_Profile_Page())),
+            ),
+            ListTile(
+              title: Row(
+                children: [
                   Icon(Icons.add),
                   SizedBox(width: 25),
                   Text("Post property")
                 ],
               ),
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Post_Property())),
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.favorite_outline),
+                  SizedBox(width: 25),
+                  Text("Favorites", style: TextStyle(fontSize: 16))
+                ],
+              ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite_Page())),
             ),
             ListTile(
                 title: Row(
