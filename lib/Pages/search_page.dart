@@ -1,6 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+class ResidentialFilterEntry {
+  const ResidentialFilterEntry(this.name);
+  final String name;
+}
+
+class CommercialFilterEntry {
+  const CommercialFilterEntry(this.cname);
+  final String cname;
+}
+
+class ResidentialUsertypeEntry {
+  const ResidentialUsertypeEntry(this.ruser);
+  final String ruser;
+}
+
+class CommercialUsertypeEntry {
+  const CommercialUsertypeEntry(this.cuser);
+  final String cuser;
+}
+
 class Search_Page extends StatefulWidget {
   @override
   _Search_PageState createState() => _Search_PageState();
@@ -19,6 +39,164 @@ class _Search_PageState extends State<Search_Page> {
   int selectedIndex2 = 0;
   int selectedIndex3 = 0;
   int selectedIndex4 = 0;
+  TextEditingController state_controller = TextEditingController();
+  TextEditingController city_controller = TextEditingController();
+
+  final List<ResidentialFilterEntry> residential_cast = <ResidentialFilterEntry>[
+    const ResidentialFilterEntry('Apartment'),
+    const ResidentialFilterEntry('Villa/House'),
+    const ResidentialFilterEntry('Row House'),
+    const ResidentialFilterEntry('Farm House'),
+    const ResidentialFilterEntry('Plot'),
+    const ResidentialFilterEntry('Pent House'),
+    const ResidentialFilterEntry('Others'),
+  ];
+  List<String> _filters = <String>[];
+
+  Iterable<Widget> get residentialWidgets sync* {
+    for (final ResidentialFilterEntry residential in residential_cast) {
+      yield Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Material(
+          child: FilterChip(
+            label: Text(residential.name),
+            labelStyle: TextStyle(color: Colors.indigo,fontSize: 16.0,fontWeight: FontWeight.bold),
+            selected: _filters.contains(residential.name),
+            backgroundColor: Colors.indigo.shade50,
+            selectedColor: Colors.indigo.shade100,
+            onSelected: (bool value) {
+              setState(() {
+                if (value) {
+                  _filters.add(residential.name);
+                } else {
+                  _filters.removeWhere((String name) {
+                    return name == residential.name;
+                  });
+                }
+                print('${_filters.join(', ')}');
+              });
+            },
+          ),
+        ),
+      );
+    }
+  }
+
+  //ignore: non_constant_identifier_names
+  final List<CommercialFilterEntry> commercial_cast = <CommercialFilterEntry>[
+    const CommercialFilterEntry('Office Space'),
+    const CommercialFilterEntry('Shop'),
+    const CommercialFilterEntry('Ware House'),
+    const CommercialFilterEntry('Commercial Land'),
+    const CommercialFilterEntry('Hotel'),
+    const CommercialFilterEntry('Showroom'),
+    const CommercialFilterEntry('Others'),
+  ];
+  // ignore: non_constant_identifier_names
+  List<String> commercial_filters = <String>[];
+
+  Iterable<Widget> get commercialWidgets sync* {
+    for (final CommercialFilterEntry commercial in commercial_cast) {
+      yield Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Material(
+          child: FilterChip(
+            label: Text(commercial.cname),
+            labelStyle: TextStyle(color: Colors.indigo,fontSize: 16.0,fontWeight: FontWeight.bold),
+            selected: commercial_filters.contains(commercial.cname),
+            backgroundColor: Colors.indigo.shade50,
+            selectedColor: Colors.indigo.shade100,
+            onSelected: (bool value) {
+              setState(() {
+                if (value) {
+                  commercial_filters.add(commercial.cname);
+                } else {
+                  commercial_filters.removeWhere((String name) {
+                    return name == commercial.cname;
+                  });
+                }
+                print('${commercial_filters.join(', ')}');
+              });
+            },
+          ),
+        ),
+      );
+    }
+  }
+  // ignore: non_constant_identifier_names
+
+  final List<ResidentialUsertypeEntry> residentialUser_cast = <ResidentialUsertypeEntry>[
+    const ResidentialUsertypeEntry('User'),
+    const ResidentialUsertypeEntry('Builder'),
+    const ResidentialUsertypeEntry('Broker'),
+  ];
+  // ignore: non_constant_identifier_names
+  List<String> residentialUser_filters = <String>[];
+
+  Iterable<Widget> get residentialUserWidgets sync* {
+    for (final ResidentialUsertypeEntry residentialUser in residentialUser_cast) {
+      yield Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Material(
+          child: FilterChip(
+            label: Text(residentialUser.ruser),
+            labelStyle: TextStyle(color: Colors.indigo,fontSize: 16.0,fontWeight: FontWeight.bold),
+            selected: residentialUser_filters.contains(residentialUser.ruser),
+            backgroundColor: Colors.indigo.shade50,
+            selectedColor: Colors.indigo.shade100,
+            onSelected: (bool value) {
+              setState(() {
+                if (value) {
+                  residentialUser_filters.add(residentialUser.ruser);
+                } else {
+                  residentialUser_filters.removeWhere((String name) {
+                    return name == residentialUser.ruser;
+                  });
+                }
+                print('${residentialUser_filters.join(', ')}');
+              });
+            },
+          ),
+        ),
+      );
+    }
+  }
+
+  final List<CommercialUsertypeEntry> commercialUser_cast = <CommercialUsertypeEntry>[
+    const CommercialUsertypeEntry('User'),
+    const CommercialUsertypeEntry('Builder'),
+    const CommercialUsertypeEntry('Broker'),
+  ];
+  List<String> commercialUser_filters = <String>[];
+
+  Iterable<Widget> get commercialUserWidgets sync* {
+    for (final CommercialUsertypeEntry commercialUser in commercialUser_cast) {
+      yield Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Material(
+          child: FilterChip(
+            label: Text(commercialUser.cuser),
+            labelStyle: TextStyle(color: Colors.indigo,fontSize: 16.0,fontWeight: FontWeight.bold),
+            selected: commercialUser_filters.contains(commercialUser.cuser),
+            backgroundColor: Colors.indigo.shade50,
+            selectedColor: Colors.indigo.shade100,
+            onSelected: (bool value) {
+              setState(() {
+                if (value) {
+                  commercialUser_filters.add(commercialUser.cuser);
+                } else {
+                  commercialUser_filters.removeWhere((String name) {
+                    return name == commercialUser.cuser;
+                  });
+                }
+                print('${commercialUser_filters.join(', ')}');
+              });
+            },
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +224,7 @@ class _Search_PageState extends State<Search_Page> {
                           border: Border.all(style: BorderStyle.solid, color: Colors.grey),
                         ),
                         child: TextFormField(
+                          controller: state_controller,
                           decoration: InputDecoration(
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
@@ -64,6 +243,7 @@ class _Search_PageState extends State<Search_Page> {
                           border: Border.all(style: BorderStyle.solid, color: Colors.grey),
                         ),
                         child: TextFormField(
+                          controller: city_controller,
                           decoration: InputDecoration(
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
@@ -123,94 +303,11 @@ class _Search_PageState extends State<Search_Page> {
                                       )
                                   ),
                                   SizedBox(height: 10.0,),
-                                  // Row(
-                                  //   children: [
-                                  //     Checkbox(
-                                  //         value: apartment,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             apartment=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Apartment", style: TextStyle(fontSize: 16.0)),
-                                  //     Checkbox(
-                                  //         value: villa,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             villa=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Villa/House", style: TextStyle(fontSize: 16.0)),
-                                  //     Checkbox(
-                                  //         value: rowhouse,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             rowhouse=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Row House", style: TextStyle(fontSize: 16.0)),
-                                  //   ],
-                                  // ),
-                                  // Row(
-                                  //   children: [
-                                  //     Checkbox(
-                                  //         value: farmhouse,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             farmhouse=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Farm House", style: TextStyle(fontSize: 16.0)),
-                                  //     Checkbox(
-                                  //         value: plot,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             plot=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Plot", style: TextStyle(fontSize: 16.0)),
-                                  //     Checkbox(
-                                  //         value: pentahouse,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             pentahouse=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Penta House", style: TextStyle(fontSize: 16.0)),
-                                  //   ],
-                                  // ),
-                                  // Row(
-                                  //   children: [
-                                  //     Checkbox(
-                                  //         value: other,
-                                  //         onChanged:(bool value){
-                                  //           setState(() {
-                                  //             other=value;
-                                  //           });
-                                  //         }
-                                  //     ),
-                                  //     Text("Others", style: TextStyle(fontSize: 16.0)),
-                                  //   ],
-                                  // ),
                                   Container(
                                       child: Wrap(
                                         spacing: 10.0,
                                         runSpacing: 3.0,
-                                        children: <Widget>[
-                                          filterChipWidget(chipName: 'Apartment'),
-                                          filterChipWidget(chipName: 'Villa/House'),
-                                          filterChipWidget(chipName: 'Row House'),
-                                          filterChipWidget(chipName: 'Farm House'),
-                                          filterChipWidget(chipName: 'Plot'),
-                                          filterChipWidget(chipName: 'Pent House'),
-                                          filterChipWidget(chipName: 'Others'),
-                                        ],
+                                        children: residentialWidgets.toList(),
                                       )
                                   ),
                                   SizedBox(height: 10),
@@ -301,11 +398,7 @@ class _Search_PageState extends State<Search_Page> {
                                         child: Wrap(
                                           spacing: 10.0,
                                           runSpacing: 3.0,
-                                          children: <Widget>[
-                                            filterChipWidget(chipName: 'User'),
-                                            filterChipWidget(chipName: 'Builder'),
-                                            filterChipWidget(chipName: 'Broker'),
-                                          ],
+                                          children: residentialUserWidgets.toList(),
                                         )
                                     )
                                   ),
@@ -358,15 +451,7 @@ class _Search_PageState extends State<Search_Page> {
                                       child: Wrap(
                                         spacing: 10.0,
                                         runSpacing: 3.0,
-                                        children: <Widget>[
-                                          filterChipWidget(chipName: 'Office Space'),
-                                          filterChipWidget(chipName: 'Shop'),
-                                          filterChipWidget(chipName: 'Ware House'),
-                                          filterChipWidget(chipName: 'Commercial Land'),
-                                          filterChipWidget(chipName: 'Hotel'),
-                                          filterChipWidget(chipName: 'Showroom'),
-                                          filterChipWidget(chipName: 'Others'),
-                                        ],
+                                        children: commercialWidgets.toList(),
                                       )
                                   ),
                                   SizedBox(height: 10),
@@ -457,11 +542,7 @@ class _Search_PageState extends State<Search_Page> {
                                         child: Wrap(
                                           spacing: 10.0,
                                           runSpacing: 3.0,
-                                          children: <Widget>[
-                                            filterChipWidget(chipName: 'User'),
-                                            filterChipWidget(chipName: 'Builder'),
-                                            filterChipWidget(chipName: 'Broker'),
-                                          ],
+                                          children: commercialUserWidgets.toList(),
                                         )
                                     )
                                   )
@@ -565,33 +646,43 @@ class _Search_PageState extends State<Search_Page> {
 
 }
 
-class filterChipWidget extends StatefulWidget {
-  final String chipName;
+// class filterChipWidget extends StatefulWidget {
+//   final String chipName;
+//
+//   filterChipWidget({Key key, this.chipName}) : super(key: key);
+//
+//   @override
+//   _filterChipWidgetState createState() => _filterChipWidgetState();
+// }
+//
+// class _filterChipWidgetState extends State<filterChipWidget> {
+//   bool _isSelected = false;
+//   List<String> _filters = <String>[];
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return FilterChip(
+//       label: Text(widget.chipName),
+//       labelStyle: TextStyle(color: Colors.indigo,fontSize: 16.0,fontWeight: FontWeight.bold),
+//       selected: _filters.contains(widget.chipName),
+//       shape:RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(
+//             30.0),),
+//       backgroundColor: Colors.indigo.shade50,
+//       onSelected: (isSelected) {
+//         setState(() {
+//           _isSelected = isSelected;
+//           if (isSelected) {
+//             _filters.add(widget.chipName);
+//           } else {
+//             _filters.removeWhere((String name) {
+//               return name == widget.chipName;
+//             });
+//           }
+//           print('${_filters.join(', ')}');
+//         });
+//       },
+//       selectedColor: Colors.indigo.shade100);
+//   }
+// }
 
-  filterChipWidget({Key key, this.chipName}) : super(key: key);
-
-  @override
-  _filterChipWidgetState createState() => _filterChipWidgetState();
-}
-
-class _filterChipWidgetState extends State<filterChipWidget> {
-  var _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilterChip(
-      label: Text(widget.chipName),
-      labelStyle: TextStyle(color: Colors.indigo,fontSize: 16.0,fontWeight: FontWeight.bold),
-      selected: _isSelected,
-      shape:RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-            30.0),),
-      backgroundColor: Colors.indigo.shade50,
-      onSelected: (isSelected) {
-        setState(() {
-          _isSelected = isSelected;
-        });
-      },
-      selectedColor: Colors.indigo.shade100);
-  }
-}

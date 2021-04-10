@@ -262,7 +262,7 @@ class Home extends StatelessWidget {
                   Text("Post property")
                 ],
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Post_Property())),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PostProperty())),
             ),
             ListTile(
               title: Row(

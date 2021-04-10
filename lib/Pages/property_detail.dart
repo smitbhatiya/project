@@ -31,7 +31,7 @@ class _Property_DetailState extends State<Property_Detail> {
                               options: CarouselOptions(
                                 height: 300.0,
                                 enlargeCenterPage: true,
-                                //autoPlayInterval: Duration(seconds: 2),
+                                autoPlayInterval: Duration(seconds: 2),
                                 autoPlay: true,
                                 //aspectRatio: 16 / 9,
                                 autoPlayCurve: Curves.fastOutSlowIn,
@@ -83,22 +83,6 @@ class _Property_DetailState extends State<Property_Detail> {
                             ]
                           ),
                         ],
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.grey.shade200,
-                      child: Row(
-                        children: [],
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.grey.shade300,
-                      child: Row(
-                        children: [],
                       ),
                     ),
                   ],
