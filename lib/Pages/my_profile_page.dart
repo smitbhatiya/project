@@ -18,10 +18,6 @@ class _My_Profile_PageState extends State<My_Profile_Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: Text("My Profile"),
-      ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: ListView(

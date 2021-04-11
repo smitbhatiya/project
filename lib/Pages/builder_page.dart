@@ -32,7 +32,7 @@ class _Builder_PageState extends State<Builder_Page> {
                         children: [
                           Center(child: Text("Hello, $myName", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
                           SizedBox(height: 10),
-                          Center(child: Text("$myEmail", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                          Center(child: Text("$myRole", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
                         ],
                       );
                     }
