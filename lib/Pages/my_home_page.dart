@@ -28,6 +28,9 @@ class _My_HomeState extends State<My_Home> {
   String myName;
 
   String myRole;
+  Future<QuerySnapshot> getImages() {
+    return FirebaseFirestore.instance.collection("Property Details").get();
+  }
 
 
   @override
@@ -121,10 +124,19 @@ class _My_HomeState extends State<My_Home> {
                                 topLeft: Radius.circular(20.0),
                                 topRight: Radius.circular(20.0),
                               ),
-                              child: Image.asset(
-                                  'images/property.jpg',
-                                  width: MediaQuery.of(context).size.width,
-                                  fit:BoxFit.fill
+                              child: FutureBuilder(
+                                future: getImages(),
+                                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    return Image.network(
+                                      snapshot.data.docs[0].data()['url'],
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.fill);
+                                  } else if (snapshot.connectionState == ConnectionState.none) {
+                                    return Text("No data");
+                                  }
+                                  return CircularProgressIndicator();
+                                },
                               ),
                             ),
                           ),
@@ -237,7 +249,6 @@ class _My_HomeState extends State<My_Home> {
                             ),
                           )
                       ),
-
                     ],
                   ),
                 ),
@@ -544,58 +555,6 @@ class _My_HomeState extends State<My_Home> {
           )
         ],
       ),
-      // drawer: Drawer(
-      //   child: ListView(
-      //     children: [
-      //       ListTile(
-      //         title: Row(
-      //           children: [
-      //             Icon(Icons.account_circle),
-      //             SizedBox(width: 25),
-      //             Text("My Profile")
-      //           ],
-      //         ),
-      //         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => My_Profile_Page())),
-      //       ),
-      //       ListTile(
-      //         title: Row(
-      //           children: [
-      //             Icon(Icons.add),
-      //             SizedBox(width: 25),
-      //             Text("Post property")
-      //           ],
-      //         ),
-      //         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PostProperty())),
-      //       ),
-      //       ListTile(
-      //         title: Row(
-      //           children: [
-      //             Icon(Icons.favorite_outline),
-      //             SizedBox(width: 25),
-      //             Text("Favorites", style: TextStyle(fontSize: 16))
-      //           ],
-      //         ),
-      //         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite_Page())),
-      //       ),
-      //       ListTile(
-      //           title: Row(
-      //             // crossAxisAlignment: CrossAxisAlignment.end,
-      //             children: [
-      //               Icon(Icons.logout),
-      //               SizedBox(width: 25),
-      //               Text("Sign Out", style: TextStyle(fontSize: 20)),
-      //             ],
-      //           ),
-      //           onTap: () =>
-      //               signOut().whenComplete(() =>
-      //                   Navigator.of(context).pushAndRemoveUntil(
-      //                       MaterialPageRoute(
-      //                           builder: (context) => LogIn_Page()), (
-      //                       Route<dynamic> route) => false))
-      //       )
-      //     ],
-      //   ),
-      // ),
     );
   }
 

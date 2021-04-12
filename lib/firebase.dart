@@ -13,7 +13,7 @@ Future<void> userSetup(String displayName, String email, String phoneNumber, Str
   return;
 }
 
-Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status) async {
+Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link) async {
   CollectionReference property = FirebaseFirestore.instance.collection('Property Details');
   //var firebaseUser = await FirebaseAuth.instance.currentUser;
   //FirebaseAuth auth = FirebaseAuth.instance;
@@ -32,7 +32,8 @@ Future<void> postProperty(String category, String postBy, String sr_radio, Strin
     'area': area,
     'price': price,
     'description': description,
-    'status': con_status
+    'status': con_status,
+    'url': url_link
   });
   // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
   return;

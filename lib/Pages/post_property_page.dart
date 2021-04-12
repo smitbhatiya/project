@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +128,6 @@ class _PostPropertyState extends State<PostProperty> {
     setState(() {
       _imageFile = File(pickedFile.path);
     });
-    uploadImageToFirebase(context);
     Navigator.of(context).pop();
   }
 
@@ -142,10 +142,12 @@ class _PostPropertyState extends State<PostProperty> {
     setState(() {
       _imageFile1 = File(pickedFile1.path);
     });
-    uploadImageToFirebase1(context);
     Navigator.of(context).pop();
   }
 
+  CollectionReference property;
+
+  String downloadUrl;
   Future uploadImageToFirebase(BuildContext context) async {
     String fileName = _imageFile.path;
     StorageReference firebaseStorageRef =
@@ -153,14 +155,34 @@ class _PostPropertyState extends State<PostProperty> {
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     taskSnapshot.ref.getDownloadURL().then(
-          (value) => print("Done: $value"),
+        (value) {
+          // FirebaseFirestore.instance.collection('propertyImages').add(
+          //     {'url': value, 'projectName': project_name_controller_r.text});
+          postProperty(
+            'Residential',
+            '${owner_builder_broker[selectedIndex]}',
+            '${sell_and_rent[selectedIndex1]}',
+            '$_filters1',
+            '${project_name_controller_r.text}',
+            '${address_controller_r.text}, ${landmark_controller_r.text}, ${city_controller_r.text},  ${state_controller_r.text}',
+            '${landmark_controller_r.text}',
+            '${city_controller_r.text}',
+            '${state_controller_r.text}',
+            '${bhk[selectedIndex2]}',
+            '${area_controller_r.text}',
+            '${price_controller_r.text}',
+            '${project_description_controller_r.text}',
+            '${construction_status[selectedIndex3]}',
+            value
+          );
+        }
     );
   }
 
   Future uploadImageToFirebase1(BuildContext context) async {
     String fileName = _imageFile1.path;
     StorageReference firebaseStorageRef =
-    FirebaseStorage.instance.ref().child('property_images/$fileName');
+    FirebaseStorage.instance.ref().child('property_images1/$fileName');
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile1);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     taskSnapshot.ref.getDownloadURL().then(
@@ -227,6 +249,8 @@ class _PostPropertyState extends State<PostProperty> {
           );
         });
   }
+
+
 
   List<String> sell_and_rent=["Sell","Rent"];
   List<String> sell_and_rent_1c=["Sell","Rent"];
@@ -502,24 +526,24 @@ class _PostPropertyState extends State<PostProperty> {
                                         ),
                                     ),
                                     ),
-                                    Expanded(
-                                      child: Container(
-                                        height: 100,
-                                        child: ClipRRect(
-                                          child: _imageFile != null
-                                              ? Image.file(_imageFile)
-                                              : FlatButton(
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 50,
-                                            ),
-                                            onPressed: () {
-                                              _optionsDialogBox(context);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // Expanded(
+                                    //   child: Container(
+                                    //     height: 100,
+                                    //     child: ClipRRect(
+                                    //       child: _imageFile != null
+                                    //           ? Image.file(_imageFile)
+                                    //           : FlatButton(
+                                    //         child: Icon(
+                                    //           Icons.add,
+                                    //           size: 50,
+                                    //         ),
+                                    //         onPressed: () {
+                                    //           _optionsDialogBox(context);
+                                    //         },
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),//Choose photo
@@ -631,22 +655,7 @@ class _PostPropertyState extends State<PostProperty> {
                                 height: 50,
                                 child: RaisedButton(
                                   onPressed: () {
-                                    postProperty(
-                                        'Residential',
-                                        '${owner_builder_broker[selectedIndex]}',
-                                        '${sell_and_rent[selectedIndex1]}',
-                                         '$_filters1',
-                                        '${project_name_controller_r.text}',
-                                        '${address_controller_r.text}, ${landmark_controller_r.text}, ${city_controller_r.text},  ${state_controller_r.text}',
-                                        '${landmark_controller_r.text}',
-                                        '${city_controller_r.text}',
-                                        '${state_controller_r.text}',
-                                        '${bhk[selectedIndex2]}',
-                                        '${area_controller_r.text}',
-                                        '${price_controller_r.text}',
-                                        '${project_description_controller_r.text}',
-                                        '${construction_status[selectedIndex3]}'
-                                    );
+                                    uploadImageToFirebase(context);
                                     Navigator.pushReplacement(
                                         context, MaterialPageRoute(builder: (context) => Home()));
                                   },

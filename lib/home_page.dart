@@ -3,6 +3,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Model/call_images.dart';
 import 'package:flutter_app_with_firebase/Pages/favorite_page.dart';
 import 'package:flutter_app_with_firebase/Pages/my_home_page.dart';
 import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
@@ -31,8 +32,7 @@ class _HomeState extends State<Home> {
   String myName;
 
   String myRole;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   final List<Widget> _widgetOptions = <Widget>[
     My_Home(),
     Favorite_Page(),
@@ -87,6 +87,16 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
         child: ListView(
           children: [
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.image),
+                  SizedBox(width: 25),
+                  Text("Get Images")
+                ],
+              ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Call_Images())),
+            ),
             ListTile(
               title: Row(
                 children: [
