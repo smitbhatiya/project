@@ -13,7 +13,7 @@ Future<void> userSetup(String displayName, String email, String phoneNumber, Str
   return;
 }
 
-Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link) async {
+Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link, String first_image) async {
   CollectionReference property = FirebaseFirestore.instance.collection('Property Details');
   //var firebaseUser = await FirebaseAuth.instance.currentUser;
   //FirebaseAuth auth = FirebaseAuth.instance;
@@ -33,7 +33,8 @@ Future<void> postProperty(String category, String postBy, String sr_radio, Strin
     'price': price,
     'description': description,
     'status': con_status,
-    'url': url_link
+    'url': url_link,
+    'firstImage': first_image
   });
   // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
   return;
@@ -58,6 +59,24 @@ Future<void> postCommProperty(String category, String postBy, String sr_radio, S
     'price': price,
     'description': description,
     'status': con_status
+  });
+  // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
+  return;
+}
+
+Future<void> FavoriteProperty(String category, String postBy, String projectName, String city, String price, String con_status, String first_image) async {
+  CollectionReference property = FirebaseFirestore.instance.collection('favoriteList');
+  //var firebaseUser = await FirebaseAuth.instance.currentUser;
+  //FirebaseAuth auth = FirebaseAuth.instance;
+  //String uid = auth.currentUser.uid.toString();
+  property.document().set({
+    'category': category,
+    'posted by': postBy,
+    'project name': projectName,
+    'city': city,
+    'price': price,
+    'status': con_status,
+    'firstImage': first_image
   });
   // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
   return;

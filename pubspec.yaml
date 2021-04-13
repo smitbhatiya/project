@@ -41,6 +41,8 @@ dependencies:
   image_picker: ^0.6.7+22
   firebase_storage: ^4.0.1
   eva_icons_flutter: ^2.0.1
+  multi_image_picker: ^4.7.15
+  firebase_picture_uploader: ^1.1.0
 
 
 dev_dependencies:

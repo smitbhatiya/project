@@ -8,6 +8,7 @@ import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
 import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
+import 'package:flutter_app_with_firebase/firebase.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 
 
@@ -28,6 +29,7 @@ class _My_HomeState extends State<My_Home> {
   String myName;
 
   String myRole;
+  bool f1;
   Future<QuerySnapshot> getImages() {
     return FirebaseFirestore.instance.collection("Property Details").get();
   }
@@ -146,7 +148,15 @@ class _My_HomeState extends State<My_Home> {
                             child: FavoriteButton(
                               isFavorite: false,
                               valueChanged: (_isFavorite) {
-                                print('Is Favorite : $_isFavorite');
+                                // print('Is Favorite : $_isFavorite');
+                                f1 = _isFavorite;
+                                print(f1);
+                                if(f1 == true){
+                                  FavoriteProperty('Residential', 'Builder', 'Silver Villa', 'Surat', '2,00,000', 'Under Construction', 'URL');
+                                }
+                                else {
+                                  final  v1 = FirebaseFirestore.instance.collection('favoriteList').document(FirebaseAuth.instance.currentUser.uid).delete();
+                                }
                               },
                             ),
                           )
