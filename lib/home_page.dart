@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   String myRole;
 
   final List<Widget> _widgetOptions = <Widget>[
-    My_Home(),
+    myHomepage(),
     Favorite_Page(),
     PostProperty(),
     Search_Page(),
@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
                   Text("Get Images")
                 ],
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Call_Images())),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PostPropertywithProduct())),
             ),
             ListTile(
               title: Row(

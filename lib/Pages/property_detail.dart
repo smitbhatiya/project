@@ -1,13 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 
 class Property_Detail extends StatefulWidget {
+  final String id;
+
+  const Property_Detail({Key key, this.id}) : super(key: key);
   @override
-  _Property_DetailState createState() => _Property_DetailState();
+  _Property_DetailState createState() => _Property_DetailState(id);
 }
 
 class _Property_DetailState extends State<Property_Detail> {
+  CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
+  final String id;
+
+
+  _Property_DetailState(this.id);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +94,15 @@ class _Property_DetailState extends State<Property_Detail> {
                           ),
                         ],
                       ),
+                    ),
+                    FutureBuilder<DocumentSnapshot>(
+                      future: data1.doc(id).get(),
+                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text("Something went wrong");
+                        }
+                        return Text(id);
+                        },
                     ),
                   ],
                 ),
