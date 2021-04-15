@@ -618,6 +618,7 @@ class _myHomepageState extends State<myHomepage> {
   String doc_id;
   String doc_id1;
   bool f1;
+  String id;
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   @override
@@ -649,17 +650,6 @@ class _myHomepageState extends State<myHomepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.indigo,
-      //   elevation: 0.0,
-      //   // actions: [
-      //   //   IconButton(icon: Icon(Icons.person),
-      //   //       onPressed: (){
-      //   //     signOut().whenComplete(()=>Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Login()), (Route<dynamic>route) => false));
-      //   //       }
-      //   //   )
-      //   // ],
-      // ),
       body:ListView(
         children: [
           Stack(
@@ -738,13 +728,13 @@ class _myHomepageState extends State<myHomepage> {
                             //
                             // }),
                             //     snapshot.documents[index].data(),
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Property_Detail(id:doc_id))),
                             doc_id = snapshot.documents[index].documentID,
                             //print(snapshot.documents[index].documentID)
                             print(doc_id)
 
                           },
                         );
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Property_Detail(id:doc_id)));
 
                       },
                       child: Container(
@@ -799,26 +789,47 @@ class _myHomepageState extends State<myHomepage> {
                                             userProfilesList[index]['firstImage']
                                         );
 
-                                      } else if(f1 == false) {
-                                        FirebaseFirestore.instance
-                                            .collection('favoriteList')
-                                            .get()
-                                            .then(
-                                                (QuerySnapshot snapshot) => {
-                                              // snapshot.documents.forEach((f) {
-                                              //
-                                              //   print("documentID---- " + f.reference.documentID);
-                                              //
-                                              // }),
-                                              //     snapshot.documents[index].data(),
-                                              doc_id1 = snapshot.documents[index].documentID,
-                                              //print(snapshot.documents[index].documentID)
-                                              print(doc_id1)
-
-                                            });
-                                        FirebaseFirestore.instance.collection('favoriteList').doc(doc_id1).delete();
-                                        print(doc_id1);
                                       }
+                                      //else
+                                      //   // if(f1 == false)
+                                      //   {
+                                      //   FirebaseFirestore.instance
+                                      //       .collection('favoriteList')
+                                      //       .get()
+                                      //       .then(
+                                      //           (QuerySnapshot snapshot) => {
+                                      //         // snapshot.documents.forEach((f) {
+                                      //         //    id = f.reference.documentID;
+                                      //         //   //print("documentID---- " + f.reference.documentID);
+                                      //         //
+                                      //         // }),
+                                      //             id = snapshot.documents[index].documentID,
+                                      //           FirebaseFirestore.instance.collection('favoriteList').doc(id).delete(),
+                                      //             snapshot.documents[index].data(),
+                                      //         // doc_id1 = snapshot.documents[index].documentID,
+                                      //         // //print(snapshot.documents[index].documentID)
+                                      //         //print(doc_id1)
+                                      //       });
+                                      //   print(id);
+                                      // }
+                                      FirebaseFirestore.instance
+                                          .collection('favoriteList')
+                                          .get()
+                                          .then(
+                                              (QuerySnapshot snapshot) => {
+                                            // snapshot.documents.forEach((f) {
+                                            //    id = f.reference.documentID;
+                                            //   //print("documentID---- " + f.reference.documentID);
+                                            //
+                                            // }),
+                                            id = snapshot.docs[index].id,
+                                            FirebaseFirestore.instance.collection('favoriteList').doc(id).delete(),
+                                            snapshot.docs[index].data(),
+                                            // doc_id1 = snapshot.documents[index].documentID,
+                                            // //print(snapshot.documents[index].documentID)
+                                            //print(doc_id1)
+                                          });
+                                      print(id);
                                     },
                                   ),
                                 )

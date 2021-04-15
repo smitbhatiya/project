@@ -8,15 +8,15 @@ class Property_Detail extends StatefulWidget {
 
   const Property_Detail({Key key, this.id}) : super(key: key);
   @override
-  _Property_DetailState createState() => _Property_DetailState(id);
+  _Property_DetailState createState() => _Property_DetailState();
 }
 
 class _Property_DetailState extends State<Property_Detail> {
   CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
-  final String id;
+  //final String id;
 
 
-  _Property_DetailState(this.id);
+  //_Property_DetailState(this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -96,12 +96,12 @@ class _Property_DetailState extends State<Property_Detail> {
                       ),
                     ),
                     FutureBuilder<DocumentSnapshot>(
-                      future: data1.doc(id).get(),
+                      future: data1.doc("${widget.id}").get(),
                       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasError) {
                           return Text("Something went wrong");
                         }
-                        return Text(id);
+                        return Text("${widget.id}");
                         },
                     ),
                   ],
