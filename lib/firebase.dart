@@ -65,11 +65,12 @@ Future<void> postCommProperty(String category, String postBy, String sr_radio, S
 }
 
 Future<void> FavoriteProperty(String category, String postBy, String projectName, String city, String price, String con_status, String first_image) async {
+  var firebaseUser = await FirebaseAuth.instance.currentUser;
+  CollectionReference users2 = FirebaseFirestore.instance.collection('Users12');
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String uid = auth.currentUser.uid.toString();
   CollectionReference property = FirebaseFirestore.instance.collection('favoriteList');
-  //var firebaseUser = await FirebaseAuth.instance.currentUser;
-  //FirebaseAuth auth = FirebaseAuth.instance;
-  //String uid = auth.currentUser.uid.toString();
-  property.document().set({
+  users2.document(firebaseUser.uid).collection('favoriteList').document().set({
     'category': category,
     'posted by': postBy,
     'project name': projectName,
@@ -78,6 +79,16 @@ Future<void> FavoriteProperty(String category, String postBy, String projectName
     'status': con_status,
     'firstImage': first_image
   });
+
+  // property.document().set({
+  //   'category': category,
+  //   'posted by': postBy,
+  //   'project name': projectName,
+  //   'city': city,
+  //   'price': price,
+  //   'status': con_status,
+  //   'firstImage': first_image
+  // });
   // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
   return;
 }

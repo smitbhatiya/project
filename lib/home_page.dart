@@ -13,6 +13,7 @@ import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 
+import 'Model/favorite_button.dart';
 import 'login_page.dart';
 
 class Home extends StatefulWidget {
@@ -96,7 +97,7 @@ class _HomeState extends State<Home> {
                   Text("Get Images")
                 ],
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Multiple_Image_Upload())),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite_Button())),
             ),
             ListTile(
               title: Row(

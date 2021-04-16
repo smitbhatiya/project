@@ -610,6 +610,8 @@ class myHomepage extends StatefulWidget {
 }
 
 class _myHomepageState extends State<myHomepage> {
+  bool isAnimate = false;
+
   final _auth= FirebaseAuth.instance.currentUser;
   String myEmail;
   String myName;
@@ -618,7 +620,8 @@ class _myHomepageState extends State<myHomepage> {
   String doc_id;
   String doc_id1;
   bool f1;
-  String id;
+  //String id;
+  var abc;
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   @override
@@ -776,21 +779,7 @@ class _myHomepageState extends State<myHomepage> {
                                   child: FavoriteButton(
                                     isFavorite: false,
                                     valueChanged: (_isFavorite) {
-                                      f1 = _isFavorite;
-                                      print(f1);
-                                      if(f1==true){
-                                        FavoriteProperty(
-                                            userProfilesList[index]['category'],
-                                            userProfilesList[index]['posted by'],
-                                            userProfilesList[index]['project name'],
-                                            userProfilesList[index]['city'],
-                                            userProfilesList[index]['price'],
-                                            userProfilesList[index]['status'],
-                                            userProfilesList[index]['firstImage']
-                                        );
-
-                                      }
-                                      //else
+                                      // else
                                       //   // if(f1 == false)
                                       //   {
                                       //   FirebaseFirestore.instance
@@ -812,24 +801,42 @@ class _myHomepageState extends State<myHomepage> {
                                       //       });
                                       //   print(id);
                                       // }
-                                      FirebaseFirestore.instance
-                                          .collection('favoriteList')
-                                          .get()
-                                          .then(
-                                              (QuerySnapshot snapshot) => {
-                                            // snapshot.documents.forEach((f) {
-                                            //    id = f.reference.documentID;
-                                            //   //print("documentID---- " + f.reference.documentID);
-                                            //
-                                            // }),
-                                            id = snapshot.docs[index].id,
-                                            FirebaseFirestore.instance.collection('favoriteList').doc(id).delete(),
-                                            snapshot.docs[index].data(),
-                                            // doc_id1 = snapshot.documents[index].documentID,
-                                            // //print(snapshot.documents[index].documentID)
-                                            //print(doc_id1)
-                                          });
-                                      print(id);
+                                      if(_isFavorite==true){
+                                        FavoriteProperty(
+                                            userProfilesList[index]['category'],
+                                            userProfilesList[index]['posted by'],
+                                            userProfilesList[index]['project name'],
+                                            userProfilesList[index]['city'],
+                                            userProfilesList[index]['price'],
+                                            userProfilesList[index]['status'],
+                                            userProfilesList[index]['firstImage']
+                                        );
+
+                                      } else if(_isFavorite==false) {
+                                        FirebaseFirestore.instance
+                                            .collection('Users12')
+                                            .document(FirebaseAuth.instance.currentUser.uid)
+                                            .collection('favoriteList')
+                                            .get()
+                                            .then(
+                                                (QuerySnapshot snapshot) => {
+                                              // snapshot.documents.forEach((f) {
+                                              //    id = f.reference.documentID;
+                                              //   //print("documentID---- " + f.reference.documentID);
+                                              //
+                                              // }),
+                                              // print(snapshot.docs[index].documentID),
+                                              //snapshot.docs[index].data(),
+                                              FirebaseFirestore.instance
+                                                  .collection('Users12')
+                                                  .document(FirebaseAuth.instance.currentUser.uid)
+                                                  .collection('favoriteList').doc(snapshot.docs[index].documentID).delete(),
+                                              // doc_id1 = snapshot.documents[index].documentID,
+                                              // //print(snapshot.documents[index].documentID)
+                                              //print(doc_id1)
+                                            });
+                                        //print(id);
+                                      }
                                     },
                                   ),
                                 )
@@ -1355,5 +1362,11 @@ class _myHomepageState extends State<myHomepage> {
     User _auth = FirebaseAuth.instance.currentUser;
     _auth.sendEmailVerification();
 
+  }
+  _handleAnimation(int index) {
+    setState(() {
+      isAnimate = !isAnimate;
+      print(isAnimate);
+    });
   }
 }
