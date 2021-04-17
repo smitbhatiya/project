@@ -196,10 +196,6 @@ class _PostPropertyState extends State<PostProperty> {
 
     try {
       for (int i = 0; i < _imageList.length; i++) {
-
-        // if(_imageList[i] == null) {
-        //
-        // }
         String fileName = _imageList[i].path;
         final StorageReference storageReference = FirebaseStorage().ref().child("multiple2/$fileName");
 
@@ -207,12 +203,6 @@ class _PostPropertyState extends State<PostProperty> {
 
         final StreamSubscription<StorageTaskEvent> streamSubscription =
         uploadTask.events.listen((event) {
-          // You can use this to notify yourself or your user in any kind of way.
-          // For example: you could use the uploadTask.events stream in a StreamBuilder instead
-          // to show your user what the current status is. In that case, you would not need to cancel any
-          // subscription as StreamBuilder handles this automatically.
-
-          // Here, every StorageTaskEvent concerning the upload is printed to the logs.
           print('EVENT ${event.type}');
         });
 
@@ -224,9 +214,9 @@ class _PostPropertyState extends State<PostProperty> {
         _imageUrls.add(imageUrl); //all all the urls to the list
       }
       //upload the list of imageUrls to firebase as an array
-      await _firestore.collection("users").document().setData({
-        "arrayOfImages": _imageUrls,
-      });
+      // await _firestore.collection("users").document().setData({
+      //   "arrayOfImages": _imageUrls,
+      // });
       postProperty(
                   'Residential',
                   '${owner_builder_broker[selectedIndex]}',
@@ -245,6 +235,24 @@ class _PostPropertyState extends State<PostProperty> {
                   '$_imageUrls',
                   '${_imageUrls[0]}'
                 );
+      usersPostPropertyResi(
+          'Residential',
+          '${owner_builder_broker[selectedIndex]}',
+          '${sell_and_rent[selectedIndex1]}',
+          '$_filters1',
+          '${project_name_controller_r.text}',
+          '${address_controller_r.text}, ${landmark_controller_r.text}, ${city_controller_r.text},  ${state_controller_r.text}',
+          '${landmark_controller_r.text}',
+          '${city_controller_r.text}',
+          '${state_controller_r.text}',
+          '${bhk[selectedIndex2]}',
+          '${area_controller_r.text}',
+          '${price_controller_r.text}',
+          '${project_description_controller_r.text}',
+          '${construction_status[selectedIndex3]}',
+          '$_imageUrls',
+          '${_imageUrls[0]}'
+      );
       //postProperty(category, postBy, sr_radio, pro_type, projectName, address, landmark, city, state, pro_detail, area, price, description, con_status, url_link)
     } catch (e) {
       print(e);

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/call_images.dart';
 import 'package:flutter_app_with_firebase/Model/multiple_image.dart';
 import 'package:flutter_app_with_firebase/Pages/favorite_page.dart';
+import 'package:flutter_app_with_firebase/Pages/favorites_list_page.dart';
 import 'package:flutter_app_with_firebase/Pages/my_home_page.dart';
+import 'package:flutter_app_with_firebase/Pages/my_post.dart';
 import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
 import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
@@ -37,7 +39,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _widgetOptions = <Widget>[
     myHomepage(),
-    Favorite_Page(),
+    MyPost(),
     PostProperty(),
     Search_Page(),
     My_Profile_Page()
@@ -66,8 +68,8 @@ class _HomeState extends State<Home> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(_selectedIndex==1?Icons.favorite_rounded:Icons.favorite_outline_rounded, color: Colors.indigo),
-            label: 'Favorite',
+            icon: Icon(Icons.photo_library_outlined, color: Colors.indigo),
+            label: 'My post',
           ),
           BottomNavigationBarItem(
             icon: Icon(_selectedIndex==2?Icons.add_box_rounded:Icons.add_box_outlined, color: Colors.indigo),
@@ -92,22 +94,12 @@ class _HomeState extends State<Home> {
             ListTile(
               title: Row(
                 children: [
-                  Icon(Icons.image_search_sharp),
+                  Icon(Icons.post_add),
                   SizedBox(width: 25),
-                  Text("Get Images")
+                  Text("Users Post")
                 ],
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite_Button())),
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  Icon(Icons.image),
-                  SizedBox(width: 25),
-                  Text("Get Images")
-                ],
-              ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PostPropertywithProduct())),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MyPost())),
             ),
             ListTile(
               title: Row(
@@ -137,7 +129,7 @@ class _HomeState extends State<Home> {
                   Text("Favorites", style: TextStyle(fontSize: 16))
                 ],
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Favorite_Page())),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavoritePost())),
             ),
             ListTile(
                 title: Row(

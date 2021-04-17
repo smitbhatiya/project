@@ -827,6 +827,7 @@ class _myHomepageState extends State<myHomepage> {
                                               // }),
                                               // print(snapshot.docs[index].documentID),
                                               //snapshot.docs[index].data(),
+                                                  print(snapshot.documents[index].documentID),
                                               FirebaseFirestore.instance
                                                   .collection('Users12')
                                                   .document(FirebaseAuth.instance.currentUser.uid)
