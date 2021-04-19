@@ -610,9 +610,24 @@ class myHomepage extends StatefulWidget {
 }
 
 class _myHomepageState extends State<myHomepage> {
+
+  TextEditingController _searchController = TextEditingController();
+
+  Future resultsLoaded;
+  List _allResults = [];
+  List _resultsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    //_searchController.addListener(_onSearchChanged);
+    fetchDatabaseList();
+    refreshPage();
+  }
+
   bool isAnimate = false;
 
-  final _auth= FirebaseAuth.instance.currentUser;
+  final _auth = FirebaseAuth.instance.currentUser;
   String myEmail;
   String myName;
   String myPhone;
@@ -620,23 +635,20 @@ class _myHomepageState extends State<myHomepage> {
   String doc_id;
   String doc_id1;
   bool f1;
+
   //String id;
   var abc;
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
-  @override
-  void initState() {
-    super.initState();
-    fetchDatabaseList();
-    refreshPage();
-  }
-  Future<Null> refreshPage() async{
+
+  Future<Null> refreshPage() async {
     refreshKey.currentState?.show();
     await Future.delayed(Duration(seconds: 2));
     setState(() {
-      return ;
+      return;
     });
   }
+
   fetchDatabaseList() async {
     dynamic resultant = await DatabaseManager().getUsersList();
 
@@ -653,7 +665,7 @@ class _myHomepageState extends State<myHomepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      body:ListView(
+      body: ListView(
         children: [
           Stack(
             children: [
@@ -676,11 +688,15 @@ class _myHomepageState extends State<myHomepage> {
               Container(
                 margin: EdgeInsets.only(top: 15),
                 // child:
-                child: Center(child: Text("Hello, ${_auth.displayName}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))),
+                child: Center(child: Text("Hello, ${_auth.displayName}",
+                    style: TextStyle(fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white))),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Search_Page()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Search_Page()));
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 80, left: 30, right: 30),
@@ -712,7 +728,6 @@ class _myHomepageState extends State<myHomepage> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-
                         //   var uid =FirebaseAuth.instance.currentUser.uid;
                         //   var _randomId = FirebaseFirestore.instance.collection('propertyDetails').document(uid);
                         //   print(_randomId);
@@ -724,21 +739,22 @@ class _myHomepageState extends State<myHomepage> {
                             .collection('Property Details')
                             .get()
                             .then(
-                              (QuerySnapshot snapshot) => {
+                              (QuerySnapshot snapshot) =>
+                          {
                             // snapshot.documents.forEach((f) {
                             //
                             //   print("documentID---- " + f.reference.documentID);
                             //
                             // }),
                             //     snapshot.documents[index].data(),
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Property_Detail(id:doc_id))),
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) =>
+                                    Property_Detail(id: doc_id))),
                             doc_id = snapshot.documents[index].documentID,
                             //print(snapshot.documents[index].documentID)
                             print(doc_id)
-
                           },
                         );
-
                       },
                       child: Container(
                         margin: EdgeInsets.all(10.0),
@@ -758,8 +774,10 @@ class _myHomepageState extends State<myHomepage> {
                                 Container(
                                   height: 160,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(topLeft: Radius
-                                        .circular(20), topRight: Radius.circular(20)),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius
+                                            .circular(20),
+                                        topRight: Radius.circular(20)),
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.only(
@@ -768,8 +786,11 @@ class _myHomepageState extends State<myHomepage> {
                                     ),
                                     child: Image.network(
                                         userProfilesList[index]['firstImage'],
-                                        width: MediaQuery.of(context).size.width,
-                                        fit:BoxFit.fill
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width,
+                                        fit: BoxFit.fill
                                     ),
                                   ),
                                 ),
@@ -801,7 +822,7 @@ class _myHomepageState extends State<myHomepage> {
                                       //       });
                                       //   print(id);
                                       // }
-                                      if(_isFavorite==true){
+                                      if (_isFavorite == true) {
                                         FavoriteProperty(
                                             userProfilesList[index]['category'],
                                             userProfilesList[index]['posted by'],
@@ -811,15 +832,16 @@ class _myHomepageState extends State<myHomepage> {
                                             userProfilesList[index]['status'],
                                             userProfilesList[index]['firstImage']
                                         );
-
-                                      } else if(_isFavorite==false) {
                                         FirebaseFirestore.instance
                                             .collection('Users12')
-                                            .document(FirebaseAuth.instance.currentUser.uid)
+                                            .document(
+                                            FirebaseAuth.instance.currentUser
+                                                .uid)
                                             .collection('favoriteList')
                                             .get()
                                             .then(
-                                                (QuerySnapshot snapshot) => {
+                                                (QuerySnapshot snapshot) =>
+                                            {
                                               // snapshot.documents.forEach((f) {
                                               //    id = f.reference.documentID;
                                               //   //print("documentID---- " + f.reference.documentID);
@@ -827,11 +849,42 @@ class _myHomepageState extends State<myHomepage> {
                                               // }),
                                               // print(snapshot.docs[index].documentID),
                                               //snapshot.docs[index].data(),
-                                                  print(snapshot.documents[index].documentID),
+                                              snapshot.documents[index]
+                                                  .documentID,
+                                              // doc_id1 = snapshot.documents[index].documentID,
+                                              // //print(snapshot.documents[index].documentID)
+                                              //print(doc_id1)
+                                            });
+                                        //print(id);
+                                      } else if (_isFavorite == false) {
+                                        FirebaseFirestore.instance
+                                            .collection('Users12')
+                                            .document(
+                                            FirebaseAuth.instance.currentUser
+                                                .uid)
+                                            .collection('favoriteList')
+                                            .get()
+                                            .then(
+                                                (QuerySnapshot snapshot) =>
+                                            {
+                                              // snapshot.documents.forEach((f) {
+                                              //    id = f.reference.documentID;
+                                              //   //print("documentID---- " + f.reference.documentID);
+                                              //
+                                              // }),
+                                              // print(snapshot.docs[index].documentID),
+                                              //snapshot.docs[index].data(),
+                                              print(snapshot.documents[index]
+                                                  .documentID),
                                               FirebaseFirestore.instance
                                                   .collection('Users12')
-                                                  .document(FirebaseAuth.instance.currentUser.uid)
-                                                  .collection('favoriteList').doc(snapshot.docs[index].documentID).delete(),
+                                                  .document(
+                                                  FirebaseAuth.instance
+                                                      .currentUser.uid)
+                                                  .collection('favoriteList')
+                                                  .doc(snapshot.docs[index]
+                                                  .documentID)
+                                                  .delete(),
                                               // doc_id1 = snapshot.documents[index].documentID,
                                               // //print(snapshot.documents[index].documentID)
                                               //print(doc_id1)
@@ -853,8 +906,11 @@ class _myHomepageState extends State<myHomepage> {
                                     width: MediaQuery
                                         .of(context)
                                         .size
-                                        .width/2,
-                                    child: Text(userProfilesList[index]['project name'], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                                        .width / 2,
+                                    child: Text(
+                                        userProfilesList[index]['project name'],
+                                        style: TextStyle(fontSize: 25,
+                                            fontWeight: FontWeight.bold)),
                                   ),
                                 ),
                                 Expanded(
@@ -865,8 +921,12 @@ class _myHomepageState extends State<myHomepage> {
                                       width: MediaQuery
                                           .of(context)
                                           .size
-                                          .width/2,
-                                      child: Text(userProfilesList[index]['price'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigo)),
+                                          .width / 2,
+                                      child: Text(
+                                          userProfilesList[index]['price'],
+                                          style: TextStyle(fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.indigo)),
                                     )
                                 )
                               ],
@@ -878,12 +938,15 @@ class _myHomepageState extends State<myHomepage> {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Posted by : ",
-                                      style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                      style: TextStyle(fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
                                           // text: "Builder",
                                             text: userProfilesList[index]['posted by'],
-                                            style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400)
+                                            style: TextStyle(fontSize: 16,
+                                                fontWeight: FontWeight.w400)
                                         )
                                       ]
                                   ),
@@ -896,11 +959,15 @@ class _myHomepageState extends State<myHomepage> {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Location : ",
-                                      style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                      style: TextStyle(fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
                                             text: userProfilesList[index]['city'],
-                                            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            style: TextStyle(fontSize: 18,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)
                                         )
                                       ]
                                   ),
@@ -913,11 +980,15 @@ class _myHomepageState extends State<myHomepage> {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Type : ",
-                                      style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                      style: TextStyle(fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
                                             text: userProfilesList[index]['category'],
-                                            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            style: TextStyle(fontSize: 18,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)
                                         )
                                       ]
                                   ),
@@ -930,11 +1001,15 @@ class _myHomepageState extends State<myHomepage> {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Status : ",
-                                      style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                      style: TextStyle(fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
                                             text: userProfilesList[index]['status'],
-                                            style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            style: TextStyle(fontSize: 18,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)
                                         )
                                       ]
                                   ),
@@ -945,7 +1020,6 @@ class _myHomepageState extends State<myHomepage> {
                         ),
                       ),
                     );
-
                   }),
               onRefresh: refreshPage,
             ),
@@ -1334,36 +1408,39 @@ class _myHomepageState extends State<myHomepage> {
     //   ],
     // ),
   }
+
   Future<bool> signOut() async {
-    SharedPreferences prefs=await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     //prefs.remove('phoneNumber');
     await FirebaseAuth.instance.signOut();
   }
+
   _fetch() async {
     final firebaseUser = await FirebaseAuth.instance.currentUser;
-    if(firebaseUser!=null){
+    if (firebaseUser != null) {
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(firebaseUser.uid)
           .get()
-          .then((value){
-        myEmail=value.data()['email'];
-        myName=value.data()['name'];
-        myPhone=value.data()['mobileNumber'];
+          .then((value) {
+        myEmail = value.data()['email'];
+        myName = value.data()['name'];
+        myPhone = value.data()['mobileNumber'];
         // print(myEmail);
         // print(myName);
         // print(myPhone);
-      }).catchError((e){
+      }).catchError((e) {
         print(e);
       });
     }
   }
-  Future<void> resetpassword(){
+
+  Future<void> resetpassword() {
     User _auth = FirebaseAuth.instance.currentUser;
     _auth.sendEmailVerification();
-
   }
+
   _handleAnimation(int index) {
     setState(() {
       isAnimate = !isAnimate;

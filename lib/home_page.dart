@@ -7,6 +7,7 @@ import 'package:flutter_app_with_firebase/Model/call_images.dart';
 import 'package:flutter_app_with_firebase/Model/multiple_image.dart';
 import 'package:flutter_app_with_firebase/Pages/favorite_page.dart';
 import 'package:flutter_app_with_firebase/Pages/favorites_list_page.dart';
+import 'package:flutter_app_with_firebase/Pages/filter_data.dart';
 import 'package:flutter_app_with_firebase/Pages/my_home_page.dart';
 import 'package:flutter_app_with_firebase/Pages/my_post.dart';
 import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
@@ -91,6 +92,16 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
         child: ListView(
           children: [
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.filter_alt),
+                  SizedBox(width: 25),
+                  Text("Filtered data")
+                ],
+              ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Filter_Data())),
+            ),
             ListTile(
               title: Row(
                 children: [
