@@ -16,7 +16,9 @@ class FavoritePostManager {
     try {
       await favoritepostList.getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {
-          itemsList.add(element.data());
+          if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
+            itemsList.add(element.data());
+          }
         });
       });
       return itemsList;

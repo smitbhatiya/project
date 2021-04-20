@@ -634,7 +634,7 @@ class _myHomepageState extends State<myHomepage> {
   List userProfilesList = [];
   String doc_id;
   String doc_id1;
-  bool f1;
+  String f1;
 
   //String id;
   var abc;
@@ -822,76 +822,100 @@ class _myHomepageState extends State<myHomepage> {
                                       //       });
                                       //   print(id);
                                       // }
-                                      if (_isFavorite == true) {
-                                        FavoriteProperty(
-                                            userProfilesList[index]['category'],
-                                            userProfilesList[index]['posted by'],
-                                            userProfilesList[index]['project name'],
-                                            userProfilesList[index]['city'],
-                                            userProfilesList[index]['price'],
-                                            userProfilesList[index]['status'],
-                                            userProfilesList[index]['firstImage']
-                                        );
+                                      //   if (_isFavorite == true) {
+                                      //     FavoriteProperty(
+                                      //         userProfilesList[index]['category'],
+                                      //         userProfilesList[index]['posted by'],
+                                      //         userProfilesList[index]['project name'],
+                                      //         userProfilesList[index]['city'],
+                                      //         userProfilesList[index]['price'],
+                                      //         userProfilesList[index]['status'],
+                                      //         userProfilesList[index]['firstImage']
+                                      //     );
+                                      //     FirebaseFirestore.instance
+                                      //         .collection('Users12')
+                                      //         .document(
+                                      //         FirebaseAuth.instance.currentUser
+                                      //             .uid)
+                                      //         .collection('favoriteList')
+                                      //         .get()
+                                      //         .then(
+                                      //             (QuerySnapshot snapshot) =>
+                                      //         {
+                                      //           // snapshot.documents.forEach((f) {
+                                      //           //    id = f.reference.documentID;
+                                      //           //   //print("documentID---- " + f.reference.documentID);
+                                      //           //
+                                      //           // }),
+                                      //           // print(snapshot.docs[index].documentID),
+                                      //           //snapshot.docs[index].data(),
+                                      //           snapshot.documents[index]
+                                      //               .documentID,
+                                      //           // doc_id1 = snapshot.documents[index].documentID,
+                                      //           // //print(snapshot.documents[index].documentID)
+                                      //           //print(doc_id1)
+                                      //         });
+                                      //     //print(id);
+                                      //   } else if (_isFavorite == false) {
+                                      //     FirebaseFirestore.instance
+                                      //         .collection('Users12')
+                                      //         .document(
+                                      //         FirebaseAuth.instance.currentUser
+                                      //             .uid)
+                                      //         .collection('favoriteList')
+                                      //         .get()
+                                      //         .then(
+                                      //             (QuerySnapshot snapshot) =>
+                                      //         {
+                                      //           // snapshot.documents.forEach((f) {
+                                      //           //    id = f.reference.documentID;
+                                      //           //   //print("documentID---- " + f.reference.documentID);
+                                      //           //
+                                      //           // }),
+                                      //           // print(snapshot.docs[index].documentID),
+                                      //           //snapshot.docs[index].data(),
+                                      //           print(snapshot.documents[index]
+                                      //               .documentID),
+                                      //           FirebaseFirestore.instance
+                                      //               .collection('Users12')
+                                      //               .document(
+                                      //               FirebaseAuth.instance
+                                      //                   .currentUser.uid)
+                                      //               .collection('favoriteList')
+                                      //               .doc(snapshot.docs[index]
+                                      //               .documentID)
+                                      //               .delete(),
+                                      //           // doc_id1 = snapshot.documents[index].documentID,
+                                      //           // //print(snapshot.documents[index].documentID)
+                                      //           //print(doc_id1)
+                                      //         });
+                                      //     //print(id);
+                                      //   }
+                                      // },}
+                                      if(_isFavorite == true) {
                                         FirebaseFirestore.instance
-                                            .collection('Users12')
-                                            .document(
-                                            FirebaseAuth.instance.currentUser
-                                                .uid)
-                                            .collection('favoriteList')
-                                            .get()
-                                            .then(
-                                                (QuerySnapshot snapshot) =>
-                                            {
-                                              // snapshot.documents.forEach((f) {
-                                              //    id = f.reference.documentID;
-                                              //   //print("documentID---- " + f.reference.documentID);
-                                              //
-                                              // }),
-                                              // print(snapshot.docs[index].documentID),
-                                              //snapshot.docs[index].data(),
-                                              snapshot.documents[index]
-                                                  .documentID,
-                                              // doc_id1 = snapshot.documents[index].documentID,
-                                              // //print(snapshot.documents[index].documentID)
-                                              //print(doc_id1)
-                                            });
-                                        //print(id);
-                                      } else if (_isFavorite == false) {
-                                        FirebaseFirestore.instance
-                                            .collection('Users12')
-                                            .document(
-                                            FirebaseAuth.instance.currentUser
-                                                .uid)
-                                            .collection('favoriteList')
-                                            .get()
-                                            .then(
-                                                (QuerySnapshot snapshot) =>
-                                            {
-                                              // snapshot.documents.forEach((f) {
-                                              //    id = f.reference.documentID;
-                                              //   //print("documentID---- " + f.reference.documentID);
-                                              //
-                                              // }),
-                                              // print(snapshot.docs[index].documentID),
-                                              //snapshot.docs[index].data(),
-                                              print(snapshot.documents[index]
-                                                  .documentID),
-                                              FirebaseFirestore.instance
-                                                  .collection('Users12')
-                                                  .document(
-                                                  FirebaseAuth.instance
-                                                      .currentUser.uid)
-                                                  .collection('favoriteList')
-                                                  .doc(snapshot.docs[index]
-                                                  .documentID)
-                                                  .delete(),
-                                              // doc_id1 = snapshot.documents[index].documentID,
-                                              // //print(snapshot.documents[index].documentID)
-                                              //print(doc_id1)
-                                            });
-                                        //print(id);
+                                                .collection('Property Details')
+                                                .get()
+                                                .then(
+                                                    (QuerySnapshot snapshot) =>
+                                                {
+                                                  // snapshot.documents.forEach((f) {
+                                                  //    id = f.reference.documentID;
+                                                  //   //print("documentID---- " + f.reference.documentID);
+                                                  //
+                                                  // }),
+                                                  // print(snapshot.docs[index].documentID),
+                                                  //snapshot.docs[index].data(),
+                                                  f1 = snapshot.documents[index].documentID,
+                                                  // doc_id1 = snapshot.documents[index].documentID,
+                                                  // //print(snapshot.documents[index].documentID)
+                                                  Firestore.instance.collection('Property Details').doc(f1).set({
+                                                    'favorites': ['$f1']
+                                                  },SetOptions(merge: true)).then((value) =>
+                                                  {})
+                                                });
                                       }
-                                    },
+                                    }
                                   ),
                                 )
                               ],

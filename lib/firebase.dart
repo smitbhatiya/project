@@ -13,11 +13,11 @@ Future<void> userSetup(String displayName, String email, String phoneNumber, Str
   return;
 }
 
-Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link, String first_image) async {
+Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link, String first_image, String user_id) async {
   CollectionReference property = FirebaseFirestore.instance.collection('Property Details');
-  //var firebaseUser = await FirebaseAuth.instance.currentUser;
-  //FirebaseAuth auth = FirebaseAuth.instance;
-  //String uid = auth.currentUser.uid.toString();
+  var firebaseUser = await FirebaseAuth.instance.currentUser;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String uid = auth.currentUser.uid.toString();
   property.document().set({
     'category': category,
     'posted by': postBy,
@@ -34,7 +34,8 @@ Future<void> postProperty(String category, String postBy, String sr_radio, Strin
     'description': description,
     'status': con_status,
     'url': url_link,
-    'firstImage': first_image
+    'firstImage': first_image,
+    'postById': user_id
   });
   // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
   return;

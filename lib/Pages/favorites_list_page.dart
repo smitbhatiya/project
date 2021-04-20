@@ -3,7 +3,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/database_manager.dart';
-import 'package:flutter_app_with_firebase/Model/favorite_post_List.dart';
+import 'package:flutter_app_with_firebase/Model/favorite_post_manager.dart';
 import 'package:flutter_app_with_firebase/Model/userpost_manager.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';

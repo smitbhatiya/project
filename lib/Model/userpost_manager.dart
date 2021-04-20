@@ -7,7 +7,7 @@ class UserpostManager {
   //FirebaseFirestore.instance.collection('Users12').document(firebaseUser.uid).collection('usersPost');
   final CollectionReference postList =
   FirebaseFirestore.instance
-      .collection('Users12').document(FirebaseAuth.instance.currentUser.uid).collection('usersPost');
+      .collection('Property Details');
 
 
   Future getUsersPostList() async {
@@ -16,7 +16,9 @@ class UserpostManager {
     try {
       await postList.getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {
-          itemsList.add(element.data());
+          if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
+            itemsList.add(element.data());
+          }
         });
       });
       return itemsList;
