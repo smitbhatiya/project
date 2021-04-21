@@ -237,24 +237,6 @@ class _PostPropertyState extends State<PostProperty> {
                   '${_imageUrls[0]}',
                   '${FirebaseAuth.instance.currentUser.uid.toString()}',
                 );
-      usersPostPropertyResi(
-          'Residential',
-          '${owner_builder_broker[selectedIndex]}',
-          '${sell_and_rent[selectedIndex1]}',
-          '$_filters1',
-          '${project_name_controller_r.text}',
-          '${address_controller_r.text}, ${landmark_controller_r.text}, ${city_controller_r.text},  ${state_controller_r.text}',
-          '${landmark_controller_r.text}',
-          '${city_controller_r.text}',
-          '${state_controller_r.text}',
-          '${bhk[selectedIndex2]}',
-          '${area_controller_r.text}',
-          '${price_controller_r.text}',
-          '${project_description_controller_r.text}',
-          '${construction_status[selectedIndex3]}',
-          '$_imageUrls',
-          '${_imageUrls[0]}'
-      );
       //postProperty(category, postBy, sr_radio, pro_type, projectName, address, landmark, city, state, pro_detail, area, price, description, con_status, url_link)
     } catch (e) {
       print(e);

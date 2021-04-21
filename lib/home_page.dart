@@ -14,6 +14,7 @@ import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
 import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
+import 'package:flutter_app_with_firebase/Search_Function/search_list.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 
 import 'Model/favorite_button.dart';
@@ -69,7 +70,7 @@ class _HomeState extends State<Home> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_library_outlined, color: Colors.indigo),
+            icon: Icon(_selectedIndex==1?Icons.photo_library:Icons.photo_library_outlined, color: Colors.indigo),
             label: 'My post',
           ),
           BottomNavigationBarItem(
@@ -92,6 +93,16 @@ class _HomeState extends State<Home> {
       drawer: Drawer(
         child: ListView(
           children: [
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.filter),
+                  SizedBox(width: 25),
+                  Text("Filteration")
+                ],
+              ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Filteration_Page())),
+            ),
             ListTile(
               title: Row(
                 children: [

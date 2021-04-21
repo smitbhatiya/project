@@ -910,10 +910,22 @@ class _myHomepageState extends State<myHomepage> {
                                                   // doc_id1 = snapshot.documents[index].documentID,
                                                   // //print(snapshot.documents[index].documentID)
                                                   Firestore.instance.collection('Property Details').doc(f1).set({
-                                                    'favorites': ['$f1']
+                                                    'favorites': FieldValue.arrayUnion(['${FirebaseAuth.instance.currentUser.uid}']),
+                                                    'propertyId': '$f1'
                                                   },SetOptions(merge: true)).then((value) =>
                                                   {})
                                                 });
+                                      } else {
+                                        FirebaseFirestore.instance
+                                            .collection('Property Details')
+                                            .get()
+                                            .then(
+                                                (QuerySnapshot snapshot) => {
+                                                  f1 = snapshot.documents[index].documentID,
+                                                  Firestore.instance.collection('Property Details').doc(f1).set({
+                                                    'favorites': FieldValue.arrayRemove(['${FirebaseAuth.instance.currentUser.uid}'])
+                                                  },SetOptions(merge: true)).then((value) => {})
+                                            });
                                       }
                                     }
                                   ),
