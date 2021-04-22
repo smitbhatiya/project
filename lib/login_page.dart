@@ -19,6 +19,7 @@ class _LogIn_PageState extends State<LogIn_Page> {
   TextEditingController p1_cont = TextEditingController();
   String _email, _password;
   String myRole;
+  bool isAnimate = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,10 +83,16 @@ class _LogIn_PageState extends State<LogIn_Page> {
                                 hintStyle: TextStyle(fontSize: 18),
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
-                                prefixIcon: Icon(Icons.lock_outlined)
+                                prefixIcon: Icon(Icons.lock_outlined),
+                              suffixIcon: IconButton(
+                                    icon: Icon(isAnimate == false ? Icons.remove_red_eye_outlined : Icons.remove_red_eye),
+                                    onPressed: () {
+                                      _handleAnimation();
+                                    }
+                                  )
                             ),
                             keyboardType: TextInputType.text,
-                            obscureText: true,
+                            obscureText: isAnimate == false ? true : false,
                             validator: (value)
                             {
                               if(value.isEmpty || value.length<=5)
@@ -208,5 +215,11 @@ class _LogIn_PageState extends State<LogIn_Page> {
         print(e);
       });
     }
+  }
+
+  _handleAnimation() {
+    setState(() {
+      isAnimate = !isAnimate;
+    });
   }
 }
