@@ -604,7 +604,10 @@ import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../login_page.dart';
+
 class myHomepage extends StatefulWidget {
+  //myHomepage({Key key, AuthStatus authStatus}) : super(key: key);
   @override
   _myHomepageState createState() => _myHomepageState();
 }
@@ -688,7 +691,9 @@ class _myHomepageState extends State<myHomepage> {
               Container(
                 margin: EdgeInsets.only(top: 15),
                 // child:
-                child: Center(child: Text("Hello, ${_auth.displayName}",
+                child: Center(child: _auth == null ? Text("Hello, User", style: TextStyle(fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white)) : Text("Hello, ${_auth.displayName}",
                     style: TextStyle(fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.white))),

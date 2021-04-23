@@ -18,6 +18,7 @@ import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/Search_Function/search_list.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Model/favorite_button.dart';
 import 'login_page.dart';
@@ -31,6 +32,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  static Future openEmail({
+    @required String toEmail,
+    @required String subject,
+    @required String body,
+  }) async {
+    final url =
+        'mailto:$toEmail?subject=${Uri.encodeFull(subject)}&body=${Uri.encodeFull(body)}';
+
+    await _launchUrl(url);
+  }
+
+  static Future _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
+
   final _auth = FirebaseAuth.instance.currentUser;
   int _selectedIndex = 0;
   String myEmail;
@@ -175,12 +194,14 @@ class _HomeState extends State<Home> {
             ListTile(
               title: Row(
                 children: [
-                  Icon(Icons.filter),
+                  Icon(Icons.contact_support),
                   SizedBox(width: 25),
-                  Text("Complaint Box")
+                  Text("Complaint via email")
                 ],
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Complaint_Box_Page())),
+              onTap: () {
+                openEmail(toEmail: 'smitbhatiya05999@gmail.com', subject: '', body: '');
+              }
             ),
             ListTile(
               title: Row(
