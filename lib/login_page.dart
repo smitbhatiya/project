@@ -20,6 +20,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
   String _email, _password;
   String myRole;
   bool isAnimate = false;
+  var _auth = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +151,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         child: RaisedButton(
                             color: Colors.indigo,
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                              _auth = null;
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(auth: _auth)));
                             },
                             child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
                         )

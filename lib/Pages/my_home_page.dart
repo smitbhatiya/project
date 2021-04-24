@@ -607,13 +607,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../login_page.dart';
 
 class myHomepage extends StatefulWidget {
+
   //myHomepage({Key key, AuthStatus authStatus}) : super(key: key);
   @override
   _myHomepageState createState() => _myHomepageState();
 }
 
-class _myHomepageState extends State<myHomepage> {
+class _myHomepageState extends State<myHomepage> with RestorationMixin {
 
+  RestorableBool favalue = RestorableBool(false);
   TextEditingController _searchController = TextEditingController();
 
   Future resultsLoaded;
@@ -628,6 +630,12 @@ class _myHomepageState extends State<myHomepage> {
     refreshPage();
   }
 
+  @override
+  void dispose() {
+    favalue.dispose();
+    super.dispose();
+  }
+
   bool isAnimate = false;
 
   final _auth = FirebaseAuth.instance.currentUser;
@@ -638,6 +646,7 @@ class _myHomepageState extends State<myHomepage> {
   String doc_id;
   String doc_id1;
   String f1;
+  bool _favStatus=false;
 
   //String id;
   var abc;
@@ -663,6 +672,14 @@ class _myHomepageState extends State<myHomepage> {
       });
     }
   }
+
+  void setFav(String name,bool _currentFavStatus) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(name,!_currentFavStatus);
+    setState(() {});
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -896,7 +913,10 @@ class _myHomepageState extends State<myHomepage> {
                                       //         });
                                       //     //print(id);
                                       //   }
-                                      // },}
+                                      // setState(() {
+                                      //   favvalue.value = _isFavorite;
+                                      //   print(favvalue.value);
+                                      // });
                                       if(_isFavorite == true) {
                                         FirebaseFirestore.instance
                                                 .collection('Property Details')
@@ -920,6 +940,7 @@ class _myHomepageState extends State<myHomepage> {
                                                   },SetOptions(merge: true)).then((value) =>
                                                   {})
                                                 });
+                                        setFav("favorite", _isFavorite);
                                       } else {
                                         FirebaseFirestore.instance
                                             .collection('Property Details')
@@ -1487,5 +1508,15 @@ class _myHomepageState extends State<myHomepage> {
       isAnimate = !isAnimate;
       print(isAnimate);
     });
+  }
+
+  @override
+  // TODO: implement restorationId
+  String get restorationId => "favoritetest";
+
+  @override
+  void restoreState(RestorationBucket oldBucket, bool initialRestore) {
+    // TODO: implement restoreState
+    registerForRestoration(favalue, restorationId);
   }
 }

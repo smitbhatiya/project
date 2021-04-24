@@ -24,7 +24,9 @@ import 'Model/favorite_button.dart';
 import 'login_page.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key, this.user}) : super(key: key);
+  var auth;
+
+  Home({Key key, this.user, this.auth}) : super(key: key);
   final FirebaseUser user;
 
   @override
@@ -44,13 +46,18 @@ class _HomeState extends State<Home> {
     await _launchUrl(url);
   }
 
+  static Future openPhoneCall({@required String phoneNumber}) async {
+    final url = 'tel:$phoneNumber';
+
+    await _launchUrl(url);
+  }
+
   static Future _launchUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     }
   }
 
-  final _auth = FirebaseAuth.instance.currentUser;
   int _selectedIndex = 0;
   String myEmail;
 
@@ -153,6 +160,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
@@ -202,6 +210,18 @@ class _HomeState extends State<Home> {
               onTap: () {
                 openEmail(toEmail: 'smitbhatiya05999@gmail.com', subject: '', body: '');
               }
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.call),
+                  SizedBox(width: 25),
+                  Text("Contact us"),
+                ],
+              ),
+              onTap: () {
+                openPhoneCall(phoneNumber: '(+91)9106612550');
+              },
             ),
             ListTile(
               title: Row(
