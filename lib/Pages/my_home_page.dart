@@ -647,6 +647,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   String doc_id1;
   String f1;
   bool _favStatus=false;
+  List<String> favoritesList = [];
 
   //String id;
   var abc;
@@ -822,101 +823,6 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                   child: FavoriteButton(
                                     isFavorite: false,
                                     valueChanged: (_isFavorite) {
-                                      // else
-                                      //   // if(f1 == false)
-                                      //   {
-                                      //   FirebaseFirestore.instance
-                                      //       .collection('favoriteList')
-                                      //       .get()
-                                      //       .then(
-                                      //           (QuerySnapshot snapshot) => {
-                                      //         // snapshot.documents.forEach((f) {
-                                      //         //    id = f.reference.documentID;
-                                      //         //   //print("documentID---- " + f.reference.documentID);
-                                      //         //
-                                      //         // }),
-                                      //             id = snapshot.documents[index].documentID,
-                                      //           FirebaseFirestore.instance.collection('favoriteList').doc(id).delete(),
-                                      //             snapshot.documents[index].data(),
-                                      //         // doc_id1 = snapshot.documents[index].documentID,
-                                      //         // //print(snapshot.documents[index].documentID)
-                                      //         //print(doc_id1)
-                                      //       });
-                                      //   print(id);
-                                      // }
-                                      //   if (_isFavorite == true) {
-                                      //     FavoriteProperty(
-                                      //         userProfilesList[index]['category'],
-                                      //         userProfilesList[index]['posted by'],
-                                      //         userProfilesList[index]['project name'],
-                                      //         userProfilesList[index]['city'],
-                                      //         userProfilesList[index]['price'],
-                                      //         userProfilesList[index]['status'],
-                                      //         userProfilesList[index]['firstImage']
-                                      //     );
-                                      //     FirebaseFirestore.instance
-                                      //         .collection('Users12')
-                                      //         .document(
-                                      //         FirebaseAuth.instance.currentUser
-                                      //             .uid)
-                                      //         .collection('favoriteList')
-                                      //         .get()
-                                      //         .then(
-                                      //             (QuerySnapshot snapshot) =>
-                                      //         {
-                                      //           // snapshot.documents.forEach((f) {
-                                      //           //    id = f.reference.documentID;
-                                      //           //   //print("documentID---- " + f.reference.documentID);
-                                      //           //
-                                      //           // }),
-                                      //           // print(snapshot.docs[index].documentID),
-                                      //           //snapshot.docs[index].data(),
-                                      //           snapshot.documents[index]
-                                      //               .documentID,
-                                      //           // doc_id1 = snapshot.documents[index].documentID,
-                                      //           // //print(snapshot.documents[index].documentID)
-                                      //           //print(doc_id1)
-                                      //         });
-                                      //     //print(id);
-                                      //   } else if (_isFavorite == false) {
-                                      //     FirebaseFirestore.instance
-                                      //         .collection('Users12')
-                                      //         .document(
-                                      //         FirebaseAuth.instance.currentUser
-                                      //             .uid)
-                                      //         .collection('favoriteList')
-                                      //         .get()
-                                      //         .then(
-                                      //             (QuerySnapshot snapshot) =>
-                                      //         {
-                                      //           // snapshot.documents.forEach((f) {
-                                      //           //    id = f.reference.documentID;
-                                      //           //   //print("documentID---- " + f.reference.documentID);
-                                      //           //
-                                      //           // }),
-                                      //           // print(snapshot.docs[index].documentID),
-                                      //           //snapshot.docs[index].data(),
-                                      //           print(snapshot.documents[index]
-                                      //               .documentID),
-                                      //           FirebaseFirestore.instance
-                                      //               .collection('Users12')
-                                      //               .document(
-                                      //               FirebaseAuth.instance
-                                      //                   .currentUser.uid)
-                                      //               .collection('favoriteList')
-                                      //               .doc(snapshot.docs[index]
-                                      //               .documentID)
-                                      //               .delete(),
-                                      //           // doc_id1 = snapshot.documents[index].documentID,
-                                      //           // //print(snapshot.documents[index].documentID)
-                                      //           //print(doc_id1)
-                                      //         });
-                                      //     //print(id);
-                                      //   }
-                                      // setState(() {
-                                      //   favvalue.value = _isFavorite;
-                                      //   print(favvalue.value);
-                                      // });
                                       if(_isFavorite == true) {
                                         FirebaseFirestore.instance
                                                 .collection('Property Details')
@@ -932,15 +838,12 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                                   // print(snapshot.docs[index].documentID),
                                                   //snapshot.docs[index].data(),
                                                   f1 = snapshot.documents[index].documentID,
-                                                  // doc_id1 = snapshot.documents[index].documentID,
-                                                  // //print(snapshot.documents[index].documentID)
                                                   Firestore.instance.collection('Property Details').doc(f1).set({
                                                     'favorites': FieldValue.arrayUnion(['${FirebaseAuth.instance.currentUser.uid}']),
                                                     'propertyId': '$f1'
                                                   },SetOptions(merge: true)).then((value) =>
                                                   {})
                                                 });
-                                        setFav("favorite", _isFavorite);
                                       } else {
                                         FirebaseFirestore.instance
                                             .collection('Property Details')
