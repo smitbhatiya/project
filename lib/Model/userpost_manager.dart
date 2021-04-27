@@ -12,7 +12,6 @@ class UserpostManager {
 
   Future getUsersPostList() async {
     List itemsList = [];
-
     try {
       await postList.getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {

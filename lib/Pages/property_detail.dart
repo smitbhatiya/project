@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Pages/review_page.dart';
 
 class Property_Detail extends StatefulWidget {
   final String id;
@@ -104,6 +105,12 @@ class _Property_DetailState extends State<Property_Detail> {
                         return Text("${widget.id}");
                         },
                     ),
+                    IconButton(
+                      icon: Icon(Icons.message),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => review_page(id1: widget.id)));
+                      },
+                    )
                   ],
                 ),
               ],

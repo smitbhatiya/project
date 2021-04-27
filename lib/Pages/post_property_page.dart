@@ -313,6 +313,7 @@ class _PostPropertyState extends State<PostProperty> {
   TextEditingController area_controller_c = TextEditingController();
   TextEditingController price_controller_c = TextEditingController();
   TextEditingController project_description_controller_c = TextEditingController();
+  String f1;
 
   @override
   Widget build(BuildContext context) {
@@ -692,6 +693,38 @@ class _PostPropertyState extends State<PostProperty> {
                                   onPressed: () {
                                     //uploadImageToFirebase(context);
                                     uploadMultipleImages();
+                                    StreamBuilder<QuerySnapshot> (
+                                        stream: FirebaseFirestore.instance.collection('Property Details').snapshots(),
+                                        builder: (context, snapshot) {
+                                          return ListView.builder(
+                                              itemCount: snapshot.data.docs.length,
+                                              // ignore: missing_return
+                                              itemBuilder: (context, index) {
+                                                  //DocumentSnapshot data = snapshot.data.docs[index];
+                                                  FirebaseFirestore.instance
+                                                      .collection('Property Details')
+                                                      .get()
+                                                      .then(
+                                                          (QuerySnapshot snapshot) =>
+                                                      {
+                                                        // snapshot.documents.forEach((f) {
+                                                        //    id = f.reference.documentID;
+                                                        //   //print("documentID---- " + f.reference.documentID);
+                                                        //
+                                                        // }),
+                                                        // print(snapshot.docs[index].documentID),
+                                                        //snapshot.docs[index].data(),
+                                                        f1 = snapshot.documents[index].documentID,
+                                                        Firestore.instance.collection('Property Details').doc(f1).set({
+                                                          //'favorites': FieldValue.arrayUnion(['${FirebaseAuth.instance.currentUser.uid}']),
+                                                          'propertyId': '$f1'
+                                                        },SetOptions(merge: true)).then((value) =>
+                                                        {})
+                                                      });
+                                              }
+                                          );
+                                        }
+                                    );
                                     Navigator.pushReplacement(
                                         context, MaterialPageRoute(builder: (context) => Home()));
                                   },
