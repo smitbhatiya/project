@@ -960,25 +960,38 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                 )
                             ),
                             SizedBox(height: 7),
-                            Container(
-                                alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(left: 13),
-                                child: RichText(
-                                  text: TextSpan(
-                                      text: "Status : ",
-                                      style: TextStyle(fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700),
-                                      children: [
-                                        TextSpan(
-                                            text: userProfilesList[index]['status'],
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(left: 13),
+                                      child: RichText(
+                                        text: TextSpan(
+                                            text: "Status : ",
                                             style: TextStyle(fontSize: 18,
                                                 color: Colors.black,
-                                                fontWeight: FontWeight.w400)
-                                        )
-                                      ]
+                                                fontWeight: FontWeight.w700),
+                                            children: [
+                                              TextSpan(
+                                                  text: userProfilesList[index]['status'],
+                                                  style: TextStyle(fontSize: 18,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w400)
+                                              )
+                                            ]
+                                        ),
+                                      )
                                   ),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                      alignment: Alignment.topRight,
+                                      margin: EdgeInsets.only(right: 13),
+                                      child: Text(userProfilesList[index]['markAsSold'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: userProfilesList[index]['markAsSold']=='Sold' ? Colors.red : Colors.green),),
+                                    )
                                 )
+                              ],
                             ),
 
                           ],

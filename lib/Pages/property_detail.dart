@@ -110,6 +110,14 @@ class _Property_DetailState extends State<Property_Detail> {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => review_page(id1: widget.id)));
                       },
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
+                          'markAsSold': 'Sold'
+                        });
+                      },
+                      child: Text("Mark as sold"),
                     )
                   ],
                 ),
