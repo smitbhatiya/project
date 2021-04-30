@@ -19,7 +19,7 @@ class ReviewManager {
   Future getReviewList() async {
     List itemsList = [];
     try {
-      await reviewList.doc('eEty6OuU1NazQC4fZMnp').collection('reviewBox').getDocuments().then((querySnapshot) {
+      await reviewList.doc('HFEHYd2RVWHWFS8BuHBm').collection('reviewBox').getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {
           // if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
           //   itemsList.add(element.data());
