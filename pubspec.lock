@@ -217,7 +217,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.8"
+    version: "6.0.16"
   firebase_picture_uploader:
     dependency: "direct main"
     description:

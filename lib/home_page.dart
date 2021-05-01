@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/call_images.dart';
 import 'package:flutter_app_with_firebase/Model/multiple_image.dart';
+import 'package:flutter_app_with_firebase/Notification/FirebaseMessaging.dart';
 import 'package:flutter_app_with_firebase/Pages/complaint_page.dart';
 import 'package:flutter_app_with_firebase/Pages/favorite_page.dart';
 import 'package:flutter_app_with_firebase/Pages/favorites_list_page.dart';
@@ -166,6 +167,14 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         elevation: 0.0,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FirebaseMessagingDemo()));
+              }
+          )
+        ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
 

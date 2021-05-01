@@ -282,7 +282,7 @@ class _review_pageState extends State<review_page> {
           backgroundColor: Colors.indigo,
         ),
         // ignore: unrelated_type_equality_checks
-        body: postReviewList == 0 ? Container() : StreamBuilder<QuerySnapshot> (
+        body: StreamBuilder<QuerySnapshot> (
           stream: FirebaseFirestore.instance.collection('Property Details').doc(widget.id1).collection('reviewBox').snapshots(),
           builder: (context, snapshot) {
             return Column(
@@ -299,7 +299,7 @@ class _review_pageState extends State<review_page> {
                   scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: postReviewList.length,
+                  itemCount: null == postReviewList ? 0 : postReviewList.length,
                   itemBuilder: (context, index) {
                   DocumentSnapshot data = snapshot.data.docs[index];
                   return Container(
@@ -351,7 +351,7 @@ class ReviewManager {
   Future getReviewList() async {
     List itemsList = [];
     try {
-      await reviewList.doc(review_page().id1).collection('reviewBox').getDocuments().then((querySnapshot) {
+      await reviewList.doc('HFEHYd2RVWHWFS8BuHBm').collection('reviewBox').getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {
           // if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
           //   itemsList.add(element.data());
