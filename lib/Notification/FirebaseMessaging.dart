@@ -64,7 +64,7 @@ class _FirebaseMessagingDemoState extends State<FirebaseMessagingDemo> {
         backgroundColor: Colors.indigo,
       ),
       body: ListView.builder(
-        itemCount: null == _messages ? 0 : _messages.length,
+        itemCount: _messages.length,
         itemBuilder: (context, index) {
           return Card(
             child: Padding(

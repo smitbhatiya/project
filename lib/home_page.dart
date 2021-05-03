@@ -1,27 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_with_firebase/Model/call_images.dart';
-import 'package:flutter_app_with_firebase/Model/multiple_image.dart';
 import 'package:flutter_app_with_firebase/Notification/FirebaseMessaging.dart';
-import 'package:flutter_app_with_firebase/Pages/complaint_page.dart';
-import 'package:flutter_app_with_firebase/Pages/favorite_page.dart';
 import 'package:flutter_app_with_firebase/Pages/favorites_list_page.dart';
 import 'package:flutter_app_with_firebase/Pages/filter_data.dart';
 import 'package:flutter_app_with_firebase/Pages/my_home_page.dart';
 import 'package:flutter_app_with_firebase/Pages/my_post.dart';
 import 'package:flutter_app_with_firebase/Pages/my_profile_page.dart';
 import 'package:flutter_app_with_firebase/Pages/post_property_page.dart';
-import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/Search_Function/search_list.dart';
 import 'package:flutter_app_with_firebase/login_page.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'Model/favorite_button.dart';
+import 'Pages/sold_property.dart';
 import 'login_page.dart';
 
 class Home extends StatefulWidget {
@@ -307,6 +300,14 @@ class _HomeState extends State<Home> {
                             MaterialPageRoute(
                                 builder: (context) => LogIn_Page()), (
                             Route<dynamic> route) => false))
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Text("Sold property", style: TextStyle(fontSize: 20))
+                ],
+              ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Sold_Property())),
             )
           ],
         ),

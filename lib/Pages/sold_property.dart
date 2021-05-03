@@ -1,63 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:favorite_button/favorite_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_with_firebase/Model/database_manager.dart';
-import 'package:flutter_app_with_firebase/Model/userpost_manager.dart';
-import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
-import 'package:flutter_app_with_firebase/Pages/search_page.dart';
-import 'package:flutter_app_with_firebase/firebase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class MyPost extends StatefulWidget {
+class Sold_Property extends StatefulWidget {
   @override
-  _MyPostState createState() => _MyPostState();
+  _Sold_PropertyState createState() => _Sold_PropertyState();
 }
 
-class _MyPostState extends State<MyPost> {
-  bool isAnimate = false;
-  List userPostList = [];
+class _Sold_PropertyState extends State<Sold_Property> {
 
-  // ignore: non_constant_identifier_names
-  String doc_id;
+  List soldList = [];
 
-  // ignore: non_constant_identifier_names
-  String doc_id1;
-  String myRole;
-
-  var refreshKey = GlobalKey<RefreshIndicatorState>();
-
-  @override
-  void initState() {
-    super.initState();
-    fetchDatabaseList();
-    refreshPage();
-  }
-
-  Future<Null> refreshPage() async {
-    refreshKey.currentState?.show();
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      return;
-    });
-  }
-
-  fetchDatabaseList() async {
-    dynamic resultant = await UserpostManager().getUsersPostList();
+  fetchSoldList() async {
+    dynamic resultant = await getSoldList();
 
     if (resultant == null) {
       print('Unable to retrieve');
     } else {
       setState(() {
-        userPostList = resultant;
+        soldList = resultant;
       });
     }
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchSoldList();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       body: StreamBuilder<QuerySnapshot> (
         stream: FirebaseFirestore.instance.collection('Property Details').snapshots(),
         builder: (context, snapshot) {
@@ -65,34 +38,10 @@ class _MyPostState extends State<MyPost> {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               physics: ScrollPhysics(),
-              itemCount: userPostList.length,
+              itemCount: soldList.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot data = snapshot.data.docs[index];
-                return GestureDetector(
-                  onTap: () {
-                    FirebaseFirestore.instance
-                        .collection('Property Details')
-                        .get()
-                        .then(
-                          (QuerySnapshot snapshot) =>
-                      {
-                        // snapshot.documents.forEach((f) {
-                        //
-                        //   print("documentID---- " + f.reference.documentID);
-                        //
-                        // }),
-                        //     snapshot.documents[index].data(),
-                        doc_id = userPostList[index]['propertyId'],
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                Property_Detail(id: doc_id))),
-                        //doc_id = snapshot.documents[index].documentID,
-                        //print(snapshot.documents[index].documentID)
-                        print(doc_id)
-                      },
-                    );
-                  },
-                  child: Container(
+                return Container(
                     margin: EdgeInsets.all(10.0),
                     height: 320,
                     width: MediaQuery
@@ -121,7 +70,7 @@ class _MyPostState extends State<MyPost> {
                                   topRight: Radius.circular(20.0),
                                 ),
                                 child: Image.network(
-                                    userPostList[index]['firstImage'],
+                                    soldList[index]['firstImage'],
                                     width: MediaQuery
                                         .of(context)
                                         .size
@@ -144,7 +93,7 @@ class _MyPostState extends State<MyPost> {
                                     .size
                                     .width / 2,
                                 child: Text(
-                                    userPostList[index]['project name'],
+                                    soldList[index]['project name'],
                                     style: TextStyle(fontSize: 25,
                                         fontWeight: FontWeight.bold)),
                               ),
@@ -158,7 +107,7 @@ class _MyPostState extends State<MyPost> {
                                       .of(context)
                                       .size
                                       .width / 2,
-                                  child: Text(userPostList[index]['price'],
+                                  child: Text(soldList[index]['price'],
                                       style: TextStyle(fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.indigo)),
@@ -179,7 +128,7 @@ class _MyPostState extends State<MyPost> {
                                   children: [
                                     TextSpan(
                                       // text: "Builder",
-                                        text: userPostList[index]['posted by'],
+                                        text: soldList[index]['posted by'],
                                         style: TextStyle(fontSize: 16,
                                             fontWeight: FontWeight.w400)
                                     )
@@ -199,7 +148,7 @@ class _MyPostState extends State<MyPost> {
                                       fontWeight: FontWeight.w700),
                                   children: [
                                     TextSpan(
-                                        text: userPostList[index]['city'],
+                                        text: soldList[index]['city'],
                                         style: TextStyle(fontSize: 18,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w400)
@@ -220,7 +169,7 @@ class _MyPostState extends State<MyPost> {
                                       fontWeight: FontWeight.w700),
                                   children: [
                                     TextSpan(
-                                        text: userPostList[index]['category'],
+                                        text: soldList[index]['category'],
                                         style: TextStyle(fontSize: 18,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w400)
@@ -230,35 +179,67 @@ class _MyPostState extends State<MyPost> {
                             )
                         ),
                         SizedBox(height: 7),
-                        Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
-                            child: RichText(
-                              text: TextSpan(
-                                  text: "Status : ",
-                                  style: TextStyle(fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700),
-                                  children: [
-                                    TextSpan(
-                                        text: userPostList[index]['status'],
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(left: 13),
+                                  child: RichText(
+                                    text: TextSpan(
+                                        text: "Status : ",
                                         style: TextStyle(fontSize: 18,
                                             color: Colors.black,
-                                            fontWeight: FontWeight.w400)
-                                    )
-                                  ]
+                                            fontWeight: FontWeight.w700),
+                                        children: [
+                                          TextSpan(
+                                              text: soldList[index]['status'],
+                                              style: TextStyle(fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)
+                                          )
+                                        ]
+                                    ),
+                                  )
                               ),
+                            ),
+                            Expanded(
+                                child: Container(
+                                  alignment: Alignment.topRight,
+                                  margin: EdgeInsets.only(right: 13),
+                                  child: Text(soldList[index]['markAsSold'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red)),
+                                )
                             )
+                          ],
                         ),
-
                       ],
                     ),
-                  ),
-                );
+                  );
               });
         },
-      )
+      ),
     );
   }
-}
+  final Query query = FirebaseFirestore.instance
+      .collection('Property Details')
+      .where('markAsSold', isEqualTo: 'Sold');
 
+  Future getSoldList() async {
+    List soldItemsList = [];
+
+    try {
+      await query.getDocuments().then((querySnapshot) {
+        querySnapshot.documents.forEach((element) {
+          // if(element.data()['favorites'][0] == FirebaseAuth.instance.currentUser.uid) {
+          //   itemsList.add(element.data());
+          // }
+          soldItemsList.add(element.data());
+        });
+      });
+      return soldItemsList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+}

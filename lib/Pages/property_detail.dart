@@ -14,18 +14,10 @@ class Property_Detail extends StatefulWidget {
 
 class _Property_DetailState extends State<Property_Detail> {
   CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
-  //final String id;
-
-
-  //_Property_DetailState(this.id);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0.0,
-      //   backgroundColor: Colors.indigo,
-      // ),
       backgroundColor: Colors.grey.shade50,
       body: Container(
         child: ListView(
@@ -44,11 +36,8 @@ class _Property_DetailState extends State<Property_Detail> {
                                 enlargeCenterPage: true,
                                 autoPlayInterval: Duration(seconds: 2),
                                 autoPlay: true,
-                                //aspectRatio: 16 / 9,
                                 autoPlayCurve: Curves.fastOutSlowIn,
-                                //enableInfiniteScroll: true,
                                 autoPlayAnimationDuration: Duration(milliseconds: 800),
-                                //viewportFraction: 0.8,
                               ),
                             items: [
                               Container(

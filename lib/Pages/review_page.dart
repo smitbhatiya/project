@@ -165,18 +165,9 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_with_firebase/Model/database_manager.dart';
-import 'package:flutter_app_with_firebase/Model/favorite_post_manager.dart';
-import 'package:flutter_app_with_firebase/Model/review_manager.dart';
-import 'package:flutter_app_with_firebase/Model/userpost_manager.dart';
-import 'package:flutter_app_with_firebase/Pages/my_home_page.dart';
-import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
-import 'package:flutter_app_with_firebase/Pages/search_page.dart';
-import 'package:flutter_app_with_firebase/firebase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class review_page extends StatefulWidget {
   final String id1;
@@ -189,14 +180,10 @@ class review_page extends StatefulWidget {
 class _review_pageState extends State<review_page> {
   bool isAnimate = false;
 
-  //final _auth= FirebaseAuth.instance.currentUser;
   List postReviewList = [];
   String doc_id;
   String doc_id1;
   TextEditingController _textController = TextEditingController();
-  //bool f1;
-  //String id;
-  //var abc;
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   @override
@@ -213,7 +200,7 @@ class _review_pageState extends State<review_page> {
     });
   }
   fetchDatabaseList() async {
-    dynamic resultant = await ReviewManager().getReviewList();
+    dynamic resultant = await getReviewList();
 
     if (resultant == null) {
       print('Unable to retrieve');
@@ -231,6 +218,7 @@ class _review_pageState extends State<review_page> {
   //     postReviewList.insert(0, text);
   //   });
   // }
+  final username = FirebaseAuth.instance.currentUser;
 
   Widget _textComposerWidget() {
     return new IconTheme(
@@ -260,7 +248,9 @@ class _review_pageState extends State<review_page> {
                   //print(widget.id1);
                   Firestore.instance.collection('Property Details').doc(widget.id1).collection('reviewBox').doc().set({
                         "userId": '${FirebaseAuth.instance.currentUser.uid}',
-                        "review": '${_textController.text}'
+                        "review": '${_textController.text}',
+                        "name": '${FirebaseAuth.instance.currentUser.displayName}',
+                        "firstChar": '${FirebaseAuth.instance.currentUser.displayName[0]}',
                       });
                 },
               ),
@@ -271,7 +261,7 @@ class _review_pageState extends State<review_page> {
     );
   }
 
-  CollectionReference _n1 = Firestore.instance.collection('Property Details');
+  final _n1 = Firestore.instance.collection('Property Details');
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +275,7 @@ class _review_pageState extends State<review_page> {
         body: StreamBuilder<QuerySnapshot> (
           stream: FirebaseFirestore.instance.collection('Property Details').doc(widget.id1).collection('reviewBox').snapshots(),
           builder: (context, snapshot) {
-            return Column(
+            return ListView(
               children: [
                 Container(
                   alignment: Alignment.bottomCenter,
@@ -310,13 +300,13 @@ class _review_pageState extends State<review_page> {
                         new Container(
                           margin: const EdgeInsets.only(right: 16.0),
                           child: new CircleAvatar(
-                            child: new Text('A'),
+                            child: new Text(postReviewList[index]['firstChar']),
                           ),
                         ),
                         new Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Text('Abc',
+                            new Text(postReviewList[index]['name'],
                                 style: Theme.of(context).textTheme.subhead),
                             new Container(
                               margin: const EdgeInsets.only(top: 5.0),
@@ -334,24 +324,13 @@ class _review_pageState extends State<review_page> {
         )
     );
   }
-}
-
-class ReviewManager {
-  // var firebaseUser = FirebaseAuth.instance.currentUser;
-  // FirebaseAuth auth = FirebaseAuth.instance;
-  //FirebaseFirestore.instance.collection('Users12').document(firebaseUser.uid).collection('usersPost');
-  //final String review_1 = review_manage.id1;
-  //String id2 = property.widget.id;
-  String id2 = review_page().id1;
   final CollectionReference reviewList =
   FirebaseFirestore.instance
       .collection('Property Details');
-
-
   Future getReviewList() async {
     List itemsList = [];
     try {
-      await reviewList.doc('HFEHYd2RVWHWFS8BuHBm').collection('reviewBox').getDocuments().then((querySnapshot) {
+      await reviewList.doc(widget.id1).collection('reviewBox').getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {
           // if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
           //   itemsList.add(element.data());
@@ -366,3 +345,34 @@ class ReviewManager {
     }
   }
 }
+
+// class ReviewManager {
+//   // var firebaseUser = FirebaseAuth.instance.currentUser;
+//   // FirebaseAuth auth = FirebaseAuth.instance;
+//   //FirebaseFirestore.instance.collection('Users12').document(firebaseUser.uid).collection('usersPost');
+//   //final String review_1 = review_manage.id1;
+//   //String id2 = property.widget.id;
+//   String id2 = review_page().id1;
+//   final CollectionReference reviewList =
+//   FirebaseFirestore.instance
+//       .collection('Property Details');
+//
+//
+//   Future getReviewList() async {
+//     List itemsList = [];
+//     try {
+//       await reviewList.doc('HFEHYd2RVWHWFS8BuHBm').collection('reviewBox').getDocuments().then((querySnapshot) {
+//         querySnapshot.documents.forEach((element) {
+//           // if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
+//           //   itemsList.add(element.data());
+//           // }
+//           itemsList.add(element.data());
+//         });
+//       });
+//       return itemsList;
+//     } catch (e) {
+//       print(e.toString());
+//       return null;
+//     }
+//   }
+// }
