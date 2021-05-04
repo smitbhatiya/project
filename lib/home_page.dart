@@ -18,16 +18,19 @@ import 'Pages/sold_property.dart';
 import 'login_page.dart';
 
 class Home extends StatefulWidget {
-  var auth;
+  bool auth;
 
   Home({Key key, this.user, this.auth}) : super(key: key);
   final FirebaseUser user;
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(auth);
 }
 
 class _HomeState extends State<Home> {
+  bool auth;
+  _HomeState(this.auth);
+
 
   static Future openEmail({
     @required String toEmail,

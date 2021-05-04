@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Pages/review_page.dart';
 
@@ -14,6 +15,7 @@ class Property_Detail extends StatefulWidget {
 
 class _Property_DetailState extends State<Property_Detail> {
   CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
+  //String u2 = FirebaseFirestore.instance.doc(widget.id).get().then((value) => value.data()['postById']) as String;
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +109,18 @@ class _Property_DetailState extends State<Property_Detail> {
                         });
                       },
                       child: Text("Mark as sold"),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Firestore.instance
+                            .collection("chatRoom")
+                            .doc()
+                            .set({
+                          "users" : FieldPath.documentId,
+                          "chatRoomId": "id",
+                        });
+                      },
+                      child: Text("Chat")
                     )
                   ],
                 ),

@@ -20,7 +20,8 @@ class _LogIn_PageState extends State<LogIn_Page> {
   String _email, _password;
   String myRole;
   bool isAnimate = false;
-  var _auth = FirebaseAuth.instance.currentUser;
+  bool SignedIn = false;
+  //var _auth = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -146,17 +147,16 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpPage()));
                       },
                     ),
-                    Container(
-                        alignment: Alignment.bottomRight,
-                        child: RaisedButton(
-                            color: Colors.indigo,
-                            onPressed: () {
-                              _auth = null;
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(auth: _auth)));
-                            },
-                            child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
-                        )
-                    )
+                    // Container(
+                    //     alignment: Alignment.bottomRight,
+                    //     child: RaisedButton(
+                    //         color: Colors.indigo,
+                    //         onPressed: () {
+                    //           Navigator.push(context, MaterialPageRoute(builder: (context) => Home(auth: SignedIn)));
+                    //         },
+                    //         child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
+                    //     )
+                    // )
                   ],
                 ),
               ),
@@ -174,6 +174,9 @@ class _LogIn_PageState extends State<LogIn_Page> {
         UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         if(user!=null) {
           _fetch();
+          setState(() {
+            SignedIn = true;
+          });
         }
       }catch(e){
         print(e.message);
