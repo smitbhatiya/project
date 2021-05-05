@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Pages/brocker_page.dart';
 import 'package:flutter_app_with_firebase/Pages/builder_page.dart';
 import 'package:flutter_app_with_firebase/sign_up.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -136,7 +135,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         child: Text("Login",style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,color: Colors.white),),
                         onPressed:(){
                           signIn();
-                          //Navigator.push(context, MaterialPageRoute(builder: (context)=>drawer()));
                         },
                       ),
                     ),
@@ -147,16 +145,16 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpPage()));
                       },
                     ),
-                    // Container(
-                    //     alignment: Alignment.bottomRight,
-                    //     child: RaisedButton(
-                    //         color: Colors.indigo,
-                    //         onPressed: () {
-                    //           Navigator.push(context, MaterialPageRoute(builder: (context) => Home(auth: SignedIn)));
-                    //         },
-                    //         child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
-                    //     )
-                    // )
+                    Container(
+                        alignment: Alignment.bottomRight,
+                        child: RaisedButton(
+                            color: Colors.indigo,
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                            },
+                            child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
+                        )
+                    )
                   ],
                 ),
               ),
@@ -174,9 +172,6 @@ class _LogIn_PageState extends State<LogIn_Page> {
         UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         if(user!=null) {
           _fetch();
-          setState(() {
-            SignedIn = true;
-          });
         }
       }catch(e){
         print(e.message);

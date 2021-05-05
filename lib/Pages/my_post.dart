@@ -9,6 +9,8 @@ import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../home_page.dart';
+
 class MyPost extends StatefulWidget {
   @override
   _MyPostState createState() => _MyPostState();

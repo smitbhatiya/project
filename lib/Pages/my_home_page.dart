@@ -602,6 +602,7 @@ import 'package:flutter_app_with_firebase/Model/database_manager.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
 import 'package:flutter_app_with_firebase/firebase.dart';
+import 'package:flutter_app_with_firebase/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_page.dart';
@@ -640,7 +641,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   String doc_id;
   String doc_id1;
   String f1;
-  bool _favStatus=false;
+  bool _favStatus = false;
   List<String> favoritesList = [];
 
   //String id;
@@ -668,12 +669,11 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
     }
   }
 
-  void setFav(String name,bool _currentFavStatus) async{
+  void setFav(String name, bool _currentFavStatus) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(name,!_currentFavStatus);
+    prefs.setBool(name, !_currentFavStatus);
     setState(() {});
   }
-
 
 
   @override
@@ -703,9 +703,8 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
               Container(
                 margin: EdgeInsets.only(top: 15),
                 // child:
-                child: Center(child: _auth == null ? Text("Hello, User", style: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)) : Text("Hello, ${_auth.displayName}",
+                child: Center(child: Text(
+                    "Hello, ${_auth.displayName}",
                     style: TextStyle(fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.white))),
@@ -815,42 +814,61 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                   alignment: Alignment.topRight,
                                   margin: EdgeInsets.only(right: 20, top: 20),
                                   child: FavoriteButton(
-                                    isFavorite: false,
-                                    valueChanged: (_isFavorite) {
-                                      if(_isFavorite == true) {
-                                        FirebaseFirestore.instance
-                                                .collection('Property Details')
-                                                .get()
-                                                .then(
-                                                    (QuerySnapshot snapshot) =>
-                                                {
-                                                  // snapshot.documents.forEach((f) {
-                                                  //    id = f.reference.documentID;
-                                                  //   //print("documentID---- " + f.reference.documentID);
-                                                  //
-                                                  // }),
-                                                  // print(snapshot.docs[index].documentID),
-                                                  //snapshot.docs[index].data(),
-                                                  f1 = snapshot.documents[index].documentID,
-                                                  Firestore.instance.collection('Property Details').doc(f1).set({
-                                                    'favorites': FieldValue.arrayUnion(['${FirebaseAuth.instance.currentUser.uid}']),
-                                                    'propertyId': '$f1'
-                                                  },SetOptions(merge: true)).then((value) =>
-                                                  {})
-                                                });
-                                      } else {
-                                        FirebaseFirestore.instance
-                                            .collection('Property Details')
-                                            .get()
-                                            .then(
-                                                (QuerySnapshot snapshot) => {
-                                                  f1 = snapshot.documents[index].documentID,
-                                                  Firestore.instance.collection('Property Details').doc(f1).set({
-                                                    'favorites': FieldValue.arrayRemove(['${FirebaseAuth.instance.currentUser.uid}'])
-                                                  },SetOptions(merge: true)).then((value) => {})
-                                            });
+                                      isFavorite: false,
+                                      valueChanged: (_isFavorite) {
+                                        if (_isFavorite == true) {
+                                          FirebaseFirestore.instance
+                                              .collection('Property Details')
+                                              .get()
+                                              .then(
+                                                  (QuerySnapshot snapshot) =>
+                                              {
+                                                // snapshot.documents.forEach((f) {
+                                                //    id = f.reference.documentID;
+                                                //   //print("documentID---- " + f.reference.documentID);
+                                                //
+                                                // }),
+                                                // print(snapshot.docs[index].documentID),
+                                                //snapshot.docs[index].data(),
+                                                f1 = snapshot.documents[index]
+                                                    .documentID,
+                                                Firestore.instance.collection(
+                                                    'Property Details')
+                                                    .doc(f1)
+                                                    .set({
+                                                  'favorites': FieldValue
+                                                      .arrayUnion([
+                                                    '${FirebaseAuth.instance
+                                                        .currentUser.uid}'
+                                                  ]),
+                                                  'propertyId': '$f1'
+                                                }, SetOptions(merge: true))
+                                                    .then((value) =>
+                                                {})
+                                              });
+                                        } else {
+                                          FirebaseFirestore.instance
+                                              .collection('Property Details')
+                                              .get()
+                                              .then(
+                                                  (QuerySnapshot snapshot) =>
+                                              {
+                                                f1 = snapshot.documents[index]
+                                                    .documentID,
+                                                Firestore.instance.collection(
+                                                    'Property Details')
+                                                    .doc(f1)
+                                                    .set({
+                                                  'favorites': FieldValue
+                                                      .arrayRemove([
+                                                    '${FirebaseAuth.instance
+                                                        .currentUser.uid}'
+                                                  ])
+                                                }, SetOptions(merge: true))
+                                                    .then((value) => {})
+                                              });
+                                        }
                                       }
-                                    }
                                   ),
                                 )
                               ],
@@ -971,7 +989,8 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                                   text: userProfilesList[index]['status'],
                                                   style: TextStyle(fontSize: 18,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.w400)
+                                                      fontWeight: FontWeight
+                                                          .w400)
                                               )
                                             ]
                                         ),
@@ -982,7 +1001,13 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                     child: Container(
                                       alignment: Alignment.topRight,
                                       margin: EdgeInsets.only(right: 13),
-                                      child: Text(userProfilesList[index]['markAsSold'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: userProfilesList[index]['markAsSold']=='Sold' ? Colors.red : Colors.green),),
+                                      child: Text(
+                                        userProfilesList[index]['markAsSold'],
+                                        style: TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: userProfilesList[index]['markAsSold'] ==
+                                                'Sold' ? Colors.red : Colors
+                                                .green),),
                                     )
                                 )
                               ],

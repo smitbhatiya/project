@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Chatroom/chat_messages.dart';
 import 'package:flutter_app_with_firebase/Pages/review_page.dart';
 
 class Property_Detail extends StatefulWidget {
@@ -114,14 +115,15 @@ class _Property_DetailState extends State<Property_Detail> {
                       onPressed: () {
                         Firestore.instance
                             .collection("chatRoom")
-                            .doc()
+                            .doc("${FirebaseAuth.instance.currentUser.uid}")
                             .set({
-                          "users" : FieldPath.documentId,
+                          "users" : "${FirebaseAuth.instance.currentUser.uid} with",
                           "chatRoomId": "id",
                         });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Messages()));
                       },
                       child: Text("Chat")
-                    )
+                    ),
                   ],
                 ),
               ],
