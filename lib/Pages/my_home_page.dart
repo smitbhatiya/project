@@ -601,6 +601,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/database_manager.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
+import 'package:flutter_app_with_firebase/Pages/sold_property.dart';
 import 'package:flutter_app_with_firebase/firebase.dart';
 import 'package:flutter_app_with_firebase/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -613,7 +614,6 @@ class myHomepage extends StatefulWidget {
 }
 
 class _myHomepageState extends State<myHomepage> with RestorationMixin {
-
   RestorableBool favalue = RestorableBool(false);
 
   Future resultsLoaded;
@@ -622,6 +622,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   void initState() {
     super.initState();
     fetchDatabaseList();
+    fetchDatabaseList1();
     refreshPage();
   }
 
@@ -638,9 +639,12 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   String myName;
   String myPhone;
   List userProfilesList = [];
+  List userProfilesList1 = [];
   String doc_id;
   String doc_id1;
   String f1;
+  String seenCount;
+  int seenCount1;
   bool _favStatus = false;
   List<String> favoritesList = [];
 
@@ -648,6 +652,26 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   var abc;
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
+
+  final Query profileList1 = FirebaseFirestore.instance
+      .collection('Property Details')
+      .where('markAsSold', isEqualTo: 'Available');
+
+  Future getUsersList1() async {
+    List itemsList = [];
+
+    try {
+      await profileList1.getDocuments().then((querySnapshot) {
+        querySnapshot.documents.forEach((element) {
+          itemsList.add(element.data());
+        });
+      });
+      return itemsList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   Future<Null> refreshPage() async {
     refreshKey.currentState?.show();
@@ -669,12 +693,25 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
     }
   }
 
+  fetchDatabaseList1() async {
+    dynamic resultant1 = await getUsersList1();
+
+    if (resultant1 == null) {
+      print('Unable to retrieve');
+    } else {
+      setState(() {
+        userProfilesList1 = resultant1;
+      });
+    }
+  }
+
   void setFav(String name, bool _currentFavStatus) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool(name, !_currentFavStatus);
     setState(() {});
   }
 
+  int seeByUser = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -682,32 +719,37 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
       backgroundColor: Colors.grey.shade200,
       body: ListView(
         children: [
+          // Container(
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //           child: Container(
+          //             child: Text("Available(${userProfilesList1.length})"),
+          //           )
+          //       )
+          //     ],
+          //   ),
+          // ),
           Stack(
             children: [
               Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.12,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                height: MediaQuery.of(context).size.height * 0.12,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(30),
                         bottomLeft: Radius.circular(30)),
-                    color: Colors.indigo
-                ),
+                    color: Colors.indigo),
               ),
               Container(
                 margin: EdgeInsets.only(top: 15),
                 // child:
-                child: Center(child: Text(
-                    "Hello, ${_auth.displayName}",
-                    style: TextStyle(fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white))),
+                child: Center(
+                    child: Text("Hello, ${_auth.displayName}",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white))),
               ),
               GestureDetector(
                 onTap: () {
@@ -717,10 +759,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                 child: Container(
                   margin: EdgeInsets.only(top: 80, left: 30, right: 30),
                   height: 50,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.9,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.white,
@@ -732,7 +771,15 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
               )
             ],
           ),
-          SizedBox(height: 10.0,),
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 15),
+            child: Text("Available property(${userProfilesList1.length})",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(height: 5),
           Container(
             child: RefreshIndicator(
               key: refreshKey,
@@ -744,45 +791,45 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        //   var uid =FirebaseAuth.instance.currentUser.uid;
-                        //   var _randomId = FirebaseFirestore.instance.collection('propertyDetails').document(uid);
-                        //   print(_randomId);
-                        // var firebaseUser =  FirebaseAuth.instance.currentUser;
-                        // FirebaseFirestore.instance.collection("propertyDetails").doc(firebaseUser.uid).get().then((value){
-                        //   print(value.data());
-                        // });
                         FirebaseFirestore.instance
                             .collection('Property Details')
                             .get()
                             .then(
-                              (QuerySnapshot snapshot) =>
-                          {
-                            // snapshot.documents.forEach((f) {
-                            //
-                            //   print("documentID---- " + f.reference.documentID);
-                            //
-                            // }),
-                            //     snapshot.documents[index].data(),
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) =>
-                                    Property_Detail(id: doc_id))),
-                            doc_id = snapshot.documents[index].documentID,
-                            //print(snapshot.documents[index].documentID)
-                            print(doc_id)
-                          },
-                        );
+                              (QuerySnapshot snapshot) => {
+                                // snapshot.documents.forEach((f) {
+                                //
+                                //   print("documentID---- " + f.reference.documentID);
+                                //
+                                // }),
+                                //     snapshot.documents[index].data(),
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Property_Detail(id: doc_id))),
+                                doc_id = snapshot.documents[index].documentID,
+                                // seenCount = snapshot.docs[index]['seenByUser'.length],
+                                // seenCount1 = seenCount.length,
+                                // print('this is $seenCount'),
+                                //print(snapshot.documents[index].documentID)
+                                print(doc_id),
+                              Firestore.instance
+                                  .collection('Property Details')
+                                  .doc('$doc_id')
+                                  .set({
+                              'seenByUser': FieldValue.arrayUnion(
+                              ['${FirebaseAuth.instance.currentUser.uid}']),
+                              }, SetOptions(merge: true)).then((value) => {}),
+                              },
+                            );
                       },
                       child: Container(
                         margin: EdgeInsets.all(10.0),
                         height: 320,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.9,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)
-                        ),
+                            borderRadius: BorderRadius.circular(20)),
                         child: Column(
                           children: [
                             Stack(
@@ -791,8 +838,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                   height: 160,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius
-                                            .circular(20),
+                                        topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20)),
                                   ),
                                   child: ClipRRect(
@@ -802,12 +848,9 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                     ),
                                     child: Image.network(
                                         userProfilesList[index]['firstImage'],
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width,
-                                        fit: BoxFit.fill
-                                    ),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.fill),
                                   ),
                                 ),
                                 Container(
@@ -821,55 +864,64 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                               .collection('Property Details')
                                               .get()
                                               .then(
-                                                  (QuerySnapshot snapshot) =>
-                                              {
-                                                // snapshot.documents.forEach((f) {
-                                                //    id = f.reference.documentID;
-                                                //   //print("documentID---- " + f.reference.documentID);
-                                                //
-                                                // }),
-                                                // print(snapshot.docs[index].documentID),
-                                                //snapshot.docs[index].data(),
-                                                f1 = snapshot.documents[index]
-                                                    .documentID,
-                                                Firestore.instance.collection(
-                                                    'Property Details')
-                                                    .doc(f1)
-                                                    .set({
-                                                  'favorites': FieldValue
-                                                      .arrayUnion([
-                                                    '${FirebaseAuth.instance
-                                                        .currentUser.uid}'
-                                                  ]),
-                                                  'propertyId': '$f1'
-                                                }, SetOptions(merge: true))
-                                                    .then((value) =>
-                                                {})
-                                              });
+                                                  (QuerySnapshot snapshot) => {
+                                                        // snapshot.documents.forEach((f) {
+                                                        //    id = f.reference.documentID;
+                                                        //   //print("documentID---- " + f.reference.documentID);
+                                                        //
+                                                        // }),
+                                                        // print(snapshot.docs[index].documentID),
+                                                        //snapshot.docs[index].data(),
+                                                        f1 = snapshot
+                                                            .documents[index]
+                                                            .documentID,
+                                                        Firestore.instance
+                                                            .collection(
+                                                                'Property Details')
+                                                            .doc(f1)
+                                                            .set(
+                                                                {
+                                                              'favorites':
+                                                                  FieldValue
+                                                                      .arrayUnion([
+                                                                '${FirebaseAuth.instance.currentUser.uid}'
+                                                              ]),
+                                                              'propertyId':
+                                                                  '$f1'
+                                                            },
+                                                                SetOptions(
+                                                                    merge:
+                                                                        true)).then(
+                                                                (value) => {})
+                                                      });
                                         } else {
                                           FirebaseFirestore.instance
                                               .collection('Property Details')
                                               .get()
                                               .then(
-                                                  (QuerySnapshot snapshot) =>
-                                              {
-                                                f1 = snapshot.documents[index]
-                                                    .documentID,
-                                                Firestore.instance.collection(
-                                                    'Property Details')
-                                                    .doc(f1)
-                                                    .set({
-                                                  'favorites': FieldValue
-                                                      .arrayRemove([
-                                                    '${FirebaseAuth.instance
-                                                        .currentUser.uid}'
-                                                  ])
-                                                }, SetOptions(merge: true))
-                                                    .then((value) => {})
-                                              });
+                                                  (QuerySnapshot snapshot) => {
+                                                        f1 = snapshot
+                                                            .documents[index]
+                                                            .documentID,
+                                                        Firestore.instance
+                                                            .collection(
+                                                                'Property Details')
+                                                            .doc(f1)
+                                                            .set(
+                                                                {
+                                                              'favorites':
+                                                                  FieldValue
+                                                                      .arrayRemove([
+                                                                '${FirebaseAuth.instance.currentUser.uid}'
+                                                              ])
+                                                            },
+                                                                SetOptions(
+                                                                    merge:
+                                                                        true)).then(
+                                                                (value) => {})
+                                                      });
                                         }
-                                      }
-                                  ),
+                                      }),
                                 )
                               ],
                             ),
@@ -880,32 +932,27 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                   child: Container(
                                     margin: EdgeInsets.only(left: 13),
                                     height: 30,
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width / 2,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
                                     child: Text(
                                         userProfilesList[index]['project name'],
-                                        style: TextStyle(fontSize: 25,
+                                        style: TextStyle(
+                                            fontSize: 25,
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ),
                                 Expanded(
                                     child: Container(
-                                      margin: EdgeInsets.only(right: 13),
-                                      alignment: Alignment.topRight,
-                                      height: 20,
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width / 2,
-                                      child: Text(
-                                          userProfilesList[index]['price'],
-                                          style: TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.indigo)),
-                                    )
-                                )
+                                  margin: EdgeInsets.only(right: 13),
+                                  alignment: Alignment.topRight,
+                                  height: 20,
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text(userProfilesList[index]['price'],
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.indigo)),
+                                ))
                               ],
                             ),
                             SizedBox(height: 7),
@@ -915,20 +962,20 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Posted by : ",
-                                      style: TextStyle(fontSize: 18,
+                                      style: TextStyle(
+                                          fontSize: 18,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
-                                          // text: "Builder",
-                                            text: userProfilesList[index]['posted by'],
-                                            style: TextStyle(fontSize: 16,
-                                                fontWeight: FontWeight.w400)
-                                        )
-                                      ]
-                                  ),
-                                )
-                            ),
+                                            // text: "Builder",
+                                            text: userProfilesList[index]
+                                                ['posted by'],
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400))
+                                      ]),
+                                )),
                             SizedBox(height: 7),
                             Container(
                                 alignment: Alignment.topLeft,
@@ -936,20 +983,20 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Location : ",
-                                      style: TextStyle(fontSize: 18,
+                                      style: TextStyle(
+                                          fontSize: 18,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
-                                            text: userProfilesList[index]['city'],
-                                            style: TextStyle(fontSize: 18,
+                                            text: userProfilesList[index]
+                                                ['city'],
+                                            style: TextStyle(
+                                                fontSize: 18,
                                                 color: Colors.black,
-                                                fontWeight: FontWeight.w400)
-                                        )
-                                      ]
-                                  ),
-                                )
-                            ),
+                                                fontWeight: FontWeight.w400))
+                                      ]),
+                                )),
                             SizedBox(height: 7),
                             Container(
                                 alignment: Alignment.topLeft,
@@ -957,20 +1004,20 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                 child: RichText(
                                   text: TextSpan(
                                       text: "Type : ",
-                                      style: TextStyle(fontSize: 18,
+                                      style: TextStyle(
+                                          fontSize: 18,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700),
                                       children: [
                                         TextSpan(
-                                            text: userProfilesList[index]['category'],
-                                            style: TextStyle(fontSize: 18,
+                                            text: userProfilesList[index]
+                                                ['category'],
+                                            style: TextStyle(
+                                                fontSize: 18,
                                                 color: Colors.black,
-                                                fontWeight: FontWeight.w400)
-                                        )
-                                      ]
-                                  ),
-                                )
-                            ),
+                                                fontWeight: FontWeight.w400))
+                                      ]),
+                                )),
                             SizedBox(height: 7),
                             Row(
                               children: [
@@ -981,38 +1028,40 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                       child: RichText(
                                         text: TextSpan(
                                             text: "Status : ",
-                                            style: TextStyle(fontSize: 18,
+                                            style: TextStyle(
+                                                fontSize: 18,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w700),
                                             children: [
                                               TextSpan(
-                                                  text: userProfilesList[index]['status'],
-                                                  style: TextStyle(fontSize: 18,
+                                                  text: userProfilesList[index]
+                                                      ['status'],
+                                                  style: TextStyle(
+                                                      fontSize: 18,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight
-                                                          .w400)
-                                              )
-                                            ]
-                                        ),
-                                      )
-                                  ),
+                                                      fontWeight:
+                                                          FontWeight.w400))
+                                            ]),
+                                      )),
                                 ),
                                 Expanded(
                                     child: Container(
-                                      alignment: Alignment.topRight,
-                                      margin: EdgeInsets.only(right: 13),
-                                      child: Text(
-                                        userProfilesList[index]['markAsSold'],
-                                        style: TextStyle(fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: userProfilesList[index]['markAsSold'] ==
-                                                'Sold' ? Colors.red : Colors
-                                                .green),),
-                                    )
-                                )
+                                  alignment: Alignment.topRight,
+                                  margin: EdgeInsets.only(right: 13),
+                                  child: Text(
+                                    userProfilesList[index]['markAsSold'],
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: userProfilesList[index]
+                                                    ['markAsSold'] ==
+                                                'Sold'
+                                            ? Colors.red
+                                            : Colors.green),
+                                  ),
+                                ))
                               ],
                             ),
-
                           ],
                         ),
                       ),

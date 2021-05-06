@@ -111,18 +111,34 @@ class _Property_DetailState extends State<Property_Detail> {
                       },
                       child: Text("Mark as sold"),
                     ),
-                    RaisedButton(
-                      onPressed: () {
-                        Firestore.instance
-                            .collection("chatRoom")
-                            .doc("${FirebaseAuth.instance.currentUser.uid}")
-                            .set({
-                          "users" : "${FirebaseAuth.instance.currentUser.uid} with",
-                          "chatRoomId": "id",
-                        });
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Messages()));
-                      },
-                      child: Text("Chat")
+                    Row(
+                      children: [
+                        RaisedButton(
+                          onPressed: () {
+                            Firestore.instance
+                                .collection("chatRoom")
+                                .doc("${FirebaseAuth.instance.currentUser.uid}")
+                                .set({
+                              "users" : "${FirebaseAuth.instance.currentUser.uid} with",
+                              "chatRoomId": "id",
+                            });
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Messages()));
+                          },
+                          child: Text("Chat")
+                        ),
+                        SizedBox(width: 200),
+                        Row(
+                          children: [
+                            Container(
+                              child: Icon(Icons.remove_red_eye),
+                            ),
+                            SizedBox(width: 20),
+                            Container(
+                              child: Text("2"),
+                            )
+                          ],
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -132,5 +148,11 @@ class _Property_DetailState extends State<Property_Detail> {
         ),
       ),
     );
+  }
+  final CollectionReference countList =
+  FirebaseFirestore.instance
+      .collection('Property Details');
+  getCount() {
+    countList.doc(widget.id).get().then((value) => value.data()['seenByUser'].length);
   }
 }
