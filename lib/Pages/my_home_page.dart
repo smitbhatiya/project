@@ -647,6 +647,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   int seenCount1;
   bool _favStatus = false;
   List<String> favoritesList = [];
+  String i1;
 
   //String id;
   var abc;
@@ -806,8 +807,11 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            Property_Detail(id: doc_id))),
+                                            Property_Detail(id: doc_id, u2: i1))),
                                 doc_id = snapshot.documents[index].documentID,
+                                i1 = snapshot.documents[index].get('postById'),
+                                print(i1),
+                                //Firestore.instance.collection('Property Details').doc(doc_id).get().then((value) => value.data()['seenByUser']),
                                 // seenCount = snapshot.docs[index]['seenByUser'.length],
                                 // seenCount1 = seenCount.length,
                                 // print('this is $seenCount'),

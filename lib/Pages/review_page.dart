@@ -180,16 +180,29 @@ class review_page extends StatefulWidget {
 class _review_pageState extends State<review_page> {
   bool isAnimate = false;
 
+  final CollectionReference reviewList =
+  FirebaseFirestore.instance
+      .collection('Property Details');
+
   List postReviewList = [];
   String doc_id;
   String doc_id1;
   TextEditingController _textController = TextEditingController();
+  Stream<QuerySnapshot> reviews;
+
+  getReview() async {
+    return reviewList.doc(widget.id1).collection('reviewBox').snapshots();
+  }
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   @override
   void initState() {
     super.initState();
-    fetchDatabaseList();
+    getReview().then((val) {
+      setState(() {
+        reviews = val;
+      });
+    });
     refreshPage();
   }
   Future<Null> refreshPage() async{
@@ -199,25 +212,6 @@ class _review_pageState extends State<review_page> {
       return ;
     });
   }
-  fetchDatabaseList() async {
-    dynamic resultant = await getReviewList();
-
-    if (resultant == null) {
-      print('Unable to retrieve');
-    } else {
-      setState(() {
-        postReviewList = resultant;
-      });
-    }
-  }
-
-  // void _handleSubmitted(String text) {
-  //   //_textController.clear();
-  //   text = _textController.text;
-  //   setState(() {
-  //     postReviewList.insert(0, text);
-  //   });
-  // }
   final username = FirebaseAuth.instance.currentUser;
 
   Widget _textComposerWidget() {
@@ -240,12 +234,6 @@ class _review_pageState extends State<review_page> {
               child: new IconButton(
                 icon: new Icon(Icons.send),
                 onPressed: () {
-                  //_handleSubmitted(_textController.text);
-                  // Firestore.instance.collection('Property Details').doc(widget.id1).set({
-                  //   'review': FieldValue.arrayUnion([{'${FirebaseAuth.instance.currentUser.uid}':'${_textController.text}'}]),
-                  // },SetOptions(merge: true)).then((value) =>
-                  // {});
-                  //print(widget.id1);
                   Firestore.instance.collection('Property Details').doc(widget.id1).collection('reviewBox').doc().set({
                         "userId": '${FirebaseAuth.instance.currentUser.uid}',
                         "review": '${_textController.text}',
@@ -273,7 +261,7 @@ class _review_pageState extends State<review_page> {
         ),
         // ignore: unrelated_type_equality_checks
         body: StreamBuilder<QuerySnapshot> (
-          stream: FirebaseFirestore.instance.collection('Property Details').doc(widget.id1).collection('reviewBox').snapshots(),
+          stream: reviews,
           builder: (context, snapshot) {
             return ListView(
               children: [
@@ -289,9 +277,9 @@ class _review_pageState extends State<review_page> {
                   scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: null == postReviewList ? 0 : postReviewList.length,
+                  itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {
-                  DocumentSnapshot data = snapshot.data.docs[index];
+                  //DocumentSnapshot data = snapshot.data.docs[index];
                   return Container(
                     margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10.0),
                     child: new Row(
@@ -300,17 +288,17 @@ class _review_pageState extends State<review_page> {
                         new Container(
                           margin: const EdgeInsets.only(right: 16.0),
                           child: new CircleAvatar(
-                            child: new Text(postReviewList[index]['firstChar']),
+                            child: new Text(snapshot.data.documents[index].data()['firstChar']),
                           ),
                         ),
                         new Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Text(postReviewList[index]['name'],
+                            new Text(snapshot.data.documents[index].data()['name'],
                                 style: Theme.of(context).textTheme.subhead),
                             new Container(
                               margin: const EdgeInsets.only(top: 5.0),
-                              child: new Text(postReviewList[index]['review']),
+                              child: new Text(snapshot.data.documents[index].data()['review']),
                             )
                           ],
                         )
@@ -324,55 +312,4 @@ class _review_pageState extends State<review_page> {
         )
     );
   }
-  final CollectionReference reviewList =
-  FirebaseFirestore.instance
-      .collection('Property Details');
-  Future getReviewList() async {
-    List itemsList = [];
-    try {
-      await reviewList.doc(widget.id1).collection('reviewBox').getDocuments().then((querySnapshot) {
-        querySnapshot.documents.forEach((element) {
-          // if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
-          //   itemsList.add(element.data());
-          // }
-          itemsList.add(element.data());
-        });
-      });
-      return itemsList;
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
 }
-
-// class ReviewManager {
-//   // var firebaseUser = FirebaseAuth.instance.currentUser;
-//   // FirebaseAuth auth = FirebaseAuth.instance;
-//   //FirebaseFirestore.instance.collection('Users12').document(firebaseUser.uid).collection('usersPost');
-//   //final String review_1 = review_manage.id1;
-//   //String id2 = property.widget.id;
-//   String id2 = review_page().id1;
-//   final CollectionReference reviewList =
-//   FirebaseFirestore.instance
-//       .collection('Property Details');
-//
-//
-//   Future getReviewList() async {
-//     List itemsList = [];
-//     try {
-//       await reviewList.doc('HFEHYd2RVWHWFS8BuHBm').collection('reviewBox').getDocuments().then((querySnapshot) {
-//         querySnapshot.documents.forEach((element) {
-//           // if(element.data()['postById'] == FirebaseAuth.instance.currentUser.uid) {
-//           //   itemsList.add(element.data());
-//           // }
-//           itemsList.add(element.data());
-//         });
-//       });
-//       return itemsList;
-//     } catch (e) {
-//       print(e.toString());
-//       return null;
-//     }
-//   }
-// }

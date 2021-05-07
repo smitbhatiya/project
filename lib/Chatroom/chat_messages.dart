@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Messages extends StatefulWidget {
-  const Messages({Key key}) : super(key: key);
+  final String u2;
+  final String id;
+  const Messages({Key key, this.u2, this.id}) : super(key: key);
 
   @override
   _MessagesState createState() => _MessagesState();
@@ -16,8 +18,10 @@ class _MessagesState extends State<Messages> {
 
   getChats() async{
     return FirebaseFirestore.instance
+        .collection('Property Details')
+        .doc('${widget.id}')
         .collection('chatRoom')
-        .doc('${FirebaseAuth.instance.currentUser.uid}')
+        .doc(getChatRoomId(FirebaseAuth.instance.currentUser.uid, widget.u2))
         .collection('chat')
         .orderBy('time')
         .snapshots();
@@ -34,6 +38,14 @@ class _MessagesState extends State<Messages> {
     super.initState();
   }
 
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
+
   final Query query = FirebaseFirestore.instance
       .collection('chatRoom')
   .doc('${FirebaseAuth.instance.currentUser.uid}')
@@ -48,8 +60,8 @@ class _MessagesState extends State<Messages> {
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index){
               return MessageTile(
-                message: snapshot.data.documents[index].data["message"],
-                sendByMe: FirebaseAuth.instance.currentUser.uid == snapshot.data.documents[index].data["sendBy"],
+                message: snapshot.data.documents[index].data()["message"],
+                sendByMe: snapshot.data.documents[index].data()["sendBy"] == FirebaseAuth.instance.currentUser.uid,
               );
             });
       },
@@ -64,6 +76,10 @@ class _MessagesState extends State<Messages> {
         child: Container(
           child: Stack(
             children: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 70),
+                  child: chatMessages()
+                ),
                 Container(
                   alignment: Alignment.bottomCenter,
                   child: Row(
@@ -87,15 +103,16 @@ class _MessagesState extends State<Messages> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          FirebaseFirestore.instance
+                          FirebaseFirestore.instance.collection('Property Details')
+                              .doc('${widget.id}')
                               .collection('chatRoom')
-                              .doc('${FirebaseAuth.instance.currentUser.uid}')
+                              .doc(getChatRoomId(FirebaseAuth.instance.currentUser.uid, widget.u2))
                               .collection('chat')
                               .doc()
                               .set({
                             "message" : "${msgController.text}",
                             "sendBy" : "${FirebaseAuth.instance.currentUser.uid}",
-                            "time" : DateTime.now().millisecondsSinceEpoch
+                            "time" : DateTime.now().microsecondsSinceEpoch
                           });
                         },
                         child: Container(
@@ -152,8 +169,8 @@ class MessageTile extends StatelessWidget {
                 const Color(0xff2A75BC)
                 ]
                 : [
-                const Color(0x1AFFFFFF),
-            const Color(0x1AFFFFFF)
+                const Color(0xff324F17),
+            const Color(0xff7F8778)
             ],
           )
       ),

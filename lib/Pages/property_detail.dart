@@ -8,8 +8,9 @@ import 'package:flutter_app_with_firebase/Pages/review_page.dart';
 
 class Property_Detail extends StatefulWidget {
   final String id;
+  final String u2;
 
-  const Property_Detail({Key key, this.id}) : super(key: key);
+  const Property_Detail({Key key, this.id, this.u2}) : super(key: key);
   @override
   _Property_DetailState createState() => _Property_DetailState();
 }
@@ -115,14 +116,15 @@ class _Property_DetailState extends State<Property_Detail> {
                       children: [
                         RaisedButton(
                           onPressed: () {
-                            Firestore.instance
+                            Firestore.instance.collection("Property Details")
+                                .doc('${widget.id}')
                                 .collection("chatRoom")
-                                .doc("${FirebaseAuth.instance.currentUser.uid}")
+                                .doc("${FirebaseAuth.instance.currentUser.uid}_${widget.u2}")
                                 .set({
-                              "users" : "${FirebaseAuth.instance.currentUser.uid} with",
-                              "chatRoomId": "id",
+                              "users" : FieldValue.arrayUnion(['${FirebaseAuth.instance.currentUser.uid}', '${widget.u2}']),
+                              "chatRoomId": "${FirebaseAuth.instance.currentUser.uid}_${widget.u2}",
                             });
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Messages()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Messages(u2: widget.u2, id: widget.id)));
                           },
                           child: Text("Chat")
                         ),
