@@ -16,6 +16,8 @@ class _MessagesState extends State<Messages> {
   TextEditingController msgController = TextEditingController();
   Stream<QuerySnapshot> chats;
 
+  String view;
+
   getChats() async{
     return FirebaseFirestore.instance
         .collection('Property Details')
@@ -25,6 +27,15 @@ class _MessagesState extends State<Messages> {
         .collection('chat')
         .orderBy('time')
         .snapshots();
+  }
+
+  getUsers() async{
+    return FirebaseFirestore.instance
+        .collection('Property Details')
+        .doc('${widget.id}')
+        .collection('chatRoom')
+        .where('users', arrayContains: FirebaseAuth.instance.currentUser.uid)
+        .getDocuments();
   }
 
   @override

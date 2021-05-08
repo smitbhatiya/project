@@ -70,7 +70,7 @@ class _FirebaseMessagingDemoState extends State<FirebaseMessagingDemo> {
             child: Padding(
               padding: EdgeInsets.all(15.0),
               child: Text(
-                _messages[index].message,
+                _messages[index].body,
                 style: TextStyle(
                   fontSize: 16.0,
                   color: Colors.black,

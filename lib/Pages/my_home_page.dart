@@ -599,11 +599,9 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/database_manager.dart';
+import 'package:flutter_app_with_firebase/Notification/FirebaseMessaging.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
-import 'package:flutter_app_with_firebase/Pages/sold_property.dart';
-import 'package:flutter_app_with_firebase/firebase.dart';
-import 'package:flutter_app_with_firebase/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_page.dart';
