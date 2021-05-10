@@ -9,8 +9,9 @@ import 'package:flutter_app_with_firebase/Pages/review_page.dart';
 class Property_Detail extends StatefulWidget {
   final String id;
   final String u2;
+  final int v1;
 
-  const Property_Detail({Key key, this.id, this.u2}) : super(key: key);
+  const Property_Detail({Key key, this.id, this.u2, this.v1}) : super(key: key);
   @override
   _Property_DetailState createState() => _Property_DetailState();
 }
@@ -137,7 +138,7 @@ class _Property_DetailState extends State<Property_Detail> {
                             ),
                             SizedBox(width: 20),
                             Container(
-                              child: Text("2"),
+                              child: Text("${widget.v1}"),
                             )
                           ],
                         )

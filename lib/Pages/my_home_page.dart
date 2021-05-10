@@ -602,6 +602,7 @@ import 'package:flutter_app_with_firebase/Model/database_manager.dart';
 import 'package:flutter_app_with_firebase/Notification/FirebaseMessaging.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/Pages/search_page.dart';
+import 'package:flutter_app_with_firebase/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_page.dart';
@@ -613,8 +614,8 @@ class myHomepage extends StatefulWidget {
 
 class _myHomepageState extends State<myHomepage> with RestorationMixin {
   RestorableBool favalue = RestorableBool(false);
-
   Future resultsLoaded;
+  int view2;
 
   @override
   void initState() {
@@ -710,6 +711,10 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
     setState(() {});
   }
 
+  void viewCount() {
+    view2 = view2++;
+  }
+
   int seeByUser = 0;
 
   @override
@@ -795,33 +800,25 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                             .get()
                             .then(
                               (QuerySnapshot snapshot) => {
-                                // snapshot.documents.forEach((f) {
-                                //
-                                //   print("documentID---- " + f.reference.documentID);
-                                //
-                                // }),
-                                //     snapshot.documents[index].data(),
+                                view2 = snapshot.docs[index].get('view'),
+                                if(snapshot.docs[index].get('postById') == FirebaseAuth.instance.currentUser.uid) {
+                                  view2 = view2
+                                } else {
+                                  view2 = view2+1
+                                },
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            Property_Detail(id: doc_id, u2: i1))),
+                                            Property_Detail(id: doc_id, u2: i1, v1: view2))),
                                 doc_id = snapshot.documents[index].documentID,
                                 i1 = snapshot.documents[index].get('postById'),
                                 print(i1),
-                                //Firestore.instance.collection('Property Details').doc(doc_id).get().then((value) => value.data()['seenByUser']),
-                                // seenCount = snapshot.docs[index]['seenByUser'.length],
-                                // seenCount1 = seenCount.length,
-                                // print('this is $seenCount'),
-                                //print(snapshot.documents[index].documentID)
                                 print(doc_id),
-                              Firestore.instance
-                                  .collection('Property Details')
-                                  .doc('$doc_id')
-                                  .set({
-                              'seenByUser': FieldValue.arrayUnion(
-                              ['${FirebaseAuth.instance.currentUser.uid}']),
-                              }, SetOptions(merge: true)).then((value) => {}),
+                                print(view2),
+                              FirebaseFirestore.instance.collection('Property Details').doc(doc_id).updateData({
+                              'view': view2
+                              }),
                               },
                             );
                       },

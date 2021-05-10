@@ -19,8 +19,9 @@ import 'login_page.dart';
 
 class Home extends StatefulWidget {
   bool auth;
+  int view1;
 
-  Home({Key key, this.user, this.auth}) : super(key: key);
+  Home({Key key, this.user, this.auth, this.view1}) : super(key: key);
   final FirebaseUser user;
 
   @override
