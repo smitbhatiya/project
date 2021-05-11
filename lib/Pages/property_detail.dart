@@ -18,8 +18,10 @@ class Property_Detail extends StatefulWidget {
 
 class _Property_DetailState extends State<Property_Detail> {
   CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
+  CollectionReference data2 = FirebaseFirestore.instance.collection('Users12');
   //String u2 = FirebaseFirestore.instance.doc(widget.id).get().then((value) => value.data()['postById']) as String;
   String view;
+  String uName;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +113,7 @@ class _Property_DetailState extends State<Property_Detail> {
                         FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
                           'markAsSold': 'Sold'
                         });
+                        FirebaseFirestore.instance.collection('soldProperties').doc(widget.id).set({});
                       },
                       child: Text("Mark as sold"),
                     ),
@@ -157,8 +160,6 @@ class _Property_DetailState extends State<Property_Detail> {
   FirebaseFirestore.instance
       .collection('Property Details');
   getCount() {
-    countList.doc(widget.id).get().then((snapshot) => {
-      view = snapshot.data()['seenByUser'][0],
-    });
+
   }
 }

@@ -594,6 +594,8 @@
 //     }
 //   }
 // }
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -647,6 +649,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   bool _favStatus = false;
   List<String> favoritesList = [];
   String i1;
+  String i2;
 
   //String id;
   var abc;
