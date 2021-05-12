@@ -594,8 +594,6 @@
 //     }
 //   }
 // }
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -650,8 +648,6 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   List<String> favoritesList = [];
   String i1;
   String i2;
-
-  //String id;
   var abc;
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -726,17 +722,6 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
       backgroundColor: Colors.grey.shade200,
       body: ListView(
         children: [
-          // Container(
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //           child: Container(
-          //             child: Text("Available(${userProfilesList1.length})"),
-          //           )
-          //       )
-          //     ],
-          //   ),
-          // ),
           Stack(
             children: [
               Container(
@@ -827,7 +812,7 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                       },
                       child: Container(
                         margin: EdgeInsets.all(10.0),
-                        height: 320,
+                        height: 340,
                         width: MediaQuery.of(context).size.width * 0.9,
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -1080,7 +1065,6 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
   Future<bool> signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
-    //prefs.remove('phoneNumber');
     await FirebaseAuth.instance.signOut();
   }
 
@@ -1095,9 +1079,6 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
         myEmail = value.data()['email'];
         myName = value.data()['name'];
         myPhone = value.data()['mobileNumber'];
-        // print(myEmail);
-        // print(myName);
-        // print(myPhone);
       }).catchError((e) {
         print(e);
       });

@@ -19,9 +19,15 @@ class Property_Detail extends StatefulWidget {
 class _Property_DetailState extends State<Property_Detail> {
   CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
   CollectionReference data2 = FirebaseFirestore.instance.collection('Users12');
-  //String u2 = FirebaseFirestore.instance.doc(widget.id).get().then((value) => value.data()['postById']) as String;
   String view;
   String uName;
+  String cate;
+  String poB;
+  String ci;
+  String sta;
+  String proN;
+  String pri;
+  String fiI;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +119,25 @@ class _Property_DetailState extends State<Property_Detail> {
                         FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
                           'markAsSold': 'Sold'
                         });
-                        FirebaseFirestore.instance.collection('soldProperties').doc(widget.id).set({});
+                        FirebaseFirestore.instance.collection('Property Details').doc(widget.id).get().then((value) => {
+                          cate = value.get('category'),
+                          poB = value.get('posted by'),
+                          proN = value.get('project name'),
+                          ci = value.get('city'),
+                          pri = value.get('price'),
+                          sta = value.get('status'),
+                          fiI = value.get('firstImage'),
+                          FirebaseFirestore.instance.collection('soldProperties').doc(widget.id).set({
+                            'category': cate,
+                            'posted by': poB,
+                            'project name': proN,
+                            'city': ci,
+                            'price': pri,
+                            'status': sta,
+                            'firstImage': fiI
+                          }),
+                        FirebaseFirestore.instance.collection('Property Details').doc(widget.id).delete(),
+                        });
                       },
                       child: Text("Mark as sold"),
                     ),
@@ -156,10 +180,52 @@ class _Property_DetailState extends State<Property_Detail> {
       ),
     );
   }
-  final CollectionReference countList =
-  FirebaseFirestore.instance
-      .collection('Property Details');
-  getCount() {
-
+  // getSoldListIn() {
+  //   FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
+  //     'markAsSold': 'Sold'
+  //   });
+  //   FirebaseFirestore.instance.collection('Property Details').doc(widget.id).get().then((value) => {
+  //     cate = value.get('category'),
+  //     poB = value.get('posted by'),
+  //     proN = value.get('project name'),
+  //     ci = value.get('city'),
+  //     pri = value.get('price'),
+  //     sta = value.get('status'),
+  //     fiI = value.get('firstImage'),
+  //     FirebaseFirestore.instance.collection('soldProperties').doc(widget.id).set({
+  //       'category': cate,
+  //       'posted by': poB,
+  //       'project name': proN,
+  //       'city': ci,
+  //       'price': pri,
+  //       'status': sta,
+  //       'firstImage': fiI
+  //     }),
+  //     FirebaseFirestore.instance.collection('Property Details').doc(widget.id).delete(),
+  //   });
+  // }
+  getSoldListIn1() {
+    FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
+      'markAsSold': 'Sold'
+    });
+    Firestore.instance.collection('Property Details').doc(widget.id).get().then((value) => {
+      cate = value.get('category'),
+      poB = value.get('posted by'),
+      proN = value.get('project name'),
+      ci = value.get('city'),
+      pri = value.get('price'),
+      sta = value.get('status'),
+      fiI = value.get('firstImage'),
+      FirebaseFirestore.instance.collection('soldProperties').doc(widget.id).set({
+        'category': cate,
+        'posted by': poB,
+        'project name': proN,
+        'city': ci,
+        'price': pri,
+        'status': sta,
+        'firstImage': fiI
+      }),
+      FirebaseFirestore.instance.collection('Property Details').doc(widget.id).delete(),
+    });
   }
 }

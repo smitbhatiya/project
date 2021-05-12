@@ -33,7 +33,7 @@ class _Sold_PropertyState extends State<Sold_Property> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot> (
-        stream: FirebaseFirestore.instance.collection('Property Details').snapshots(),
+        stream: FirebaseFirestore.instance.collection('soldProperties').snapshots(),
         builder: (context, snapshot) {
           return ListView(
             children: [
@@ -213,13 +213,6 @@ class _Sold_PropertyState extends State<Sold_Property> {
                                         )
                                     ),
                                   ),
-                                  Expanded(
-                                      child: Container(
-                                        alignment: Alignment.topRight,
-                                        margin: EdgeInsets.only(right: 13),
-                                        child: Text(soldList[index]['markAsSold'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red)),
-                                      )
-                                  )
                                 ],
                               ),
                             ],
@@ -233,19 +226,15 @@ class _Sold_PropertyState extends State<Sold_Property> {
       ),
     );
   }
-  final Query query = FirebaseFirestore.instance
-      .collection('Property Details')
-      .where('markAsSold', isEqualTo: 'Sold');
+  final CollectionReference q1 = FirebaseFirestore.instance
+      .collection('soldProperties');
 
   Future getSoldList() async {
     List soldItemsList = [];
 
     try {
-      await query.getDocuments().then((querySnapshot) {
+      await q1.getDocuments().then((querySnapshot) {
         querySnapshot.documents.forEach((element) {
-          // if(element.data()['favorites'][0] == FirebaseAuth.instance.currentUser.uid) {
-          //   itemsList.add(element.data());
-          // }
           soldItemsList.add(element.data());
         });
       });

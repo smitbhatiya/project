@@ -69,13 +69,27 @@ class _FirebaseMessagingDemoState extends State<FirebaseMessagingDemo> {
           return Card(
             child: Padding(
               padding: EdgeInsets.all(15.0),
-              child: Text(
-                _messages[index].body,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.black,
-                ),
-              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _messages[index].title,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    _messages[index].body,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              )
             ),
           );
         },
