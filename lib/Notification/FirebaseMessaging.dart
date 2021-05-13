@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/Pages/my_post.dart';
 
 class FirebaseMessagingDemo extends StatefulWidget {
   FirebaseMessagingDemo() : super();
@@ -66,30 +67,21 @@ class _FirebaseMessagingDemoState extends State<FirebaseMessagingDemo> {
       body: ListView.builder(
         itemCount: _messages.length,
         itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _messages[index].title,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                    ),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyPost()));
+            },
+            child: Card(
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Text(
+                  _messages[index].message,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
                   ),
-                  SizedBox(height: 5),
-                  Text(
-                    _messages[index].body,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              )
+                ),
+              ),
             ),
           );
         },

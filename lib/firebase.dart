@@ -14,7 +14,7 @@ Future<void> userSetup(String displayName, String email, String phoneNumber, Str
   return;
 }
 
-Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link, String first_image, String user_id, String mark, int view) async {
+Future<void> postProperty(String category, String postBy, String sr_radio, String pro_type, String projectName, String address, String landmark, String city, String state, String pro_detail, String area, String price, String description, String con_status, String url_link, String first_image, String user_id, String mark, int view, String image2, String image3) async {
   CollectionReference property = FirebaseFirestore.instance.collection('Property Details');
   // DocumentReference documentReference = FirebaseFirestore.instance.collection('Property Details').doc();
   // pro_id = documentReference.id;
@@ -40,8 +40,9 @@ Future<void> postProperty(String category, String postBy, String sr_radio, Strin
     'firstImage': first_image,
     'postById': user_id,
     'markAsSold': mark,
-    'view': view
-    //'propertyId': pro_id
+    'view': view,
+    'secondImage': image2,
+    'thirdImage': image3
   });
   // users1.add({'Name': displayName, 'User Id': uid, 'Email': email, 'Mobile Number': phoneNumber, 'Password': password, 'Role': role});
   return;

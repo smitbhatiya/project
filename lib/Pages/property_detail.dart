@@ -28,6 +28,21 @@ class _Property_DetailState extends State<Property_Detail> {
   String proN;
   String pri;
   String fiI;
+  String img1;
+  String img2;
+  String img3;
+
+  Future getImage() async{
+    await FirebaseFirestore.instance.collection("Property Details").doc(widget.id).get().then(
+            (value) => {
+          setState(() {
+            img1 = value.get('firstImage');
+            img2 = value.get('secondImage');
+            img3 = value.get('thirdImage');
+          })
+        }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

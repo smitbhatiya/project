@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Pages/brocker_page.dart';
 import 'package:flutter_app_with_firebase/Pages/builder_page.dart';
+import 'package:flutter_app_with_firebase/admin/admin_page.dart';
 import 'package:flutter_app_with_firebase/sign_up.dart';
 
 import 'home_page.dart';
@@ -218,6 +219,9 @@ class _LogIn_PageState extends State<LogIn_Page> {
         }
         else if(myRole == 'Broker') {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Brocker_Page()));
+        }
+        else if(myRole == 'Admin') {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Admin_Page()));
         }
         else {
           print("Invalid User Credentials");

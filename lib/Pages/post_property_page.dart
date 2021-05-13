@@ -238,7 +238,9 @@ class _PostPropertyState extends State<PostProperty> {
                   '${_imageUrls[0]}',
                   '${FirebaseAuth.instance.currentUser.uid.toString()}',
                   'Available',
-                  userView
+                  userView,
+                  '${_imageUrls[1]}',
+                  '${_imageUrls[2]}'
                 );
       //postProperty(category, postBy, sr_radio, pro_type, projectName, address, landmark, city, state, pro_detail, area, price, description, con_status, url_link)
     } catch (e) {
