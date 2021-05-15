@@ -240,7 +240,8 @@ class _PostPropertyState extends State<PostProperty> {
                   'Available',
                   userView,
                   '${_imageUrls[1]}',
-                  '${_imageUrls[2]}'
+                  '${_imageUrls[2]}',
+                  false
                 );
       //postProperty(category, postBy, sr_radio, pro_type, projectName, address, landmark, city, state, pro_detail, area, price, description, con_status, url_link)
     } catch (e) {

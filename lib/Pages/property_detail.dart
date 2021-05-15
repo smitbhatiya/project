@@ -39,7 +39,7 @@ class _Property_DetailState extends State<Property_Detail> {
             img1 = value.get('firstImage');
             img2 = value.get('secondImage');
             img3 = value.get('thirdImage');
-          })
+          }),
         }
     );
   }
@@ -72,7 +72,7 @@ class _Property_DetailState extends State<Property_Detail> {
                               Container(
                                 child: ClipRRect(
                                   child: Image.asset(
-                                      'images/property.jpg',
+                                      "images/property.jpeg",
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height,
                                       fit:BoxFit.fill
@@ -82,7 +82,7 @@ class _Property_DetailState extends State<Property_Detail> {
                               Container(
                                 child: ClipRRect(
                                   child: Image.asset(
-                                      'images/property.jpeg',
+                                      "images/property.jpg",
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height,
                                       fit:BoxFit.fill
@@ -92,17 +92,7 @@ class _Property_DetailState extends State<Property_Detail> {
                               Container(
                                 child: ClipRRect(
                                   child: Image.asset(
-                                      'images/property.jpg',
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height,
-                                      fit:BoxFit.fill
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: ClipRRect(
-                                  child: Image.asset(
-                                      'images/property.jpeg',
+                                      "images/property.jpeg",
                                       width: MediaQuery.of(context).size.width,
                                       height: MediaQuery.of(context).size.height,
                                       fit:BoxFit.fill
@@ -186,6 +176,21 @@ class _Property_DetailState extends State<Property_Detail> {
                         )
                       ],
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
+                          'report': true
+                        });
+                      },
+                      child: Text(
+                        "Report property",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ],
@@ -244,3 +249,4 @@ class _Property_DetailState extends State<Property_Detail> {
     });
   }
 }
+

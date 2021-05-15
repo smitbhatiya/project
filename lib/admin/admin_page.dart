@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/database_manager.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/admin/admin_search.dart';
+import 'package:flutter_app_with_firebase/admin/report_property.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Admin_Page extends StatefulWidget {
@@ -122,6 +123,28 @@ class _Admin_PageState extends State<Admin_Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.indigo,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+                title: Row(
+                  children: [
+                    Icon(Icons.report),
+                    SizedBox(width: 25),
+                    Text("Report Property")
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Report_Property_Page()));
+                }
+            ),
+          ],
+        ),
+      ),
       body: ListView(
         children: [
           Stack(
