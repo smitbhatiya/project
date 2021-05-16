@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_with_firebase/admin/searchResults_property/area.dart';
+import 'package:flutter_app_with_firebase/admin/searchResults_property/city.dart';
+import 'package:flutter_app_with_firebase/admin/searchResults_property/project_name.dart';
+import 'package:flutter_app_with_firebase/admin/searchResults_user/email_search.dart';
+import 'package:flutter_app_with_firebase/admin/searchResults_user/mobile_search.dart';
+import 'package:flutter_app_with_firebase/admin/searchResults_user/name_search.dart';
 
 class Admin_Search extends StatefulWidget {
   const Admin_Search({Key key}) : super(key: key);
@@ -202,494 +208,47 @@ class _Admin_SearchState extends State<Admin_Search> {
                   ],
                 ),
               ),
-              // RaisedButton(
-              //   onPressed: () {},
-              //
-              // ),
+              Container(
+                padding: EdgeInsets.only(left: 20),
+                width: MediaQuery.of(context).size.width * 0.92,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: "Search",
+                    hintStyle: TextStyle(
+                      fontSize: 17,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500
+                    )
+                  ),
+                ),
+              )
             ],
           ),
         ),
         if (Items1[_value1] == "Property")
             if(Items2_2[_value2_2] == "Project name")
-                Container(
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    itemCount: projectnameListResult.length,
-                    itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.all(10.0),
-                      height: 320,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: 160,
-                                decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)),
-                                  child: Image.network(
-                                    projectnameListResult[index]['firstImage'],
-                                    width: MediaQuery.of(context).size.width,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 13),
-                                  height: 30,
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: Text(
-                                    projectnameListResult[index]['project name'],
-                                    style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(right: 13),
-                                alignment: Alignment.topRight,
-                                height: 30,
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  projectnameListResult[index]['price'],
-                                  style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            )
-                            ],
-                          ),
-                          SizedBox(height: 7),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
-                            child: RichText(
-                              text: TextSpan(
-                              text: "Posted by : ",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700),
-                              children: [
-                              TextSpan(
-                                text: projectnameListResult[index]
-                                ['posted by'],
-                                style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400))
-                              ]),
-                            ),
-                          ),
-                          SizedBox(height: 7),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
-                            child: RichText(
-                              text: TextSpan(
-                              text: "Location : ",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700),
-                              children: [
-                              TextSpan(
-                                text: projectnameListResult[index]['city'],
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400),
-                              )
-                              ])),
-                          ),
-                          SizedBox(height: 7),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
-                            child: RichText(
-                              text: TextSpan(
-                              text: "Type : ",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700),
-                              children: [
-                                TextSpan(
-                                text: projectnameListResult[index]['category'],
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400),
-                                )
-                              ]),
-                            ),
-                          ),
-                          SizedBox(height: 7),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 13),
-                            child: RichText(
-                              text: TextSpan(
-                              text: "Status : ",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700),
-                              children: [
-                              TextSpan(
-                              text: projectnameListResult[index]['status'],
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400))
-                              ]),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                    },
-                    ),
-                ) else if(Items2_2[_value2_2] == "Area") Container(
-    child: ListView.builder(
-    scrollDirection: Axis.vertical,
-    shrinkWrap: true,
-    physics: ScrollPhysics(),
-    itemCount: areaListResult.length,
-    itemBuilder: (context, index) {
-    return Container(
-    margin: EdgeInsets.all(10.0),
-    height: 320,
-    width: MediaQuery.of(context).size.width * 0.9,
-    decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(20)),
-    child: Column(
-    children: [
-    Stack(
-    children: [
-    Container(
-    height: 160,
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(20),
-    topRight: Radius.circular(20)),
-    ),
-    child: ClipRRect(
-    borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(20),
-    topRight: Radius.circular(20)),
-    child: Image.network(
-    areaListResult[index]['firstImage'],
-    width: MediaQuery.of(context).size.width,
-    fit: BoxFit.fill,
-    ),
-    ),
-    )
-    ],
-    ),
-    SizedBox(height: 5),
-    Row(
-    children: [
-    Expanded(
-    child: Container(
-    margin: EdgeInsets.only(left: 13),
-    height: 30,
-    width: MediaQuery.of(context).size.width / 2,
-    child: Text(
-    areaListResult[index]['project name'],
-    style: TextStyle(
-    fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-    ),
-    ),
-    Expanded(
-    child: Container(
-    margin: EdgeInsets.only(right: 13),
-    alignment: Alignment.topRight,
-    height: 30,
-    width: MediaQuery.of(context).size.width / 2,
-    child: Text(
-    areaListResult[index]['price'],
-    style: TextStyle(
-    fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-    ),
-    )
-    ],
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Posted by : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: areaListResult[index]
-    ['posted by'],
-    style: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400))
-    ]),
-    ),
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Location : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: areaListResult[index]['city'],
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w400),
-    )
-    ])),
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Type : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: areaListResult[index]['category'],
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w400),
-    )
-    ]),
-    ),
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Status : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: areaListResult[index]['status'],
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w400))
-    ]),
-    ),
-    )
-    ],
-    ),
-    );
-    },
-    ),
-    ) else if (Items2_2[_value2_2] == "City")
-    Container(
-    child: ListView.builder(
-    scrollDirection: Axis.vertical,
-    shrinkWrap: true,
-    physics: ScrollPhysics(),
-    itemCount: cityListResult.length,
-    itemBuilder: (context, index) {
-    return Container(
-    margin: EdgeInsets.all(10.0),
-    height: 320,
-    width: MediaQuery.of(context).size.width * 0.9,
-    decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(20)),
-    child: Column(
-    children: [
-    Stack(
-    children: [
-    Container(
-    height: 160,
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(20),
-    topRight: Radius.circular(20)),
-    ),
-    child: ClipRRect(
-    borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(20),
-    topRight: Radius.circular(20)),
-    child: Image.network(
-    cityListResult[index]['firstImage'],
-    width: MediaQuery.of(context).size.width,
-    fit: BoxFit.fill,
-    ),
-    ),
-    )
-    ],
-    ),
-    SizedBox(height: 5),
-    Row(
-    children: [
-    Expanded(
-    child: Container(
-    margin: EdgeInsets.only(left: 13),
-    height: 30,
-    width: MediaQuery.of(context).size.width / 2,
-    child: Text(
-    cityListResult[index]['project name'],
-    style: TextStyle(
-    fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-    ),
-    ),
-    Expanded(
-    child: Container(
-    margin: EdgeInsets.only(right: 13),
-    alignment: Alignment.topRight,
-    height: 30,
-    width: MediaQuery.of(context).size.width / 2,
-    child: Text(
-    cityListResult[index]['price'],
-    style: TextStyle(
-    fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-    ),
-    )
-    ],
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Posted by : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: cityListResult[index]
-    ['posted by'],
-    style: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400))
-    ]),
-    ),
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Location : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: cityListResult[index]['city'],
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w400),
-    )
-    ])),
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Type : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: cityListResult[index]['category'],
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w400),
-    )
-    ]),
-    ),
-    ),
-    SizedBox(height: 7),
-    Container(
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.only(left: 13),
-    child: RichText(
-    text: TextSpan(
-    text: "Status : ",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w700),
-    children: [
-    TextSpan(
-    text: cityListResult[index]['status'],
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.black,
-    fontWeight: FontWeight.w400))
-    ]),
-    ),
-    )
-    ],
-    ),
-    );
-    },
-    ),
-    )
-    else Container()
-    else
-      if(Items2_1[_value2_1] == "Name") Container()
+              Project_Name_Search()
+              else if(Items2_2[_value2_2] == "Area")
+                Area_Search()
+                else if (Items2_2[_value2_2] == "City")
+                  City_Search()
+                    else
+                      Container()
+        else
+              if(Items2_1[_value2_1] == "Name")
+                Name_Search()
+                  else if(Items2_1[_value2_1] == "Email")
+                    Email_Search()
+                      else if(Items2_1[_value2_1] == "Mobile Number")
+                        Mobile_Search()
+                          else
+                            Container()
       ],
     )
     )

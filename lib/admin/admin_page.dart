@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Model/database_manager.dart';
 import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/admin/admin_search.dart';
+import 'package:flutter_app_with_firebase/admin/property_details_admin.dart';
 import 'package:flutter_app_with_firebase/admin/report_property.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -213,25 +213,12 @@ class _Admin_PageState extends State<Admin_Page> {
                             .get()
                             .then(
                               (QuerySnapshot snapshot) => {
-                            view2 = snapshot.docs[index].get('view'),
-                            if(snapshot.docs[index].get('postById') == FirebaseAuth.instance.currentUser.uid) {
-                              view2 = view2
-                            } else {
-                              view2 = view2+1
-                            },
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        Property_Detail(id: doc_id, u2: i1, v1: view2))),
+                                        Admin_Property_Details(id: doc_id))),
                             doc_id = snapshot.documents[index].documentID,
-                            i1 = snapshot.documents[index].get('postById'),
-                            print(i1),
-                            print(doc_id),
-                            print(view2),
-                            FirebaseFirestore.instance.collection('Property Details').doc(doc_id).updateData({
-                              'view': view2
-                            }),
                           },
                         );
                       },
