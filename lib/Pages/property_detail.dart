@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_with_firebase/Chatroom/chat_messages.dart';
@@ -28,6 +27,8 @@ class _Property_DetailState extends State<Property_Detail> {
   String proN;
   String pri;
   String fiI;
+  String poI;
+  bool reportV;
   String img1;
   String img2;
   String img3;
@@ -180,6 +181,15 @@ class _Property_DetailState extends State<Property_Detail> {
                       onTap: () {
                         FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
                           'report': true
+                        });
+                        FirebaseFirestore.instance.collection("Property Details").doc(widget.id).get().then((value) => {
+                          poI = value.get('postById'),
+                          reportV = value.get('report'),
+                          print(reportV),
+                          FirebaseFirestore.instance.collection("Report Property").doc(widget.id).set({
+                            'propertyId': widget.id,
+                            'postedUser': poI
+                          })
                         });
                       },
                       child: Text(

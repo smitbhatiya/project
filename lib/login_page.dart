@@ -146,16 +146,16 @@ class _LogIn_PageState extends State<LogIn_Page> {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpPage()));
                       },
                     ),
-                    Container(
-                        alignment: Alignment.bottomRight,
-                        child: RaisedButton(
-                            color: Colors.indigo,
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                            },
-                            child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
-                        )
-                    )
+                    // Container(
+                    //     alignment: Alignment.bottomRight,
+                    //     child: RaisedButton(
+                    //         color: Colors.indigo,
+                    //         onPressed: () {
+                    //           Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                    //         },
+                    //         child: Text("Skip", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white))
+                    //     )
+                    // )
                   ],
                 ),
               ),
