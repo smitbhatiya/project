@@ -16,6 +16,24 @@ class Property_Detail extends StatefulWidget {
 }
 
 class _Property_DetailState extends State<Property_Detail> {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void showSnackBar(String value) {
+    _scaffoldKey
+        .currentState
+        .showSnackBar(
+          SnackBar(
+            content: Text(value),
+          )
+    );
+  }
+
   CollectionReference data1 = FirebaseFirestore.instance.collection('Property Details');
   CollectionReference data2 = FirebaseFirestore.instance.collection('Users12');
   String view;
@@ -48,6 +66,7 @@ class _Property_DetailState extends State<Property_Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey.shade50,
       body: Container(
         child: ListView(
@@ -122,6 +141,7 @@ class _Property_DetailState extends State<Property_Detail> {
                     ),
                     RaisedButton(
                       onPressed: () {
+                        showSnackBar("Successfully labeled 'Sold'");
                         FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
                           'markAsSold': 'Sold'
                         });
@@ -142,7 +162,26 @@ class _Property_DetailState extends State<Property_Detail> {
                             'status': sta,
                             'firstImage': fiI
                           }),
-                        FirebaseFirestore.instance.collection('Property Details').doc(widget.id).delete(),
+                          FirebaseFirestore
+                              .instance
+                              .collection('Property Details')
+                              .doc(widget.id)
+                              .delete(),
+                          FirebaseFirestore
+                              .instance
+                              .collection("Property Details")
+                              .doc(widget.id)
+                              .get()
+                              .then((value) => {
+                            reportV = value.get('report'),
+                            if(reportV == true) {
+                              FirebaseFirestore
+                                  .instance
+                                  .collection('Report Property')
+                                  .doc(widget.id)
+                                  .delete()
+                            }
+                          })
                         });
                       },
                       child: Text("Mark as sold"),
@@ -179,8 +218,9 @@ class _Property_DetailState extends State<Property_Detail> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        showSnackBar("This property report Successfully");
                         FirebaseFirestore.instance.collection('Property Details').doc(widget.id).updateData({
-                          'report': true
+                          'report': true,
                         });
                         FirebaseFirestore.instance.collection("Property Details").doc(widget.id).get().then((value) => {
                           poI = value.get('postById'),

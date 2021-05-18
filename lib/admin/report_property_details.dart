@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Report_Property_Details extends StatefulWidget {
   final String id;
@@ -13,9 +14,38 @@ class Report_Property_Details extends StatefulWidget {
 
 class _Report_Property_DetailsState extends State<Report_Property_Details> {
   String email;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void showSnackBar(String value) {
+    _scaffoldKey
+        .currentState
+        .showSnackBar(
+        SnackBar(
+            content: Text(value)
+        )
+    );
+  }
+
+  static Future openEmail({
+    @required String toEmail,
+    @required String subject,
+    @required String body,
+  }) async {
+    final url = 'mailto: $toEmail ? subject= ${Uri.encodeFull(subject)} &body= ${Uri.encodeFull(body)}';
+    await _launchUrl(url);
+  }
+
+  static Future _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         child: ListView(
           children: [
@@ -91,6 +121,8 @@ class _Report_Property_DetailsState extends State<Report_Property_Details> {
                                 onTap: () {
                                   FirebaseFirestore.instance.collection("Users12").doc(widget.user).get().then((value) => {
                                     email = value.get('Email'),
+                                    openEmail(toEmail: '$email', subject: "Notice from Construction app", body: ''),
+                                    showSnackBar("Send notice successfully to $email"),
                                     print("Send notice through the email on $email"),
                                   });
                                 },
@@ -104,6 +136,24 @@ class _Report_Property_DetailsState extends State<Report_Property_Details> {
                             child: Center(
                               child: GestureDetector(
                                 onTap: () {
+                                  showSnackBar("Delete property successfully");
+                                  FirebaseFirestore
+                                      .instance
+                                      .collection("Property Details")
+                                      .doc(widget.id)
+                                      .updateData({
+                                    'report': false,
+                                  });
+                                  FirebaseFirestore
+                                      .instance
+                                      .collection("Report Property")
+                                      .doc(widget.id)
+                                      .delete();
+                                  FirebaseFirestore
+                                      .instance
+                                      .collection("Property Details")
+                                      .doc(widget.id)
+                                      .delete();
                                   print("Delete this property ${widget.id}");
                                 },
                                 child: Text("Delete", style: TextStyle(fontSize: 18, color: Colors.red)),

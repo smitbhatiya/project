@@ -6,6 +6,7 @@ import 'package:flutter_app_with_firebase/Pages/property_detail.dart';
 import 'package:flutter_app_with_firebase/admin/admin_search.dart';
 import 'package:flutter_app_with_firebase/admin/property_details_admin.dart';
 import 'package:flutter_app_with_firebase/admin/report_property.dart';
+import 'package:flutter_app_with_firebase/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Admin_Page extends StatefulWidget {
@@ -139,9 +140,32 @@ class _Admin_PageState extends State<Admin_Page> {
                   ],
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Report_Property_Page()));
+                  Navigator
+                      .push(context, MaterialPageRoute(
+                        builder: (context) => Report_Property_Page()
+                    )
+                  );
                 }
             ),
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(Icons.logout),
+                  SizedBox(width: 25),
+                  Text("Sign Out", style: TextStyle(fontSize: 20)),
+                ],
+              ),
+              onTap: () {
+                signOut().whenComplete(() =>
+                    Navigator
+                        .of(context)
+                        .pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => LogIn_Page()
+                          ), (Route<dynamic> route) => false
+                    ),
+                );
+              },
+            )
           ],
         ),
       ),
@@ -472,5 +496,9 @@ class _Admin_PageState extends State<Admin_Page> {
         ],
       ),
     );
+  }
+  Future<bool> signOut() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser;
+    await FirebaseAuth.instance.signOut();
   }
 }
