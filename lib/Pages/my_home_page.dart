@@ -801,11 +801,24 @@ class _myHomepageState extends State<myHomepage> with RestorationMixin {
                                             Property_Detail(id: doc_id, u2: i1, v1: view2))),
                                 doc_id = snapshot.documents[index].documentID,
                                 i1 = snapshot.documents[index].get('postById'),
+                                Firestore.instance
+                                    .collection(
+                                'Property Details')
+                                    .doc(doc_id)
+                                    .set(
+                                {
+                                'propertyId':
+                                '$doc_id'
+                                },
+                                SetOptions(
+                                merge:
+                                true)).then(
+                                (value) => {}),
                                 print(i1),
                                 print(doc_id),
                                 print(view2),
                               FirebaseFirestore.instance.collection('Property Details').doc(doc_id).updateData({
-                              'view': view2
+                              'view': view2,
                               }),
                               },
                             );

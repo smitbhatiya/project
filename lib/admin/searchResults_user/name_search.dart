@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Name_Search extends StatefulWidget {
-  const Name_Search({Key key}) : super(key: key);
+  final String ns;
+  const Name_Search({Key key, this.ns}) : super(key: key);
 
   @override
   _Name_SearchState createState() => _Name_SearchState();
@@ -52,80 +53,96 @@ class _Name_SearchState extends State<Name_Search> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        itemCount: nameListResult.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.all(10),
-            height: 80,
-            width: MediaQuery.of(context).size.width * 0.9,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20)
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 15),
-                  child: CircleAvatar(
-                    radius: 30,
-                    child: Text(
-                      nameListResult[index]['Name'][0],
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w400
+      child: StreamBuilder<QuerySnapshot>(
+        stream: (widget.ns != "" && widget.ns != null)
+            ? FirebaseFirestore
+            .instance
+            .collection("Users12")
+            .where('Name', isEqualTo: widget.ns)
+            .snapshots()
+            : FirebaseFirestore
+            .instance
+            .collection("Users12")
+            .where('Role', isNotEqualTo: 'Admin')
+            .snapshots(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, index) {
+              DocumentSnapshot data = snapshot.data.docs[index];
+              return Container(
+                margin: EdgeInsets.all(5),
+                height: 80,
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 15),
+                      child: CircleAvatar(
+                        radius: 30,
+                        child: Text(
+                          data['Name'][0],
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w400
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(width: 30),
-                Container(
-                  padding: EdgeInsets.only(top: 5, bottom: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Text(
-                          nameListResult[index]['Name'],
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500
+                    SizedBox(width: 30),
+                    Container(
+                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                              data['Name'],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        child: Text(
-                          nameListResult[index]['Email'],
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500
+                          SizedBox(height: 5),
+                          Container(
+                            child: Text(
+                              data['Email'],
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        child: Text(
-                          nameListResult[index]['Role'],
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500
+                          SizedBox(height: 5),
+                          Container(
+                            child: Text(
+                              data['Role'],
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 )
-              ],
-            )
+              );
+            },
           );
-        },
+        }
       ),
     );
   }

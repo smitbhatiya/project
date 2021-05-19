@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Admin_Property_Details extends StatefulWidget {
@@ -29,117 +30,415 @@ class _Admin_Property_DetailsState extends State<Admin_Property_Details> {
   bool rBool;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.grey.shade50,
-      body: SafeArea(
-        child: Container(
-          child: ListView(
-            children: [
-              Stack(
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection("Property Details").doc(widget.id).snapshots(),
+      builder: (context, snapshot) {
+        if(!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        var userData = snapshot.data;
+        return Scaffold(
+          key: _scaffoldKey,
+          backgroundColor: Colors.grey.shade50,
+          body: SafeArea(
+            child: Container(
+              child: ListView(
                 children: [
-                  Column(
+                  Stack(
                     children: [
-                      Container(
-                        height: 300,
-                        child: Stack(
-                          children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                height: 300,
-                                enlargeCenterPage: true,
-                                autoPlayInterval: Duration(seconds: 2),
-                                autoPlay: true,
-                                autoPlayCurve: Curves.fastOutSlowIn,
-                                autoPlayAnimationDuration: Duration(milliseconds: 800)
-                              ),
-                              items: [
-                                Container(
-                                  child: ClipRRect(
-                                    child: Image.asset(
-                                      "images/property.jpeg",
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height,
-                                      fit: BoxFit.fill,
-                                    ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 300,
+                            child: Stack(
+                              children: [
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                    height: 300,
+                                    enlargeCenterPage: true,
+                                    autoPlayInterval: Duration(milliseconds: 200),
+                                    autoPlay: false,
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    autoPlayAnimationDuration: Duration(seconds: 2)
                                   ),
-                                ),
-                                Container(
-                                  child: ClipRRect(
-                                    child: Image.asset(
-                                      "images/property.jpg",
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height,
-                                      fit: BoxFit.fill,
+                                  items: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        print("first image click");
+                                      },
+                                      child: Container(
+                                        child: ClipRRect(
+                                          child: Image.network(
+                                            userData['firstImage'],
+                                            width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  child: ClipRRect(
-                                    child: Image.asset(
-                                      "images/property.jpeg",
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.height,
-                                      fit: BoxFit.fill,
+                                    GestureDetector(
+                                      onTap: () {
+                                        print("second image click");
+                                      },
+                                      child: Container(
+                                        child: ClipRRect(
+                                          child: Image.network(
+                                            userData['secondImage'],
+                                            width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        print("third image click");
+                                      },
+                                      child: Container(
+                                        child: ClipRRect(
+                                          child: Image.network(
+                                            userData['thirdImage'],
+                                            width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
                               ],
-                            )
-                          ],
-                        ),
-                      ),
-                      FutureBuilder<DocumentSnapshot>(
-                        future: FirebaseFirestore.instance.collection("Property Details").doc(widget.id).get(),
-                        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Something went wrong");
-                          }
-                          return Text("${widget.id}");
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          showSnackBar("Delete property successfully.");
-                          FirebaseFirestore
-                              .instance
-                              .collection("Property Details")
-                              .doc(widget.id)
-                              .delete();
-                          FirebaseFirestore
-                              .instance
-                              .collection("Property Details")
-                              .doc(widget.id)
-                              .get().then((value) => {
-                            rBool = value.get('report'),
-                            if(rBool == true) {
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            height: 160,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 13),
+                                        height: 30,
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width/2,
+                                        child: Text(
+                                            userData["project name"],
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.indigo
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 13),
+                                          alignment: Alignment.topRight,
+                                          height: 20,
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width/2,
+                                          child: Text(
+                                              userData["price"] + "/sq ft",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.indigo
+                                              )
+                                          ),
+                                        )
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: "Posted by : ",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                          children: [
+                                            TextSpan(
+                                              // text: "Builder",
+                                                text: userData["posted by"],
+                                                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400)
+                                            )
+                                          ]
+                                      ),
+                                    )
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: "Location : ",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                          children: [
+                                            TextSpan(
+                                                text: userData["city"],
+                                                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            )
+                                          ]
+                                      ),
+                                    )
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: "Address : ",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                          children: [
+                                            TextSpan(
+                                                text:userData["address"],
+                                                style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400)
+                                            )
+                                          ]
+                                      ),
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            height: 157,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 7),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 13),
+                                        height: 30,
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width/2,
+                                        child: Text(
+                                          "Overview",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.teal
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 13),
+                                        alignment: Alignment.topRight,
+                                        height: 20,
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width/2,
+                                        child: Text(
+                                          "",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(left: 13),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: "Detail/Maintenance : ",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: userData['detail'],
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w400
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: "Price : ",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                          children: [
+                                            TextSpan(
+                                                text: userData["price"],
+                                                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            )
+                                          ]
+                                      ),
+                                    )
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: "Area : ",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                          children: [
+                                            TextSpan(
+                                                text: userData["area"] +" SQ.FT",
+                                                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            )
+                                          ]
+                                      ),
+                                    )
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                          text: "Construction Status : ",
+                                          style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w700),
+                                          children: [
+                                            TextSpan(
+                                                text: userData["status"],
+                                                style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400)
+                                            )
+                                          ]
+                                      ),
+                                    )
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            height: 150,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                SizedBox(height: 7),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 13),
+                                        height: 30,
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width/2,
+                                        child: Text("Project Detail", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.teal)),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 13),
+                                          alignment: Alignment.topRight,
+                                          height: 20,
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width/2,
+                                          child: Text("", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.indigo)),
+                                        )
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 7),
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    margin: EdgeInsets.only(left: 13),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: userData["description"],
+                                        style: TextStyle(fontSize: 18, color: Colors.black,),
+                                      ),
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              showSnackBar("Delete property successfully.");
                               FirebaseFirestore
                                   .instance
-                                  .collection("Report Property")
+                                  .collection("Property Details")
                                   .doc(widget.id)
-                                  .delete()
-                            }
-                          });
-                        },
-                        color: Colors.red.shade300,
-                        child: Text(
-                          "Delete",
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
-                        ),
+                                  .delete();
+                              FirebaseFirestore
+                                  .instance
+                                  .collection("Property Details")
+                                  .doc(widget.id)
+                                  .get().then((value) => {
+                                rBool = value.get('report'),
+                                if(rBool == true) {
+                                  FirebaseFirestore
+                                      .instance
+                                      .collection("Report Property")
+                                      .doc(widget.id)
+                                      .delete()
+                                }
+                              });
+                            },
+                            color: Colors.red.shade300,
+                            child: Text(
+                              "Delete",
+                              style: TextStyle(
+                                color: Colors.white
+                              ),
+                            ),
+                          )
+                        ],
                       )
                     ],
                   )
                 ],
               )
-            ],
+            ),
           )
-        ),
-      )
+        );
+      }
     );
   }
 }

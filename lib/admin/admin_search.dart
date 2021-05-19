@@ -21,11 +21,12 @@ class _Admin_SearchState extends State<Admin_Search> {
   int _value2_2 = 0;
   List Items1 = ["User", "Property"];
   List Items2_1 = ["Name", "Email", "Mobile Number"];
-  List Items2_2 = ["Project name", "City", "Area"];
+  List Items2_2 = ["Project name", "City", "Landmark"];
 
   List projectnameListResult = [];
   List cityListResult = [];
   List areaListResult = [];
+  String name = "";
 
   @override
   void initState() {
@@ -191,7 +192,7 @@ class _Admin_SearchState extends State<Admin_Search> {
                               value: 1,
                               ),
                               DropdownMenuItem(
-                              child: Text("Area"),
+                              child: Text("Landmark"),
                               value: 2,
                               )
                               ],
@@ -224,29 +225,35 @@ class _Admin_SearchState extends State<Admin_Search> {
                       fontSize: 17,
                       color: Colors.grey,
                       fontWeight: FontWeight.w500
-                    )
+                    ),
                   ),
+                  onChanged: (val) {
+                    setState(() {
+                      name = val;
+                    });
+                  },
                 ),
               )
             ],
           ),
         ),
+        SizedBox(height: 10),
         if (Items1[_value1] == "Property")
             if(Items2_2[_value2_2] == "Project name")
-              Project_Name_Search()
-              else if(Items2_2[_value2_2] == "Area")
-                Area_Search()
+              Project_Name_Search(pn: name)
+              else if(Items2_2[_value2_2] == "Landmark")
+                Area_Search(as: name)
                 else if (Items2_2[_value2_2] == "City")
-                  City_Search()
+                  City_Search(cs: name)
                     else
                       Container()
         else
               if(Items2_1[_value2_1] == "Name")
-                Name_Search()
+                Name_Search(ns: name)
                   else if(Items2_1[_value2_1] == "Email")
-                    Email_Search()
+                    Email_Search(es: name)
                       else if(Items2_1[_value2_1] == "Mobile Number")
-                        Mobile_Search()
+                        Mobile_Search(ms: name)
                           else
                             Container()
       ],
