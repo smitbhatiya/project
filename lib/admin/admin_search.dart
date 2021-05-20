@@ -38,11 +38,13 @@ class _Admin_SearchState extends State<Admin_Search> {
 
   final Query query1 = FirebaseFirestore.instance
       .collection("Property Details")
-      .where('project name', isEqualTo: "Hemilton");
+      .where('project name', isEqualTo: "Hemilton")
+      .where('city', isEqualTo: "Surat");
 
   final Query query2 = FirebaseFirestore.instance
       .collection("Property Details")
-      .where("landmark", isEqualTo: "Katargam");
+      .where("landmark", isEqualTo: "Katargam")
+      .where("city", isEqualTo: "New delhi");
 
   final Query query3 = FirebaseFirestore.instance
       .collection("Property Details")

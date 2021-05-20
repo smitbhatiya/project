@@ -230,8 +230,8 @@ class _PostPropertyState extends State<PostProperty> {
                   '${city_controller_r.text}',
                   '${state_controller_r.text}',
                   '${bhk[selectedIndex2]}',
-                  '${area_controller_r.text}',
-                  '${price_controller_r.text}',
+                  '${area_controller_r.text}  ${Items1[_value1]}',
+                  '${price_controller_r.text}/${Items1[_value1]}',
                   '${project_description_controller_r.text}',
                   '${construction_status[selectedIndex3]}',
                   '$_imageUrls',
@@ -320,6 +320,8 @@ class _PostPropertyState extends State<PostProperty> {
   TextEditingController price_controller_c = TextEditingController();
   TextEditingController project_description_controller_c = TextEditingController();
   String f1;
+  int _value1 = 0;
+  List Items1 = ["Sq. ft", "acre", "var"];
 
   @override
   Widget build(BuildContext context) {
@@ -613,24 +615,53 @@ class _PostPropertyState extends State<PostProperty> {
                                 ),
                               ),//bhk detail
                               SizedBox(height: 10.0,),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                padding: EdgeInsets.only(left: 15),
-                                margin: EdgeInsets.only(left: 20, top: 10,right: 20),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(style: BorderStyle.solid, color: Colors.grey),
-                                ),
-                                child: TextFormField(
-                                  controller: area_controller_r,
-                                  decoration: InputDecoration(
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintText: "Area",
-                                      hintStyle: TextStyle(fontSize: 18)
+                              Row(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.65,
+                                    height: 50,
+                                    padding: EdgeInsets.only(left: 15),
+                                    margin: EdgeInsets.only(left: 20, top: 10,right: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(style: BorderStyle.solid, color: Colors.grey),
+                                    ),
+                                    child: TextFormField(
+                                      controller: area_controller_r,
+                                      decoration: InputDecoration(
+                                          enabledBorder: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          hintText: "Area",
+                                          hintStyle: TextStyle(fontSize: 18)
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    child: DropdownButton(
+                                      //itemHeight: 20.0,
+                                      value: _value1,
+                                      items: [
+                                        DropdownMenuItem(
+                                          child: Text("Sq. ft"),
+                                          value: 0,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("acre"),
+                                          value: 1,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("var"),
+                                          value: 2,
+                                        )
+                                      ],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _value1 = value;
+                                        });
+                                      },
+                                    ),
+                                  )
+                                ],
                               ), //Area
                               SizedBox(height: 10.0,),
                               Container(
@@ -913,24 +944,28 @@ class _PostPropertyState extends State<PostProperty> {
                                   child: Text("Property Detail",style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold),)
                               ),//property detail container
                               SizedBox(height: 10.0,),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 50,
-                                padding: EdgeInsets.only(left: 15),
-                                margin: EdgeInsets.only(left: 20, top: 10,right: 20),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(style: BorderStyle.solid, color: Colors.grey),
-                                ),
-                                child: TextFormField(
-                                  controller: area_controller_c,
-                                  decoration: InputDecoration(
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      hintText: "Area",
-                                      hintStyle: TextStyle(fontSize: 18)
+                              Row(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    padding: EdgeInsets.only(left: 15),
+                                    margin: EdgeInsets.only(left: 20, top: 10,right: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(style: BorderStyle.solid, color: Colors.grey),
+                                    ),
+                                    child: TextFormField(
+                                      controller: area_controller_c,
+                                      decoration: InputDecoration(
+                                          enabledBorder: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          hintText: "Area",
+                                          hintStyle: TextStyle(fontSize: 18)
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),//area container commercial
                               SizedBox(height: 10.0,),
                               Container(

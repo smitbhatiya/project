@@ -282,6 +282,18 @@ class _HomeState extends State<Home> {
             ListTile(
               title: Row(
                 children: [
+                  Icon(Icons.open_in_browser_outlined),
+                  SizedBox(width: 25),
+                  Text("Any RoR")
+                ],
+              ),
+              onTap: () {
+                openUrl();
+              },
+            ),
+            ListTile(
+              title: Row(
+                children: [
                   Icon(Icons.favorite_outline),
                   SizedBox(width: 25),
                   Text("Favorites", style: TextStyle(fontSize: 16))
@@ -341,4 +353,10 @@ class _HomeState extends State<Home> {
       });
     }
   }
+
+  openUrl() {
+    String url = "https://anyror.gujarat.gov.in/";
+    _launchUrl(url);
+  }
+
 }
