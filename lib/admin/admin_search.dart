@@ -8,14 +8,14 @@ import 'package:flutter_app_with_firebase/admin/searchResults_user/email_search.
 import 'package:flutter_app_with_firebase/admin/searchResults_user/mobile_search.dart';
 import 'package:flutter_app_with_firebase/admin/searchResults_user/name_search.dart';
 
-class Admin_Search extends StatefulWidget {
-  const Admin_Search({Key key}) : super(key: key);
+class Admin_Search1 extends StatefulWidget {
+  const Admin_Search1({Key key}) : super(key: key);
 
   @override
-  _Admin_SearchState createState() => _Admin_SearchState();
+  _Admin_Search1State createState() => _Admin_Search1State();
 }
 
-class _Admin_SearchState extends State<Admin_Search> {
+class _Admin_Search1State extends State<Admin_Search1> {
   int _value1 = 0;
   int _value2_1 = 0;
   int _value2_2 = 0;
