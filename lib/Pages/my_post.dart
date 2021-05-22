@@ -19,6 +19,7 @@ class MyPost extends StatefulWidget {
 class _MyPostState extends State<MyPost> {
   bool isAnimate = false;
   List userPostList = [];
+  int v1;
 
   // ignore: non_constant_identifier_names
   String doc_id;
@@ -84,10 +85,12 @@ class _MyPostState extends State<MyPost> {
                         //
                         // }),
                         //     snapshot.documents[index].data(),
+                        //v1 = userPostList[index].get('view'),
+                        v1 = snapshot.docs[index].get('view'),
                         doc_id = userPostList[index]['propertyId'],
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) =>
-                                Property_Detail(id: doc_id))),
+                                Property_Detail(id: doc_id, v1: v1))),
                         //doc_id = snapshot.documents[index].documentID,
                         //print(snapshot.documents[index].documentID)
                         print(doc_id)
