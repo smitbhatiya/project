@@ -321,7 +321,11 @@ class _PostPropertyState extends State<PostProperty> {
   TextEditingController project_description_controller_c = TextEditingController();
   String f1;
   int _value1 = 0;
-  List Items1 = ["Sq. ft", "acre", "var"];
+  List Items1 = [
+    "Sq. Meter", "Are", "Hectare", "Sq. Feet", "Sq. Kilometer",
+    "Sq. Yard", "Sq. Mile", "Sq. Inch", "Guntha", "Vigha(23.5)",
+    "Vigha(16)"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -618,7 +622,7 @@ class _PostPropertyState extends State<PostProperty> {
                               Row(
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.65,
+                                    width: MediaQuery.of(context).size.width * 0.60,
                                     height: 50,
                                     padding: EdgeInsets.only(left: 15),
                                     margin: EdgeInsets.only(left: 20, top: 10,right: 20),
@@ -642,16 +646,48 @@ class _PostPropertyState extends State<PostProperty> {
                                       value: _value1,
                                       items: [
                                         DropdownMenuItem(
-                                          child: Text("Sq. ft"),
+                                          child: Text("Sq. Meter"),
                                           value: 0,
                                         ),
                                         DropdownMenuItem(
-                                          child: Text("acre"),
+                                          child: Text("Are"),
                                           value: 1,
                                         ),
                                         DropdownMenuItem(
-                                          child: Text("var"),
+                                          child: Text("Hectare"),
                                           value: 2,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Sq. Feet"),
+                                          value: 3,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Sq. Kilometer"),
+                                          value: 4,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Sq. Yard"),
+                                          value: 5,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Sq. Mile"),
+                                          value: 6,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Sq. Inch"),
+                                          value: 7,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Guntha"),
+                                          value: 8,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Vigha(23.5)"),
+                                          value: 9,
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("Vigha(16)"),
+                                          value: 10,
                                         )
                                       ],
                                       onChanged: (value) {
