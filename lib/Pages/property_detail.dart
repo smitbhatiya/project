@@ -107,14 +107,19 @@ class _Property_DetailState extends State<Property_Detail> {
                                     GestureDetector(
                                       onTap: () {
                                         print("first image click");
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView1(
+                                            i1: userData['firstImage'])));
                                       },
                                       child: Container(
                                         child: ClipRRect(
-                                          child: Image.network(
-                                            userData['firstImage'],
-                                            width: MediaQuery.of(context).size.width,
-                                            height: MediaQuery.of(context).size.height,
-                                            fit: BoxFit.fill,
+                                          child: Hero(
+                                            tag: 'imageHero1',
+                                            child: Image.network(
+                                              userData['firstImage'],
+                                              width: MediaQuery.of(context).size.width,
+                                              height: MediaQuery.of(context).size.height,
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -122,14 +127,19 @@ class _Property_DetailState extends State<Property_Detail> {
                                     GestureDetector(
                                       onTap: () {
                                         print("second image click");
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView2(
+                                            i2: userData['secondImage'])));
                                       },
                                       child: Container(
                                         child: ClipRRect(
-                                          child: Image.network(
-                                            userData['secondImage'],
-                                            width: MediaQuery.of(context).size.width,
-                                            height: MediaQuery.of(context).size.height,
-                                            fit: BoxFit.fill,
+                                          child: Hero(
+                                            tag: 'imageHero2',
+                                            child: Image.network(
+                                              userData['secondImage'],
+                                              width: MediaQuery.of(context).size.width,
+                                              height: MediaQuery.of(context).size.height,
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -137,6 +147,8 @@ class _Property_DetailState extends State<Property_Detail> {
                                     GestureDetector(
                                       onTap: () {
                                         print("third image click");
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ImageView3(
+                                            i3: userData['thirdImage'])));
                                       },
                                       child: Container(
                                         child: ClipRRect(
@@ -555,6 +567,7 @@ class _Property_DetailState extends State<Property_Detail> {
                             'status': sta,
                             'firstImage': fiI
                           }),
+                          Navigator.of(context).pop(),
                           FirebaseFirestore
                               .instance
                               .collection('Property Details')
@@ -566,14 +579,14 @@ class _Property_DetailState extends State<Property_Detail> {
                               .doc(widget.id)
                               .get()
                               .then((value) => {
-                            reportV = value.get('report'),
-                            if(reportV == true) {
-                              FirebaseFirestore
-                                  .instance
-                                  .collection('Report Property')
-                                  .doc(widget.id)
-                                  .delete()
-                            }
+                            // reportV = value.get('report'),
+                            // if(reportV == true) {
+                            //   FirebaseFirestore
+                            //       .instance
+                            //       .collection('Report Property')
+                            //       .doc(widget.id)
+                            //       .delete()
+                            // }
                           })
                         });
                     },
@@ -665,6 +678,78 @@ class _Property_DetailState extends State<Property_Detail> {
       }),
       FirebaseFirestore.instance.collection('Property Details').doc(widget.id).delete(),
     });
+  }
+}
+
+class ImageView1 extends StatelessWidget {
+  final String i1;
+
+  const ImageView1({Key key, this.i1}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Center(
+          child: Hero(
+            tag: 'imageHero1',
+            child: Image.network(
+              i1,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageView2 extends StatelessWidget {
+  final String i2;
+
+  const ImageView2({Key key, this.i2}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Center(
+          child: Hero(
+            tag: 'imageHero2',
+            child: Image.network(
+              i2,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageView3 extends StatelessWidget {
+  final String i3;
+
+  const ImageView3({Key key, this.i3}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Center(
+          child: Hero(
+            tag: 'imageHero3',
+            child: Image.network(
+              i3,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

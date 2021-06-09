@@ -87,10 +87,10 @@ class _MessagesState extends State<Messages> {
         child: Container(
           child: Stack(
             children: [
-                Container(
-                  padding: EdgeInsets.only(bottom: 70),
-                  child: chatMessages()
-                ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 70),
+                    child: chatMessages()
+                  ),
                 Container(
                   alignment: Alignment.bottomCenter,
                   child: Row(
